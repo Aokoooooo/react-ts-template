@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@loadable/component": "^5.9.0",
+    "@types/loadable__component": "^5.9.0",
     "antd": "^3.17.0",
     "classnames": "^2.2.6",
     "history": "^4.9.0",
@@ -10,7 +12,7 @@
     "react": "^16.8.6",
     "react-container-query": "^0.11.0",
     "react-dom": "^16.8.6",
-    "react-loadable": "^5.5.0",
+    "react-media": "^1.9.2",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",

@@ -1,10 +1,21 @@
+import { Layout } from "antd";
 import className from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
+import Media from "react-media";
 import { RouteProps } from "react-router-dom";
 import MenuContext from "./MenuContext";
+export interface IBasicLayout extends RouteProps {
+  isMobile: boolean;
+}
 
-class BasicLayout extends React.Component<RouteProps> {
+export default (
+  <Media query="(max-width:599px)">
+    {isMobile => <BasicLayout isMobile={isMobile} />}
+  </Media>
+);
+
+class BasicLayout extends React.Component<IBasicLayout> {
   public componentDidMount() {
     // TODO fetch user's data & setting
   }
@@ -14,13 +25,28 @@ class BasicLayout extends React.Component<RouteProps> {
     return { location };
   };
 
+  public getLayout = () => {
+    const { children } = this.props;
+    const { Header, Footer, Sider, Content } = Layout;
+    return (
+      <Layout>
+        <Sider>Sider</Sider>
+        <Layout>
+          <Header>Header</Header>
+          <Content> {children}</Content>
+          <Footer>Footer</Footer>
+        </Layout>
+      </Layout>
+    );
+  };
+
   public render() {
     return (
       <>
         <ContainerQuery query={query}>
           {params => (
             <MenuContext.Provider value={this.getMenuContext()}>
-              <div className={className(params)} />
+              <div className={className(params)}>{this.getLayout()}</div>
             </MenuContext.Provider>
           )}
         </ContainerQuery>
