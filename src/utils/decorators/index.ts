@@ -1,3 +1,8 @@
+import React from "react";
+import { Reducer } from "redux";
+import { Epic } from "redux-observable";
+import { injectEpic, injectReducer } from "../../config/store";
+
 // tslint:disable-next-line:ban-types
 export const bind = <T extends Function>(
   target: object,
@@ -22,4 +27,18 @@ export const bind = <T extends Function>(
       return bound;
     }
   };
+};
+
+// 将page对应的epic注入到epicRoot中
+export const withEpic = (key: string, epic: Epic) => (
+  WrappedComponent: React.ComponentClass
+) => {
+  injectEpic(key, epic);
+};
+
+// 将page对应的reducer注入到store中
+export const withReducer = (key: string, reducer: Reducer) => (
+  WrappedComponent: React.ComponentClass
+) => {
+  injectReducer(key, reducer);
 };

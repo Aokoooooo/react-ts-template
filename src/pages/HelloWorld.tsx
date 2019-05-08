@@ -7,9 +7,7 @@ import { Epic } from "redux-observable";
 import { filter, mapTo } from "rxjs/operators";
 import history from "../config/history";
 import withAuthority from "../containers/WithAuthority";
-import WithEpic from "../containers/WithEpic";
-import withReducer from "../containers/WithReducer";
-import { bind } from "../utils/decorators";
+import { bind, withEpic, withReducer } from "../utils/decorators";
 import styles from "./HelloWorld.module.less";
 
 function reducer(state: any = {}, action: Action): Reducer {
@@ -24,7 +22,7 @@ const epic: Epic = action$ =>
     mapTo({ type: "PONG" })
   );
 
-@WithEpic("hello", epic)
+@withEpic("hello", epic)
 @withReducer("hello", reducer)
 // // @withAuthority(['admin'])
 @(withRouter as any)

@@ -1,9 +1,9 @@
 import className from "classnames";
 import React from "react";
-import MenuContext from "./MenuContext";
 import { ContainerQuery } from "react-container-query";
-import { RouteProps } from "react-router-dom";  
- 
+import { RouteProps } from "react-router-dom";
+import MenuContext from "./MenuContext";
+
 class BasicLayout extends React.Component<RouteProps> {
   public componentDidMount() {
     // TODO fetch user's data & setting
