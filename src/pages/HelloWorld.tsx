@@ -1,0 +1,60 @@
+import { Button } from "antd";
+import React from "react";
+import { connect } from "react-redux";
+import { Route, withRouter } from "react-router";
+import { Action, Reducer } from "redux";
+import { Epic } from "redux-observable";
+import { filter, mapTo } from "rxjs/operators";
+import history from "../config/history";
+import withAuthority from "../containers/WithAuthority";
+import WithEpic from "../containers/WithEpic";
+import withReducer from "../containers/WithReducer";
+import { bind } from "../utils/decorators";
+import styles from "./HelloWorld.module.less";
+
+function reducer(state: any = {}, action: Action): Reducer {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+const epic: Epic = action$ =>
+  action$.pipe(
+    filter(action => action.type === "PING"),
+    mapTo({ type: "PONG" })
+  );
+
+@WithEpic("hello", epic)
+@withReducer("hello", reducer)
+// // @withAuthority(['admin'])
+@(withRouter as any)
+@(connect((state: any) => ({ a: state })) as any)
+export default class HelloWord extends React.Component {
+  public s: string = "f";
+  constructor(props: any) {
+    super(props);
+  }
+
+  public componentDidMount() {
+    console.log("hello");
+    console.log(this.props);
+  }
+
+  @bind
+  public test(e: React.MouseEvent) {
+    console.log("clicked");
+    console.log(this.s);
+  }
+
+  public render() {
+    // console.log(styles);
+    return (
+      <div>
+        <h1 className={styles.red}>hello</h1>
+        <Button onClick={this.test}>test</Button>
+      </div>
+    );
+  }
+}
+
+console.log(HelloWord);
