@@ -60,6 +60,7 @@
     "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
     "stylelint": "stylelint 'src/**/*.less' --syntax less",
     "stylelint:fix": "stylelint --fix 'src/**/*.less' --syntax less",
+    "tslint": "tslint 'src/**/*.ts*'",
     "tslint:fix": "tslint --fix 'src/**/*.ts*'"
   },
   "husky": {
@@ -69,7 +70,7 @@
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
-    "**/*.{ts,tsx}": "tslint --project",
+    "**/*.{ts,tsx}": "tslint",
     "**/*.{js,ts,tsx,css,less,json,md}": [
       "prettier --write",
       "git add"
