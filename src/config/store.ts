@@ -10,7 +10,7 @@ import { combineEpics, createEpicMiddleware, Epic } from "redux-observable";
 import { BehaviorSubject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
-interface MyStore extends Store<any> {
+interface IMyStore extends Store<any> {
   asyncReducers?: any;
 }
 
@@ -24,7 +24,7 @@ const epicMiddleware = createEpicMiddleware();
 const enhancer = composeWithDevTools(applyMiddleware(epicMiddleware));
 
 // tslint:disable-next-line:no-empty
-const store: MyStore = createStore(() => {}, enhancer);
+const store: IMyStore = createStore(() => {}, enhancer);
 store.asyncReducers = {};
 
 // epicMiddleware.run(rootEpic);

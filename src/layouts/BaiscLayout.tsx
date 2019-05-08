@@ -1,6 +1,33 @@
 import className from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
+import { RouteProps } from "react-router-dom";
+import MenuContext from "./MenuContext";
+
+class BasicLayout extends React.Component<RouteProps> {
+  public componentDidMount() {
+    // TODO fetch user's data & setting
+  }
+
+  public getMenuContext = () => {
+    const { location } = this.props;
+    return { location };
+  };
+
+  public render() {
+    return (
+      <>
+        <ContainerQuery query={query}>
+          {params => (
+            <MenuContext.Provider value={this.getMenuContext()}>
+              <div className={className(params)} />
+            </MenuContext.Provider>
+          )}
+        </ContainerQuery>
+      </>
+    );
+  }
+}
 
 const query = {
   "screen-xs": {
@@ -26,19 +53,3 @@ const query = {
     minWidth: 1600
   }
 };
-
-class BasicLayout extends React.Component {
-  public componentDidMount() {
-    // TODO fetch user's data & setting
-  }
-
-  public render() {
-    return (
-      <>
-        <ContainerQuery query={query}>
-          {params => <div className={className(params)} />}
-        </ContainerQuery>
-      </>
-    );
-  }
-}
