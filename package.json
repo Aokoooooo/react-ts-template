@@ -57,8 +57,10 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
+    "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
     "stylelint": "stylelint 'src/**/*.less' --syntax less",
-    "tslint": "tslint --fix 'src/**/*.ts*'"
+    "stylelint:fix": "stylelint --fix 'src/**/*.less' --syntax less",
+    "tslint:fix": "tslint --fix 'src/**/*.ts*'"
   },
   "husky": {
     "hooks": {
@@ -67,10 +69,7 @@
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
-    "**/*.{ts,tsx}": [
-      "tslint --fix",
-      "git add"
-    ],
+    "**/*.{ts,tsx}": "tslint --project",
     "**/*.{js,ts,tsx,css,less,json,md}": [
       "prettier --write",
       "git add"
