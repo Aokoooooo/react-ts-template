@@ -20,7 +20,7 @@ const epic: Epic = action$ =>
   action$.pipe(
     filter(action => action.type === "PING"),
     mapTo({ type: "PONG" })
-  );
+  )
 
 @withEpic("hello", epic)
 @withReducer("hello", reducer)
@@ -54,5 +54,3 @@ export default class HelloWord extends React.Component {
     );
   }
 }
-
-console.log(HelloWord);

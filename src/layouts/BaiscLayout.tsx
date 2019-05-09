@@ -9,11 +9,6 @@ export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
 }
 
-export default (
-  <Media query="(max-width:599px)">
-    {isMobile => <BasicLayout isMobile={isMobile} />}
-  </Media>
-);
 
 class BasicLayout extends React.Component<IBasicLayout> {
   public componentDidMount() {
@@ -54,6 +49,12 @@ class BasicLayout extends React.Component<IBasicLayout> {
     );
   }
 }
+
+export default () => (
+  <Media query="(max-width:599px)">
+    {isMobile => <BasicLayout isMobile={isMobile} />}
+  </Media>
+);
 
 const query = {
   "screen-xs": {
