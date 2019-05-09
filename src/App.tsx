@@ -5,8 +5,8 @@ import { Route, Router, Switch } from "react-router-dom";
 import history from "./config/history";
 import store from "./config/store";
 
-const BasicLayout = loadable(() => import("./layouts/BaiscLayout"));
-const UserLayout = loadable(() => import("./layouts/UserLayout"))
+const BasicLayout = loadable(() => import("./layouts/BasicLayout"));
+const UserLayout = loadable(() => import("./layouts/UserLayout"));
 
 const App: React.FC = () => {
   return (

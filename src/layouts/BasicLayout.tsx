@@ -1,14 +1,18 @@
+import loadable from "@loadable/component";
 import { Layout } from "antd";
 import className from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { RouteProps } from "react-router-dom";
+import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
+
+const SideMenu = loadable(() => import("./components/sideMenu/BaseMenu"));
+
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
 }
-
 
 class BasicLayout extends React.Component<IBasicLayout> {
   public componentDidMount() {
@@ -20,28 +24,24 @@ class BasicLayout extends React.Component<IBasicLayout> {
     return { location };
   };
 
-  public getLayout = () => {
-    const { children } = this.props;
-    const { Header, Footer, Sider, Content } = Layout;
-    return (
-      <Layout>
-        <Sider>Sider</Sider>
-        <Layout>
-          <Header>Header</Header>
-          <Content> {children}</Content>
-          <Footer>Footer</Footer>
-        </Layout>
-      </Layout>
-    );
-  };
-
   public render() {
+    const { children } = this.props;
+    const { Header, Footer, Content } = Layout;
     return (
       <>
         <ContainerQuery query={query}>
           {params => (
             <MenuContext.Provider value={this.getMenuContext()}>
-              <div className={className(params)}>{this.getLayout()}</div>
+              <div className={className(params)}>
+                <Layout className={styles.basicLayout}>
+                  <SideMenu />
+                  <Layout>
+                    <Header>Header</Header>
+                    <Content> {children}</Content>
+                    <Footer>Footer</Footer>
+                  </Layout>
+                </Layout>
+              </div>
             </MenuContext.Provider>
           )}
         </ContainerQuery>

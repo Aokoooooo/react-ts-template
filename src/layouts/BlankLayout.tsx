@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export interface IChildren {
-  children?: any;
+  children?: ReactNode;
 }
 
 export default ({ children }: IChildren) => <div>{children}</div>;
