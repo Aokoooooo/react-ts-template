@@ -109,7 +109,7 @@ const BaseMenu: React.FC = () => {
     return icon ? (
       <>
         {icon}
-        <span>{config.title}</span>
+        <span>{config.title }</span>
       </>
     ) : (
       config.title
