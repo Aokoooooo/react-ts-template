@@ -40,7 +40,7 @@ export default class HelloWord extends React.Component {
 
   @bind
   public test(e: React.MouseEvent) {
-    console.log("clicked" ) ;
+    console.log("clicked") ;
     console.log(this.s);
   }
 
