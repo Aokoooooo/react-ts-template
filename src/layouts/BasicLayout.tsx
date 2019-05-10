@@ -4,7 +4,8 @@ import className from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
-import { RouteProps } from "react-router-dom";
+import { Route, RouteProps, Switch } from "react-router-dom";
+import { IMenuConfig, menuConfig } from "../config/menuConfig";
 import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
 
@@ -24,6 +25,30 @@ class BasicLayout extends React.Component<IBasicLayout> {
     return { location };
   };
 
+  public parseMenuConfig = () => {
+    if (!menuConfig) {
+      return [];
+    }
+    const routes = new Array<IMenuConfig>();
+    menuConfig.map(
+      (i: IMenuConfig): void => this.parseMenuConfigHelper(i, routes)
+    );
+    return routes;
+  };
+
+  public parseMenuConfigHelper = (
+    i: IMenuConfig,
+    routes: IMenuConfig[]
+  ): void => {
+    if (!i.type || i.type === "default") {
+      routes.push(<Route key={i.path} exact={true} path={i.path} component={i.component} />);
+    } else if (i.type === "group" && i.children) {
+      i.children.map(j => this.parseMenuConfigHelper(j, routes));
+    } else if (i.type === "subMenu" && i.children) {
+      i.children.map(j => this.parseMenuConfigHelper(j, routes));
+    }
+  };
+
   public render() {
     const { children } = this.props;
     const { Header, Footer, Content } = Layout;
@@ -37,7 +62,11 @@ class BasicLayout extends React.Component<IBasicLayout> {
                   <SideMenu />
                   <Layout>
                     <Header>Header</Header>
-                    <Content> {children}</Content>
+                    <Content>
+                      <Switch>
+                        {[...this.parseMenuConfig()]}
+                      </Switch>
+                    </Content>
                     <Footer>Footer</Footer>
                   </Layout>
                 </Layout>

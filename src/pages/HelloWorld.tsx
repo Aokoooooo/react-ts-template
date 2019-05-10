@@ -20,7 +20,7 @@ const epic: Epic = action$ =>
   action$.pipe(
     filter(action => action.type === "PING"),
     mapTo({ type: "PONG" })
-  )
+  );
 
 @withEpic("hello", epic)
 @withReducer("hello", reducer)
