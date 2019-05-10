@@ -1,18 +1,13 @@
-import { Icon, Layout, Menu } from "antd";
+import { Icon, Menu } from "antd";
 import { ClickParam } from "antd/lib/menu";
 import React, { ReactNode } from "react";
 import history from '../../../config/history'
 import { IMenuConfig, menuConfig } from "../../../config/menuConfig";
 
-const { Sider } = Layout;
 let key = -1
 
-export default class BaseMenu extends React.PureComponent<{}> {
-  constructor(props: {}) {
-    super(props);
-  }
-
-  public parseMenuConfig = (config: IMenuConfig[]): ReactNode => {
+const BaseMenu: React.FC = () => {
+  const parseMenuConfig = (config: IMenuConfig[]): ReactNode => {
     if (!config) {
       return;
     }
@@ -21,11 +16,11 @@ export default class BaseMenu extends React.PureComponent<{}> {
         key++;
         switch (i.type) {
           case "default":
-            return this.getMenuItem(i);
+            return getMenuItem(i);
           case "subMenu":
             return (
-              <Menu.SubMenu disabled={i.disabled} title={this.getIconWithTitle(i)} key={key}>
-                {i.children && this.getSubMenuItems(i.children)}
+              <Menu.SubMenu disabled={i.disabled} title={getIconWithTitle(i)} key={key}>
+                {i.children && getSubMenuItems(i.children)}
               </Menu.SubMenu>
             )
           case "group":
@@ -33,36 +28,36 @@ export default class BaseMenu extends React.PureComponent<{}> {
               <Menu.ItemGroup title={i.title} key={key}>
                 {i.children && i.children.map(j => {
                   key++
-                  return this.getMenuItem(j)
+                  return getMenuItem(j)
                 })}
               </Menu.ItemGroup>
             )
           case "divider":
             return <Menu.Divider key={key} />;
           default:
-            return this.getMenuItem(i);
+            return getMenuItem(i);
         }
       })
     )
   };
 
-  public getSubMenuItems = (config: IMenuConfig[]): ReactNode => {
+  const getSubMenuItems = (config: IMenuConfig[]): ReactNode => {
     return config.map(i => {
       if (!i.type || i.type === 'default') {
         key++;
-        return this.getMenuItem(i)
+        return getMenuItem(i)
       }
       if (i.type === 'subMenu') {
         key++
         return (
-          <Menu.SubMenu disabled={i.disabled} title={this.getIconWithTitle(i)} key={key}>
-            {i.children && this.getSubMenuItems(i.children)}
+          <Menu.SubMenu disabled={i.disabled} title={getIconWithTitle(i)} key={key}>
+            {i.children && getSubMenuItems(i.children)}
           </Menu.SubMenu>)
       }
     })
   }
 
-  public getMenuItem = (config: IMenuConfig): ReactNode => {
+  const getMenuItem = (config: IMenuConfig): ReactNode => {
     if (!config) {
       return;
     }
@@ -70,23 +65,23 @@ export default class BaseMenu extends React.PureComponent<{}> {
       throw new Error(`config should be a object instead of a array as a menuItem config`)
     }
     return (
-      <Menu.Item key={key} title={config.title} onClick={(e: ClickParam) => this.handleMenuItemClick(config)}>
-        {this.getIconWithTitle(config)}
+      <Menu.Item key={key} title={config.title} onClick={(e: ClickParam) => handleMenuItemClick(config)}>
+        {getIconWithTitle(config)}
       </Menu.Item>
     );
   };
 
-  public getIconWithTitle = (config: IMenuConfig): ReactNode => {
+  const getIconWithTitle = (config: IMenuConfig): ReactNode => {
     let icon = null
     if (config && config.icon) {
       typeof config.icon === 'string' ?
         icon = <Icon type={config.icon} /> :
         icon = config.icon
     }
-    return icon ? <>{icon}{config.title}</> : config.title
+    return icon ? <>{icon}<span>{config.title}</span></> : config.title
   }
 
-  public handleMenuItemClick = (config: IMenuConfig): void => {
+  const handleMenuItemClick = (config: IMenuConfig): void => {
     const handleInternalLinkClick = (path: string) => {
       history.push(path)
     }
@@ -98,11 +93,12 @@ export default class BaseMenu extends React.PureComponent<{}> {
     }
   }
 
-  public render() {
-    return (
-      <Sider>
-        <Menu mode='inline'>{this.parseMenuConfig(menuConfig)}</Menu>
-      </Sider>
-    );
-  }
+  return (<div>
+    <Menu mode='inline'>
+      {parseMenuConfig(menuConfig)}
+    </Menu>
+  </div>
+  );
 }
+
+export default BaseMenu

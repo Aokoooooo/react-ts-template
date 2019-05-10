@@ -57,12 +57,15 @@ export const menuConfig: IMenuConfig[] = [
     path: "/group",
     type: "group",
     title: "group",
+    icon: 'menu',
     children: [
       {
+        icon: 'menu',
         path: "/group/1",
         title: "group/1"
       },
       {
+        icon: 'menu',
         path: "/group/2",
         title: "group/2"
       }
@@ -72,12 +75,15 @@ export const menuConfig: IMenuConfig[] = [
     path: "/subMenu",
     type: "subMenu",
     title: "subMenu",
+    icon: 'menu',
     children: [
       {
+        icon: 'menu',
         path: "http://github.com",
         title: "subMenu/1"
       },
       {
+        icon: 'menu',
         path: "https://www.lodashjs.com/docs/4.17.5.html#indexOf",
         title: "subMenu/2"
       }

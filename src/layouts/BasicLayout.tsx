@@ -8,7 +8,7 @@ import { RouteProps } from "react-router-dom";
 import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
 
-const SideMenu = loadable(() => import("./components/sideMenu/BaseMenu"));
+const SideMenu = loadable(() => import("./components/sideMenu/SideMenu"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
