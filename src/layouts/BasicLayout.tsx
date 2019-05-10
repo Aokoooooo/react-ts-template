@@ -41,7 +41,14 @@ class BasicLayout extends React.Component<IBasicLayout> {
     routes: IMenuConfig[]
   ): void => {
     if (!i.type || i.type === "default") {
-      routes.push(<Route key={i.path} exact={true} path={i.path} component={i.component} />);
+      routes.push(
+        <Route
+          key={i.path}
+          exact={true}
+          path={i.path}
+          component={i.component}
+        />
+      );
     } else if (i.type === "group" && i.children) {
       i.children.map(j => this.parseMenuConfigHelper(j, routes));
     } else if (i.type === "subMenu" && i.children) {
@@ -63,9 +70,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
                   <Layout>
                     <Header>Header</Header>
                     <Content>
-                      <Switch>
-                        {[...this.parseMenuConfig()]}
-                      </Switch>
+                      <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>
                     <Footer>Footer</Footer>
                   </Layout>

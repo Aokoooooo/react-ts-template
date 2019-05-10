@@ -93,8 +93,8 @@ const BaseMenu: React.FC = () => {
           {getIconWithTitleHelper(config)}
         </a>
       ) : (
-          <Link to={config.path}>{getIconWithTitleHelper(config)}</Link>
-        );
+        <Link to={config.path}>{getIconWithTitleHelper(config)}</Link>
+      );
     }
     return getIconWithTitleHelper(config);
   };
@@ -112,13 +112,13 @@ const BaseMenu: React.FC = () => {
         <span>{config.title}</span>
       </>
     ) : (
-        config.title
-      );
+      config.title
+    );
   };
 
   return (
     <div>
-      <Menu theme="dark" mode="inline"  >
+      <Menu theme="dark" mode="inline">
         {parseMenuConfig(menuConfig)}
       </Menu>
     </div>
