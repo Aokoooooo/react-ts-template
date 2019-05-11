@@ -5,11 +5,12 @@ import React from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Route, RouteProps, Switch } from "react-router-dom";
+import { layoutConfig } from "../config/layoutConfig";
 import { IMenuConfig, menuConfig } from "../config/menuConfig";
 import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
 
-const SideMenu = loadable(() => import("./components/sideMenu/SideMenu"));
+const SiderMenu = loadable(() => import("./components/siderMenu/SiderMenu"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
@@ -66,13 +67,13 @@ class BasicLayout extends React.Component<IBasicLayout> {
             <MenuContext.Provider value={this.getMenuContext()}>
               <div className={className(params)}>
                 <Layout className={styles.basicLayout}>
-                  <SideMenu />
+                  {layoutConfig.siderMenu && <SiderMenu />}
                   <Layout>
-                    <Header>Header</Header>
+                    {layoutConfig.header && <Header>Header</Header>}
                     <Content>
                       <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>
-                    <Footer>Footer</Footer>
+                    {layoutConfig.footer && <Footer>Footer</Footer>}
                   </Layout>
                 </Layout>
               </div>
