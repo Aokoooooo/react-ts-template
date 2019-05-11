@@ -75,7 +75,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
     }
     return (
       <Menu.Item
-        key={config.path}
+        key={isExternalUrl(config.path) ? `_${config.path}` : config.path}
         title={config.title}
         onClick={() => handleMenuItemClick(config.path)}
       >
@@ -105,7 +105,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
     if (!path) {
       return;
     }
-    if (/^https?:\/\//.test(path)) {
+    if (isExternalUrl(path)) {
       window.open(path);
     } else {
       const { location } = props;
@@ -116,6 +116,8 @@ const BaseMenu: React.FC<RouteComponentProps> = (
       history.push(path);
     }
   };
+
+  const isExternalUrl = (path: string) => /^https?:\/\//.test(path);
 
   const getDefaultSelectItem = (): string[] => {
     const { location } = props;
