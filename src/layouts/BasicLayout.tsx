@@ -8,6 +8,7 @@ import { Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
 import { IMenuConfig, menuConfig } from "../config/menuConfig";
 import styles from "./BasicLayout.module.less";
+import Header from "./components/header/Header";
 import MenuContext from "./MenuContext";
 
 const SiderMenu = loadable(() => import("./components/siderMenu/SiderMenu"));
@@ -59,7 +60,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
 
   public render() {
     const { children } = this.props;
-    const { Header, Footer, Content } = Layout;
+    const { Footer, Content } = Layout;
     return (
       <>
         <ContainerQuery query={query}>
@@ -69,7 +70,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
                 <Layout className={styles.basicLayout}>
                   {layoutConfig.siderMenu && <SiderMenu />}
                   <Layout>
-                    {layoutConfig.header && <Header>Header</Header>}
+                    {layoutConfig.header && <Header />}
                     <Content>
                       <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>

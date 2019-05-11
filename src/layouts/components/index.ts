@@ -1,3 +1,3 @@
 export * from "./siderMenu/SiderMenu";
-export * from "./Header";
+export * from "./header/Header";
 export * from "./Footer";

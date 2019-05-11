@@ -2,7 +2,7 @@ import { Layout } from "antd";
 import React, { useState } from "react";
 import logo from "../../../assets/logo.svg";
 import BaseMenu from "./BaseMenu";
-import styles from "./index.module.less";
+import styles from "./SiderMenu.module.less";
 
 const SideMenu: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -13,6 +13,8 @@ const SideMenu: React.FC = () => {
 
   return (
     <Layout.Sider
+      breakpoint="lg"
+      trigger={null}
       collapsible={true}
       collapsed={collapsed}
       onCollapse={handleCollapsed}
