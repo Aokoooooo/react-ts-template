@@ -8,6 +8,7 @@ const SideMenu: React.FC = () => {
   const handleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <Layout.Sider
       collapsible={true}

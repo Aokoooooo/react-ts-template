@@ -11,7 +11,14 @@ export interface IMenuConfig {
   component?: ComponentType;
   children?: IMenuConfig[];
 }
-
+/**
+ * 生成侧边菜单,并将其中的路径和组件作为Route添加到BasicLayout.jsx中
+ *
+ * Component应该使用loadable动态加载
+ * default: path唯一
+ * group/subMenu: title_path加起来唯一
+ * group无法嵌套或者被嵌套,只能渲染在最外侧菜单中
+ */
 export const menuConfig: IMenuConfig[] = [
   {
     path: "/hello",
@@ -34,20 +41,21 @@ export const menuConfig: IMenuConfig[] = [
     icon: "dashboard",
     children: [
       {
-        path: "/subMenu/1",
+        path: "/subMenu/sub",
         title: "subMenu/1",
-        icon: <Icon type="google" />
+        icon: <Icon type="google" />,
+        component: loadable(() => import("../pages/HelloWorld"))
       },
       {
-        path: "/subMenu/sub",
         type: "subMenu",
         title: "subMenu/sub",
         icon: <Icon type="google" />,
         children: [
           {
-            path: "/subMenu/sub/2",
-            title: "subMenu/sub/2",
-            icon: "dashboard"
+            path: "/subMenu/sub/:id",
+            title: "subMenu/sub/:id",
+            icon: "dashboard",
+            component: loadable(() => import("../pages/HelloWorld"))
           }
         ]
       }
@@ -77,7 +85,7 @@ export const menuConfig: IMenuConfig[] = [
   {
     path: "/subMenu",
     type: "subMenu",
-    title: "subMenu",
+    title: "subMenu3",
     icon: "menu",
     children: [
       {
@@ -96,3 +104,36 @@ export const menuConfig: IMenuConfig[] = [
     type: "divider"
   }
 ];
+
+/**
+ * 遍历合并item的path,用于控制菜单的默认选择项
+ */
+const getMenuItemPaths = () => {
+  if (!menuConfig) {
+    return [];
+  }
+  const result = new Array<string>();
+  const getMenuItemPathsHelper = (i: IMenuConfig) => {
+    if (!i) {
+      return;
+    }
+    if ((!i.type || i.type === "default") && i.path) {
+      result.push(i.path);
+    }
+    if ((i.type === "subMenu" || i.type === "group") && i.children) {
+      i.children.map(j => getMenuItemPathsHelper(j));
+    }
+  };
+  menuConfig.map(i => getMenuItemPathsHelper(i));
+  return result;
+};
+
+export const getSubMenuKey = (
+  title: string | undefined,
+  path: string | undefined
+) => `${title}_${path}_submenu`;
+export const getGroupKey = (
+  title: string | undefined,
+  path: string | undefined
+) => `${title}_${path}_group`;
+export const menuItemPaths = getMenuItemPaths();

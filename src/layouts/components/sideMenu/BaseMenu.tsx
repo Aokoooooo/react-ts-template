@@ -1,71 +1,66 @@
 import { Icon, Menu } from "antd";
 import React, { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { IMenuConfig, menuConfig } from "../../../config/menuConfig";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import history from "../../../config/history";
+import {
+  getGroupKey,
+  getSubMenuKey,
+  IMenuConfig,
+  menuConfig,
+  menuItemPaths
+} from "../../../config/menuConfig";
 
-let key = -1;
-
-const BaseMenu: React.FC = () => {
+const BaseMenu: React.FC<RouteComponentProps> = (
+  props: RouteComponentProps
+) => {
   const parseMenuConfig = (config: IMenuConfig[]): ReactNode => {
     if (!config) {
       return;
     }
     return config.map(i => {
-      key++;
       switch (i.type) {
-        case "default":
-          return getMenuItem(i);
         case "subMenu":
-          return (
-            <Menu.SubMenu
-              disabled={i.disabled}
-              title={getIconWithTitle(i, false)}
-              key={key}
-            >
-              {i.children && getSubMenuItems(i.children)}
-            </Menu.SubMenu>
-          );
+          return getSubMenuItems(i);
         case "group":
           return (
-            <Menu.ItemGroup title={i.title} key={key}>
+            <Menu.ItemGroup title={i.title} key={getGroupKey(i.title, i.path)}>
               {i.children &&
                 i.children.map(j => {
-                  key++;
                   return getMenuItem(j);
                 })}
             </Menu.ItemGroup>
           );
         case "divider":
-          return <Menu.Divider key={key} />;
+          return <Menu.Divider key={(Math.random() * 1000000).toFixed(0)} />;
         default:
           return getMenuItem(i);
       }
     });
   };
 
-  const getSubMenuItems = (config: IMenuConfig[]): ReactNode => {
-    return config.map(i => {
-      if (!i.type || i.type === "default") {
-        key++;
-        return getMenuItem(i);
-      }
-      if (i.type === "subMenu") {
-        key++;
-        return (
-          <Menu.SubMenu
-            disabled={i.disabled}
-            title={getIconWithTitle(i, false)}
-            key={key}
-          >
-            {i.children && getSubMenuItems(i.children)}
-          </Menu.SubMenu>
-        );
-      }
-    });
+  const getSubMenuItems = (config: IMenuConfig): ReactNode => {
+    if (!config) {
+      return;
+    }
+    if (config.type === "subMenu") {
+      return (
+        <Menu.SubMenu
+          disabled={config.disabled}
+          title={getIconWithTitle(config)}
+          key={getSubMenuKey(config.title, config.path)}
+        >
+          {config.children && config.children.map(i => getSubMenuItems(i))}
+        </Menu.SubMenu>
+      );
+    }
+    return getMenuItem(config);
   };
 
   const getMenuItem = (config: IMenuConfig): ReactNode => {
     if (!config) {
+      return;
+    }
+    if (config.type && config.type !== "default") {
       return;
     }
     if (Array.isArray(config)) {
@@ -73,33 +68,23 @@ const BaseMenu: React.FC = () => {
         `config should be a object instead of a array as a menuItem config`
       );
     }
+    if (!config.path) {
+      throw new Error(
+        `menuItem's field named (path) cant be null or a empty string`
+      );
+    }
     return (
-      <Menu.Item key={key} title={config.title}>
-        {getIconWithTitle(config, true)}
+      <Menu.Item
+        key={config.path}
+        title={config.title}
+        onClick={() => handleMenuItemClick(config.path)}
+      >
+        {getIconWithTitle(config)}
       </Menu.Item>
     );
   };
 
-  const getIconWithTitle = (
-    config: IMenuConfig,
-    isItem: boolean
-  ): ReactNode => {
-    if (!isItem) {
-      return getIconWithTitleHelper(config);
-    }
-    if (config && config.path) {
-      return /^https?:\/\//.test(config.path) ? (
-        <a href={config.path} target="_Blank">
-          {getIconWithTitleHelper(config)}
-        </a>
-      ) : (
-        <Link to={config.path}>{getIconWithTitleHelper(config)}</Link>
-      );
-    }
-    return getIconWithTitleHelper(config);
-  };
-
-  const getIconWithTitleHelper = (config: IMenuConfig): ReactNode => {
+  const getIconWithTitle = (config: IMenuConfig): ReactNode => {
     let icon = null;
     if (config && config.icon) {
       typeof config.icon === "string"
@@ -109,20 +94,91 @@ const BaseMenu: React.FC = () => {
     return icon ? (
       <>
         {icon}
-        <span>{config.title }</span>
+        <span>{config.title}</span>
       </>
     ) : (
       config.title
     );
   };
 
+  const handleMenuItemClick = (path: string | undefined): void => {
+    if (!path) {
+      return;
+    }
+    if (/^https?:\/\//.test(path)) {
+      window.open(path);
+    } else {
+      const { location } = props;
+      if (location.pathname === path) {
+        history.replace(path);
+        return;
+      }
+      history.push(path);
+    }
+  };
+
+  const getDefaultSelectItem = (): string[] => {
+    const { location } = props;
+    const { pathname } = location;
+    const result = menuItemPaths.filter(i => pathname.startsWith(i));
+    if (result.length > 1) {
+      return [result.reduce((x, y) => (x.length < y.length ? y : x), "")];
+    }
+    return result;
+  };
+
+  const getDefaultOpenKeys = (): string[] => {
+    const selectItemKey = getDefaultSelectItem();
+    if (!selectItemKey || !menuConfig) {
+      return [];
+    }
+    const subMenus = menuConfig.filter(i => i.type === "subMenu");
+    if (!subMenus) {
+      return [];
+    }
+
+    const result = new Array<string>();
+
+    const getSubMenusHelper = (config: IMenuConfig): boolean => {
+      if (!config.type || config.type === "default") {
+        if (config.path === selectItemKey[0]) {
+          return true;
+        }
+      }
+      if (config.type && config.type === "subMenu" && config.children) {
+        result.push(getSubMenuKey(config.title, config.path));
+        for (const i of config.children) {
+          if (getSubMenusHelper(i)) {
+            return true;
+          }
+        }
+        result.pop();
+      }
+      return false;
+    };
+
+    for (const i of subMenus) {
+      result.push(getSubMenuKey(i.title, i.path));
+      if (getSubMenusHelper(i)) {
+        return result;
+      }
+      result.pop();
+    }
+    return result;
+  };
+
   return (
     <div>
-      <Menu theme="dark" mode="inline">
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={getDefaultSelectItem()}
+        defaultOpenKeys={getDefaultOpenKeys()}
+      >
         {parseMenuConfig(menuConfig)}
       </Menu>
     </div>
   );
 };
 
-export default BaseMenu;
+export default withRouter(BaseMenu);

@@ -62,10 +62,10 @@
     "eject": "react-app-rewired eject",
     "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
     "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
-    "stylelint": "stylelint 'src/**/*.less' --syntax less",
-    "stylelint:fix": "stylelint --fix 'src/**/*.less' --syntax less",
-    "tslint": "tslint 'src/**/*.ts*'",
-    "tslint:fix": "tslint --fix 'src/**/*.ts*'"
+    "stylelint": "cross-env stylelint 'src/**/*.less' --syntax less",
+    "stylelint:fix": "cross-env stylelint --fix 'src/**/*.less' --syntax less",
+    "tslint": "cross-env tslint 'src/**/*.ts*'",
+    "tslint:fix": "cross-env tslint --fix 'src/**/*.ts*'"
   },
   "husky": {
     "hooks": {

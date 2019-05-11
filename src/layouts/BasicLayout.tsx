@@ -43,7 +43,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
     if (!i.type || i.type === "default") {
       routes.push(
         <Route
-          key={i.path}
+          key={i.path || (Math.random() * 1000000).toFixed(0)}
           exact={true}
           path={i.path}
           component={i.component}
