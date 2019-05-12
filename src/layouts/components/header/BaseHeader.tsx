@@ -18,7 +18,9 @@ const BaseHeader: React.FC<IBaseHeader> = (props: IBaseHeader) => {
       <span className={styles.trigger} onClick={handleTriggerClick}>
         <Icon type={collapsed ? "menu-unfold" : "menu-fold"} />
       </span>
-      <h2>header</h2>
+      <div className={styles.right}>
+        <Icon className={`${styles.trigger}`} type="export" />
+      </div>
     </Layout.Header>
   );
 };
