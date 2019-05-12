@@ -40,7 +40,7 @@ export default class HelloWord extends React.Component {
 
   @bind
   public test(e: React.MouseEvent) {
-    console.log("clicked" ) ;
+    console.log("clicked");
     console.log(this.s);
   }
 
@@ -50,6 +50,29 @@ export default class HelloWord extends React.Component {
       <div>
         <h1 className={styles.red}>hello</h1>
         <Button onClick={this.test}>test</Button>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
+        <h1 className={styles.red}>hello</h1>
       </div>
     );
   }

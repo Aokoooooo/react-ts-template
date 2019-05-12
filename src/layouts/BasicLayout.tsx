@@ -8,10 +8,10 @@ import { Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
 import { IMenuConfig, menuConfig } from "../config/menuConfig";
 import styles from "./BasicLayout.module.less";
-import Header from "./components/header/Header";
 import MenuContext from "./MenuContext";
 
 const Sider = loadable(() => import("./components/siderMenu"));
+const Header = loadable(() => import("./components/header"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
@@ -70,7 +70,9 @@ class BasicLayout extends React.Component<IBasicLayout> {
                 <Layout className={styles.basicLayout}>
                   {layoutConfig.siderMenu && <Sider isMobile={isMobile} />}
                   <Layout>
-                    {layoutConfig.header && <Header />}
+                    {layoutConfig.header && layoutConfig.header.show && (
+                      <Header isMobile={isMobile} />
+                    )}
                     <Content>
                       <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>

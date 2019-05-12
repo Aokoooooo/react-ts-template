@@ -1,6 +1,6 @@
 @import "~antd/lib/style/themes/default.less";
 
-@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
+@header-hover-bg: rgba(0, 0, 0, 0.025);
 
 .header {
   position: relative;
@@ -8,6 +8,15 @@
   padding: 0;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.fixedHeader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: 100%;
+  transition: width 0.2s;
 }
 
 .logo {
@@ -40,7 +49,7 @@
   cursor: pointer;
   transition: all 0.3s, padding 0s;
   &:hover {
-    background: @pro-header-hover-bg;
+    background: @header-hover-bg;
   }
 }
 
@@ -59,10 +68,10 @@
       vertical-align: middle;
     }
     &:hover {
-      background: @pro-header-hover-bg;
+      background: @header-hover-bg;
     }
     &:global(.opened) {
-      background: @pro-header-hover-bg;
+      background: @header-hover-bg;
     }
   }
   .search {

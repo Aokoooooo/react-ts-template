@@ -1,46 +1,13 @@
-import { Icon, Layout } from "antd";
+import { Icon } from "antd";
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import { StoreStateType } from "../../../config/store";
-import { changeCollapsed } from "../../store/menuAction";
-import { IMenuState } from "../../store/menuReducer";
-import styles from "./BaseHeader.module.less";
+import styles from "./index.module.less";
 
-interface IBaseHeader extends IMenuState {
-  handleTriggerClick: () => void;
-}
-
-const BaseHeader: React.FC<IBaseHeader> = (props: IBaseHeader) => {
-  const { collapsed, handleTriggerClick } = props;
+const BaseHeader: React.FC = () => {
   return (
-    <Layout.Header className={styles.header}>
-      <span className={styles.trigger} onClick={handleTriggerClick}>
-        <Icon type={collapsed ? "menu-unfold" : "menu-fold"} />
-      </span>
-      <div className={styles.right}>
-        <Icon className={`${styles.trigger}`} type="export" />
-      </div>
-    </Layout.Header>
+    <div className={styles.right}>
+      <Icon className={`${styles.trigger}`} type="export" />
+    </div>
   );
 };
 
-const mapState = ({ menu }: StoreStateType) => {
-  return {
-    collapsed: menu.collapsed
-  };
-};
-
-const mapAction = (dispatch: Dispatch) => {
-  return bindActionCreators(
-    {
-      handleTriggerClick: changeCollapsed
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapState,
-  mapAction
-)(BaseHeader);
+export default BaseHeader;
