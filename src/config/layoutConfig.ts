@@ -4,7 +4,10 @@ export interface ILayoutConfig {
     show: boolean;
     fixed: boolean;
   };
-  footer: boolean;
+  footer: {
+    show: boolean;
+    fixed: boolean;
+  };
 }
 
 export const layoutConfig: ILayoutConfig = {
@@ -13,5 +16,8 @@ export const layoutConfig: ILayoutConfig = {
     show: true,
     fixed: false
   },
-  footer: true
+  footer: {
+    show: true,
+    fixed: false
+  }
 };

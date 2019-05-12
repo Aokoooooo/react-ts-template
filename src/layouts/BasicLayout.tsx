@@ -12,6 +12,7 @@ import MenuContext from "./MenuContext";
 
 const Sider = loadable(() => import("./components/siderMenu"));
 const Header = loadable(() => import("./components/header"));
+const Footer = loadable(() => import("./components/footer"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
@@ -60,7 +61,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
 
   public render() {
     const { isMobile } = this.props;
-    const { Footer, Content } = Layout;
+    const { Content } = Layout;
     return (
       <>
         <ContainerQuery query={query}>
@@ -76,7 +77,9 @@ class BasicLayout extends React.Component<IBasicLayout> {
                     <Content>
                       <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>
-                    {layoutConfig.footer && <Footer>Footer</Footer>}
+                    {layoutConfig.footer && layoutConfig.footer.show && (
+                      <Footer>Footer</Footer>
+                    )}
                   </Layout>
                 </Layout>
               </div>
