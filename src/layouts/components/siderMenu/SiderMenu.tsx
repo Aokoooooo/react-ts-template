@@ -1,23 +1,20 @@
 import { Layout } from "antd";
-import React, { useState } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import logo from "../../../assets/logo.svg";
+import { StoreStateType } from "../../../config/store";
+import { IMenuState } from "../../store/menuReducer";
 import BaseMenu from "./BaseMenu";
 import styles from "./SiderMenu.module.less";
 
-const SideMenu: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const handleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
+const SideMenu: React.FC<IMenuState> = (props: IMenuState) => {
+  const { collapsed } = props;
   return (
     <Layout.Sider
       breakpoint="lg"
       trigger={null}
       collapsible={true}
       collapsed={collapsed}
-      onCollapse={handleCollapsed}
     >
       <div className={styles.logo} id="logo">
         <img src={logo} alt="logo" />
@@ -28,4 +25,10 @@ const SideMenu: React.FC = () => {
   );
 };
 
-export default SideMenu;
+const mapState = ({ menu }: StoreStateType) => {
+  return {
+    collapsed: menu.collapsed
+  };
+};
+
+export default connect(mapState)(SideMenu);

@@ -1,32 +1,21 @@
-import {
-  applyMiddleware,
-  combineReducers,
-  createStore,
-  Reducer,
-  Store
-} from "redux";
+import { applyMiddleware, combineReducers, createStore, Reducer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { combineEpics, createEpicMiddleware, Epic } from "redux-observable";
 import { BehaviorSubject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
+import { menuReducer } from "../layouts/store/menuReducer";
 
-interface IMyStore extends Store<any> {
-  asyncReducers?: any;
-}
-
-const staticReducers = {};
+const staticReducers = { menu: menuReducer };
 const staticEpics = {};
 const epic$ = new BehaviorSubject(combineEpics(staticEpics));
-const rootEpic: Epic = (action$: any, state$: any) =>
-  epic$.pipe(mergeMap((epic: any) => epic(action$, state$)));
-
 const epicMiddleware = createEpicMiddleware();
 const enhancer = composeWithDevTools(applyMiddleware(epicMiddleware));
+let rootReducer = combineReducers(staticReducers);
+const store = createStore(rootReducer, enhancer);
+const asyncReducers: any = {};
 
-// tslint:disable-next-line:no-empty
-const store: IMyStore = createStore(() => {}, enhancer);
-store.asyncReducers = {};
-
+const rootEpic: Epic = (action$: any, state$: any) =>
+  epic$.pipe(mergeMap((epic: any) => epic(action$, state$)));
 // epicMiddleware.run(rootEpic);
 
 export default store;
@@ -36,14 +25,17 @@ export const injectEpic = (key: string, epic: Epic) => {
 };
 
 export const injectReducer = (key: string, reducer: Reducer) => {
-  if (store.asyncReducers[key]) {
+  if (asyncReducers[key]) {
     console.warn(`尝试注入同名reducer: ${key}失败`);
     return;
   }
-  store.asyncReducers[key] = reducer;
-  store.replaceReducer(createReducer(store.asyncReducers));
+  asyncReducers[key] = reducer;
+  rootReducer = createReducer(asyncReducers);
+  store.replaceReducer(rootReducer);
 };
 
-const createReducer = (asyncReducers: Reducer) => {
-  return combineReducers({ ...staticReducers, ...asyncReducers });
+const createReducer = (extraReducers: any): Reducer => {
+  return combineReducers({ ...staticReducers, ...extraReducers });
 };
+
+export type StoreStateType = ReturnType<typeof rootReducer>;
