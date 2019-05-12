@@ -14,7 +14,7 @@ export const layoutConfig: ILayoutConfig = {
   siderMenu: true,
   header: {
     show: true,
-    fixed: false
+    fixed: true
   },
   footer: {
     show: true,

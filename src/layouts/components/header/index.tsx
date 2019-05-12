@@ -18,9 +18,19 @@ interface IHeader extends IMenuState {
 
 const Header: React.FC<IHeader> = (props: IHeader) => {
   const { collapsed, handleTriggerClick, isMobile } = props;
+
+  const getHeadWidth = () => {
+    const fixed = layoutConfig.header.fixed;
+    if (isMobile || !fixed) {
+      return "100%";
+    }
+    return collapsed ? "calc(100% - 80px)" : "calc(100% - 256px)";
+  };
+
   return (
     <Animate component="">
       <Layout.Header
+        style={{ padding: 0, width: getHeadWidth(), zIndex: 2 }}
         className={`${styles.header} ${
           layoutConfig.header.fixed ? styles.fixedHeader : ""
         }`}

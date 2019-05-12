@@ -62,6 +62,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
   public render() {
     const { isMobile } = this.props;
     const { Content } = Layout;
+    const contentStyle = layoutConfig.header.fixed ? {} : { paddingTop: 0 };
     return (
       <>
         <ContainerQuery query={query}>
@@ -74,7 +75,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
                     {layoutConfig.header && layoutConfig.header.show && (
                       <Header isMobile={isMobile} />
                     )}
-                    <Content>
+                    <Content className={styles.content} style={contentStyle}>
                       <Switch>{[...this.parseMenuConfig()]}</Switch>
                     </Content>
                     {layoutConfig.footer && layoutConfig.footer.show && (
