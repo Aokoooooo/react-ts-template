@@ -11,7 +11,7 @@ import styles from "./BasicLayout.module.less";
 import Header from "./components/header/Header";
 import MenuContext from "./MenuContext";
 
-const SiderMenu = loadable(() => import("./components/siderMenu/SiderMenu"));
+const Sider = loadable(() => import("./components/siderMenu"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
@@ -59,7 +59,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
   };
 
   public render() {
-    const { children } = this.props;
+    const { isMobile } = this.props;
     const { Footer, Content } = Layout;
     return (
       <>
@@ -68,7 +68,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
             <MenuContext.Provider value={this.getMenuContext()}>
               <div className={className(params)}>
                 <Layout className={styles.basicLayout}>
-                  {layoutConfig.siderMenu && <SiderMenu />}
+                  {layoutConfig.siderMenu && <Sider isMobile={isMobile} />}
                   <Layout>
                     {layoutConfig.header && <Header />}
                     <Content>
