@@ -119,7 +119,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
 
   const isExternalUrl = (path: string) => /^https?:\/\//.test(path);
 
-  const getDefaultSelectItem = (): string[] => {
+  const getSelectItem = (): string[] => {
     const { location } = props;
     const { pathname } = location;
     const result = menuItemPaths.filter(i => pathname.startsWith(i));
@@ -130,7 +130,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
   };
 
   const getDefaultOpenKeys = (): string[] => {
-    const selectItemKey = getDefaultSelectItem();
+    const selectItemKey = getSelectItem();
     if (!selectItemKey || !menuConfig) {
       return [];
     }
@@ -174,7 +174,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={getDefaultSelectItem()}
+        selectedKeys={getSelectItem()}
         defaultOpenKeys={getDefaultOpenKeys()}
       >
         {parseMenuConfig(menuConfig)}
