@@ -12,7 +12,9 @@ const epicMiddleware = createEpicMiddleware();
 const enhancer = composeWithDevTools(applyMiddleware(epicMiddleware));
 let rootReducer = combineReducers(staticReducers);
 const store = createStore(rootReducer, enhancer);
+
 const asyncReducers: any = {};
+const asyncEpics: any = {};
 
 const rootEpic: Epic = (action$: any, state$: any) =>
   epic$.pipe(mergeMap((epic: any) => epic(action$, state$)));
@@ -21,6 +23,11 @@ const rootEpic: Epic = (action$: any, state$: any) =>
 export default store;
 
 export const injectEpic = (key: string, epic: Epic) => {
+  if (asyncEpics[key]) {
+    console.warn(`尝试注入同名Epic: ${key}失败`);
+    return;
+  }
+  asyncEpics[key] = epic;
   epic$.next(epic);
 };
 
