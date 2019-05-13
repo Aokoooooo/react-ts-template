@@ -11,11 +11,15 @@ export interface IMenuConfig {
   component?: ComponentType;
   children?: IMenuConfig[];
 }
+
+// 默认跳转路由
+export const defaultUrl = "/hello";
+
 /**
  * 生成侧边菜单,并将其中的路径和组件作为Route添加到BasicLayout.jsx中
  *
  * Component应该使用loadable动态加载
- * default: path唯一
+ * (title,path)的组合唯一
  * group/subMenu: title_path加起来唯一
  * group无法嵌套或者被嵌套,只能渲染在最外侧菜单中
  */

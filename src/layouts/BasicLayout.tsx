@@ -4,15 +4,18 @@ import className from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
-import { Route, RouteProps, Switch } from "react-router-dom";
+import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
-import { IMenuConfig, menuConfig } from "../config/menuConfig";
+import { defaultUrl, IMenuConfig, menuConfig } from "../config/menuConfig";
 import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
 
 const Sider = loadable(() => import("./components/siderMenu"));
 const Header = loadable(() => import("./components/header"));
 const Footer = loadable(() => import("./components/footer"));
+const Error403 = loadable(() => import("../pages/error/Error403"));
+const Error404 = loadable(() => import("../pages/error/Error404"));
+const Error500 = loadable(() => import("../pages/error/Error500"));
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
@@ -44,9 +47,12 @@ class BasicLayout extends React.Component<IBasicLayout> {
     routes: IMenuConfig[]
   ): void => {
     if (!i.type || i.type === "default") {
+      if (!i.path) {
+        throw new Error("menu Item's path should not be null/empty");
+      }
       routes.push(
         <Route
-          key={i.path || (Math.random() * 1000000).toFixed(0)}
+          key={i.path}
           exact={true}
           path={i.path}
           component={i.component}
@@ -76,7 +82,18 @@ class BasicLayout extends React.Component<IBasicLayout> {
                       <Header isMobile={isMobile} />
                     )}
                     <Content className={styles.content} style={contentStyle}>
-                      <Switch>{[...this.parseMenuConfig()]}</Switch>
+                      <Switch>
+                        <Route
+                          path="/"
+                          exact={true}
+                          render={() => <Redirect to={defaultUrl} />}
+                        />
+                        {[...this.parseMenuConfig()]}
+                        <Route path="/403" exact={true} component={Error403} />
+                        <Route path="/404" exact={true} component={Error404} />
+                        <Route path="/500" exact={true} component={Error500} />
+                        <Route render={() => <Redirect to="/404" />} />
+                      </Switch>
                     </Content>
                     {layoutConfig.footer && layoutConfig.footer.show && (
                       <Footer>Footer</Footer>

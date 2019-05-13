@@ -40,9 +40,12 @@ export default class HelloWord extends React.Component {
 
   @bind
   public test(e: React.MouseEvent) {
-    console.log("clicked");
-    console.log(this.s);
+    history.goBack();
   }
+
+  public go404 = () => {
+    history.push("/404");
+  };
 
   public render() {
     // console.log(styles);
@@ -50,6 +53,7 @@ export default class HelloWord extends React.Component {
       <div>
         <h1 className={styles.red}>hello</h1>
         <Button onClick={this.test}>test</Button>
+        <Button onClick={this.go404}>go 404</Button>
         <h1 className={styles.red}>hello</h1>
         <h1 className={styles.red}>hello</h1>
         <h1 className={styles.red}>hello</h1>
