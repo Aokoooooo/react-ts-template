@@ -10,6 +10,7 @@ import styles from "./LoginLayout.module.less";
 
 const Login = loadable(() => import("../pages/login/Login"));
 const Register = loadable(() => import("../pages/login/Register"));
+const ForgetPassword = loadable(() => import("../pages/login/ForgetPassword"));
 
 const footerLinks: ILinkConfig[] = [
   {
@@ -35,6 +36,11 @@ const LoginLayout: React.FC = () => {
         <Switch>
           <Route path="/login" exact={true} component={Login} />
           <Route path="/register" exact={true} component={Register} />
+          <Route
+            path="/forgetPassword"
+            exact={true}
+            component={ForgetPassword}
+          />
         </Switch>
       </div>
       {layoutConfig.footer.show && (

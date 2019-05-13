@@ -28,8 +28,12 @@ const Login: React.FC = () => {
     />
   );
 
-  const gotoRigister = () => {
-    history.push("/rigister");
+  const handleSignupClick = () => {
+    history.push("/register");
+  };
+
+  const handleForgetPasswordClick = () => {
+    history.push("/forgetPassword");
   };
 
   return (
@@ -52,7 +56,7 @@ const Login: React.FC = () => {
         <Checkbox checked={autoLogin} onChange={handleAutoLoginChange}>
           记住我
         </Checkbox>
-        <a style={{ float: "right" }} href="">
+        <a style={{ float: "right" }} onClick={handleForgetPasswordClick}>
           忘记密码
         </a>
       </div>
@@ -62,7 +66,7 @@ const Login: React.FC = () => {
       <div className={styles.other}>
         以其他方式登录
         <Icon type="github" className={styles.icon} theme="outlined" />
-        <a className={styles.register} onClick={gotoRigister}>
+        <a className={styles.register} onClick={handleSignupClick}>
           注册
         </a>
       </div>
