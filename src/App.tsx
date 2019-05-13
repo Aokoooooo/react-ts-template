@@ -6,14 +6,15 @@ import history from "./config/history";
 import store from "./config/store";
 
 const BasicLayout = loadable(() => import("./layouts/BasicLayout"));
-const UserLayout = loadable(() => import("./layouts/UserLayout"));
+const LoginLayout = loadable(() => import("./layouts/LoginLayout"));
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route path="/login" exact={true} component={UserLayout} />
+          <Route path="/login" exact={true} component={LoginLayout} />
+          <Route path="/register" exact={true} component={LoginLayout} />
           <Route path="/" component={BasicLayout} />
         </Switch>
       </Router>

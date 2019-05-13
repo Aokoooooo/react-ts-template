@@ -96,7 +96,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
                       </Switch>
                     </Content>
                     {layoutConfig.footer && layoutConfig.footer.show && (
-                      <Footer>Footer</Footer>
+                      <Footer />
                     )}
                   </Layout>
                 </Layout>
