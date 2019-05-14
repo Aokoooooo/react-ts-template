@@ -1,6 +1,6 @@
 import { Button, Checkbox, Icon, Tabs } from "antd";
 import React, { useState } from "react";
-import history from "../../config/history";
+import history from "../../../config/history";
 import AccountLoginForm from "./components/AccountLoginForm";
 import PhoneNumberLoginForm from "./components/PhoneNumberLoginForm";
 import styles from "./Login.module.less";

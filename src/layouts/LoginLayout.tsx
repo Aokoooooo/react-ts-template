@@ -8,7 +8,7 @@ import { ILinkConfig } from "./components/footer";
 import BaseFooter from "./components/footer/BaseFooter";
 import styles from "./LoginLayout.module.less";
 
-const Login = loadable(() => import("../pages/login/Login"));
+const Login = loadable(() => import("../pages/login/login/Login"));
 const Register = loadable(() => import("../pages/login/Register"));
 const ForgetPassword = loadable(() => import("../pages/login/ForgetPassword"));
 
