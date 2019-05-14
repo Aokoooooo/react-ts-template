@@ -1,11 +1,15 @@
-import { Alert, Button, Checkbox, Icon, Input, Tabs } from "antd";
+import { Button, Checkbox, Icon, Tabs } from "antd";
 import React, { useState } from "react";
 import history from "../../config/history";
+import AccountLoginForm from "./components/AccountLoginForm";
+import PhoneNumberLoginForm from "./components/PhoneNumberLoginForm";
 import styles from "./Login.module.less";
 
 const Login: React.FC = () => {
   const [autoLogin, setAutoLogin] = useState(true);
   const [key, setKey] = useState("1");
+  const [accountLoginForm, setAccountLoginForm] = useState();
+  const [phoneNumberLoginForm, setPhoneNumberLoginForm] = useState();
 
   const handleTabChange = (newKey: string): void => {
     setKey(newKey);
@@ -16,17 +20,12 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log("submit!!!");
+    if (key === "1" && accountLoginForm) {
+      accountLoginForm.handleSubmit();
+    } else if (key === "2" && phoneNumberLoginForm) {
+      phoneNumberLoginForm.handleSubmit();
+    }
   };
-
-  const renderMessage = (content: any) => (
-    <Alert
-      style={{ marginBottom: 24 }}
-      message={content}
-      type="error"
-      showIcon={true}
-    />
-  );
 
   const handleSignupClick = () => {
     history.push("/register");
@@ -44,15 +43,21 @@ const Login: React.FC = () => {
         onChange={handleTabChange}
       >
         <Tabs.TabPane tab="密码登录" key="1">
-          <Input placeholder="账户名" />
-          <Input.Password placeholder="密码" />
+          <AccountLoginForm
+            wrappedComponentRef={(inst: React.Component) =>
+              setAccountLoginForm(inst)
+            }
+          />
         </Tabs.TabPane>
         <Tabs.TabPane tab="手机登录" key="2">
-          <Input placeholder="手机号" />
-          <Input placeholder="验证码" />
+          <PhoneNumberLoginForm
+            wrappedComponentRef={(inst: React.Component) =>
+              setPhoneNumberLoginForm(inst)
+            }
+          />
         </Tabs.TabPane>
       </Tabs>
-      <div className={styles.subContent}>
+      <div>
         <Checkbox checked={autoLogin} onChange={handleAutoLoginChange}>
           记住我
         </Checkbox>
