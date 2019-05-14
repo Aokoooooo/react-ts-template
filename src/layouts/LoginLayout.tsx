@@ -28,7 +28,7 @@ const LoginLayout: React.FC = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <img alt="logo" className={styles.logo} src={logo} />
-            <span className={styles.title}>UserLayout</span>
+            <span className={styles.title}>LoginLayout</span>
           </div>
           <div className={styles.desc}>aoko</div>
         </div>

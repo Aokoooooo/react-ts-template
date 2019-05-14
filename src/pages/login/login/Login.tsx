@@ -61,9 +61,11 @@ const Login: React.FC = () => {
         <Checkbox checked={autoLogin} onChange={handleAutoLoginChange}>
           记住我
         </Checkbox>
-        <a style={{ float: "right" }} onClick={handleForgetPasswordClick}>
-          忘记密码
-        </a>
+        {key === "1" && (
+          <a style={{ float: "right" }} onClick={handleForgetPasswordClick}>
+            忘记密码
+          </a>
+        )}
       </div>
       <Button className={styles.button} type="primary" onClick={handleSubmit}>
         登录
