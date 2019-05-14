@@ -38,7 +38,7 @@ class AccountLoginForm extends React.PureComponent<FormComponentProps> {
         <Form.Item hasFeedback={true}>
           {form.getFieldDecorator("password", {
             rules: [...checkRules.password]
-          })(<Input placeholder="密码" />)}
+          })(<Input.Password placeholder="密码" />)}
         </Form.Item>
       </Form>
     );

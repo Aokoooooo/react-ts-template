@@ -40,14 +40,19 @@ class PhoneNumberLoginForm extends React.PureComponent<FormComponentProps> {
           })(<Input placeholder="手机号" />)}
         </Form.Item>
         <Form.Item hasFeedback={true}>
-          <Row type="flex" justify="space-between">
+          <Row type="flex" justify="space-between" gutter={8}>
             <Col span={16}>
               {form.getFieldDecorator("code", {
                 rules: [...checkRules.code]
               })(<Input placeholder="验证码" />)}
             </Col>
             <Col span={8}>
-              <Button onClick={this.getVerificationCode}>获取验证码</Button>
+              <Button
+                style={{ width: "100%" }}
+                onClick={this.getVerificationCode}
+              >
+                获取验证码
+              </Button>
             </Col>
           </Row>
         </Form.Item>
