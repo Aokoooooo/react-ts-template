@@ -5,6 +5,7 @@ import { Route, withRouter } from "react-router";
 import { Action, Reducer } from "redux";
 import { Epic } from "redux-observable";
 import { filter, mapTo } from "rxjs/operators";
+import axios from '../config/axios'
 import history from "../config/history";
 import withAuthority from "../containers/WithAuthority";
 import { bind, withEpic, withReducer } from "../utils/decorators";
@@ -35,25 +36,33 @@ export default class HelloWord extends React.Component {
 
   public componentDidMount() {
     console.log("hello");
-    console.log(this.props);
   }
 
   @bind
-  public test(e: React.MouseEvent) {
+  public goBack(e: React.MouseEvent) {
     history.goBack();
   }
 
-  public go404 = () => {
+  public goto404 = () => {
     history.push("/404");
   };
 
+  public gotoLogin = () => {
+    history.push('/login')
+  }
+
+  public testRequest = () => {
+    axios.get('/').then(r => console.log(r)).catch(e => console.log(e))
+  }
+
   public render() {
-    // console.log(styles);
     return (
       <div>
         <h1 className={styles.red}>hello</h1>
-        <Button onClick={this.test}>test</Button>
-        <Button onClick={this.go404}>go 404</Button>
+        <Button onClick={this.goBack}>goBack</Button>
+        <Button onClick={this.goto404}>goto 404</Button>
+        <Button onClick={this.gotoLogin}>goto login</Button>
+        <Button onClick={this.testRequest}>testRequest</Button>
         <h1 className={styles.red}>hello</h1>
         <h1 className={styles.red}>hello</h1>
         <h1 className={styles.red}>hello</h1>
