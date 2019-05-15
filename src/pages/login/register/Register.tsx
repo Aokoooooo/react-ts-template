@@ -28,9 +28,9 @@ const Register: React.FC = () => {
       <Button className={styles.submit} type="primary" onClick={handleSubmit}>
         注册
       </Button>
-      <a className={styles.login} onClick={handleLoginClick}>
+      <p className={styles.login} onClick={handleLoginClick}>
         已有账号?
-      </a>
+      </p>
     </div>
   );
 };

@@ -62,9 +62,9 @@ const Login: React.FC = () => {
           记住我
         </Checkbox>
         {key === "1" && (
-          <a style={{ float: "right" }} onClick={handleForgetPasswordClick}>
+          <p style={{ float: "right" }} onClick={handleForgetPasswordClick}>
             忘记密码
-          </a>
+          </p>
         )}
       </div>
       <Button className={styles.button} type="primary" onClick={handleSubmit}>
@@ -73,9 +73,9 @@ const Login: React.FC = () => {
       <div className={styles.other}>
         以其他方式登录
         <Icon type="github" className={styles.icon} theme="outlined" />
-        <a className={styles.register} onClick={handleSignupClick}>
+        <p className={styles.register} onClick={handleSignupClick}>
           注册
-        </a>
+        </p>
       </div>
     </div>
   );

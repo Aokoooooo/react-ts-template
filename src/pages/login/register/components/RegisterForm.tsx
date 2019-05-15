@@ -1,5 +1,5 @@
 import { Form, Input } from "antd";
-import { FormComponentProps, ValidationRule } from "antd/lib/form";
+import { FormComponentProps } from "antd/lib/form";
 import React from "react";
 
 class RegisterForm extends React.PureComponent<FormComponentProps> {

@@ -1,13 +1,12 @@
 import { Button } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { Route, withRouter } from "react-router";
+import { withRouter } from "react-router";
 import { Action, Reducer } from "redux";
 import { Epic } from "redux-observable";
 import { filter, mapTo } from "rxjs/operators";
-import axios from '../config/axios'
+import axios from "../config/axios";
 import history from "../config/history";
-import withAuthority from "../containers/WithAuthority";
 import { bind, withEpic, withReducer } from "../utils/decorators";
 import styles from "./HelloWorld.module.less";
 
@@ -29,11 +28,6 @@ const epic: Epic = action$ =>
 @(withRouter as any)
 @(connect((state: any) => ({ a: state })) as any)
 export default class HelloWord extends React.Component {
-  public s: string = "f";
-  constructor(props: any) {
-    super(props);
-  }
-
   public componentDidMount() {
     console.log("hello");
   }
@@ -48,12 +42,15 @@ export default class HelloWord extends React.Component {
   };
 
   public gotoLogin = () => {
-    history.push('/login')
-  }
+    history.push("/login");
+  };
 
   public testRequest = () => {
-    axios.get('/').then(r => console.log(r)).catch(e => console.log(e))
-  }
+    axios
+      .get("/")
+      .then(r => console.log(r))
+      .catch(e => console.log(e));
+  };
 
   public render() {
     return (
