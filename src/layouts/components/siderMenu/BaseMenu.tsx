@@ -2,6 +2,8 @@ import { Icon, Menu } from "antd";
 import React, { ReactNode, useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import history from "../../../config/history";
+import checkAuth from "../../../utils/checkAuth";
+
 import {
   getGroupKey,
   getSubMenuKey,
@@ -24,6 +26,11 @@ const BaseMenu: React.FC<RouteComponentProps> = (
       if (!config) {
         return;
       }
+
+      if (config.auth && !checkAuth(config.auth)) {
+        return;
+      }
+
       if (config.type === "subMenu") {
         const prefix = stack.reduce((x, y) => x + y, "");
         stack.push(config.path || "");
@@ -58,6 +65,10 @@ const BaseMenu: React.FC<RouteComponentProps> = (
         throw new Error(
           `menuItem's field named (path) cant be null or a empty string`
         );
+      }
+
+      if (config.auth && !checkAuth(config.auth)) {
+        return;
       }
 
       const prefix = stack.reduce((x, y) => x + y, "");

@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Action, Reducer } from "redux";
 import axios from "../config/axios";
 import history from "../config/history";
-import { withAuthority, withReducer } from "../utils/decorators";
+import { withReducer } from "../utils/decorators";
 import styles from "./HelloWorld.module.less";
 
 function reducer(state: any = {}, action: Action): Reducer {
@@ -16,7 +16,6 @@ function reducer(state: any = {}, action: Action): Reducer {
 }
 
 @withReducer("hello", reducer)
-@withAuthority(["admin"])
 class HelloWord extends React.Component<RouteComponentProps> {
   public componentDidMount() {
     console.log("hello");

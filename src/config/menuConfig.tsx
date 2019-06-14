@@ -8,6 +8,7 @@ export interface IMenuConfig {
   title?: string;
   icon?: ReactNode;
   disabled?: boolean;
+  auth?: string[] | string;
   component?: ComponentType;
   children?: IMenuConfig[];
 }
@@ -27,55 +28,67 @@ export const menuConfig: IMenuConfig[] = [
   {
     path: "/transfer",
     title: "划款操作",
-    icon: "dashboard"
+    auth: ["user"],
+    icon: "dashboard",
+    component: loadable(() => import("../pages/HelloWorld"))
   },
   {
     path: "/transferInfo",
     title: "划款结果查询",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/protocolInfo",
     title: "协议查询",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/balanceInfo",
     title: "余额查询",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/fundsInfo",
     title: "资金流水查询",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/openAccountsResult",
     title: "子账户开户结果查询",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/upload",
     title: "文件传输",
+    auth: ["user"],
     icon: "dashboard"
   },
   {
     path: "/auth",
     type: "subMenu",
     title: "权限管理",
+    auth: ["user"],
     icon: "dashboard",
     children: [
       {
         path: "/account",
-        title: "账号管理"
+        title: "账号管理",
+        auth: ["user"]
       },
       {
         path: "/role",
-        title: "角色管理"
+        title: "角色管理",
+        auth: ["user"]
       },
       {
         path: "/password",
-        title: "修改密码"
+        title: "修改密码",
+        auth: ["user"]
       }
     ]
   },

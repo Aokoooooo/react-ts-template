@@ -7,6 +7,7 @@ import Media from "react-media";
 import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
 import { defaultUrl, IMenuConfig, menuConfig } from "../config/menuConfig";
+import checkAuth from "../utils/checkAuth";
 import styles from "./BasicLayout.module.less";
 import MenuContext from "./MenuContext";
 
@@ -53,6 +54,9 @@ class BasicLayout extends React.Component<IBasicLayout> {
         throw new Error("menu Item's path should not be null/empty");
       }
       const prefix = stack.reduce((x, y) => x + y, "");
+      if (i.auth && !checkAuth(i.auth)) {
+        return;
+      }
       routes.push(
         <Route
           key={`${prefix}${i.path}`}
