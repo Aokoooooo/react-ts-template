@@ -1,13 +1,11 @@
 import { Button } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import { Action, Reducer } from "redux";
-import { Epic } from "redux-observable";
-import { filter, mapTo } from "rxjs/operators";
 import axios from "../config/axios";
 import history from "../config/history";
-import { bind, withEpic, withReducer } from "../utils/decorators";
+import { withAuthority, withReducer } from "../utils/decorators";
 import styles from "./HelloWorld.module.less";
 
 function reducer(state: any = {}, action: Action): Reducer {
@@ -16,26 +14,17 @@ function reducer(state: any = {}, action: Action): Reducer {
       return state;
   }
 }
-const epic: Epic = action$ =>
-  action$.pipe(
-    filter(action => action.type === "PING"),
-    mapTo({ type: "PONG" })
-  );
 
-@withEpic("hello", epic)
 @withReducer("hello", reducer)
-// // @withAuthority(['admin'])
-@(withRouter as any)
-@(connect((state: any) => ({ a: state })) as any)
-export default class HelloWord extends React.Component {
+@withAuthority(["admin"])
+class HelloWord extends React.Component<RouteComponentProps> {
   public componentDidMount() {
     console.log("hello");
   }
 
-  @bind
-  public goBack(e: React.MouseEvent) {
+  public goBack = (e: React.MouseEvent) => {
     history.goBack();
-  }
+  };
 
   public goto404 = () => {
     history.push("/404");
@@ -87,3 +76,5 @@ export default class HelloWord extends React.Component {
     );
   }
 }
+
+export default withRouter(HelloWord);

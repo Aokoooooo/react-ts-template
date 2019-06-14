@@ -36,32 +36,37 @@ class BasicLayout extends React.Component<IBasicLayout> {
       return [];
     }
     const routes = new Array<IMenuConfig>();
+    const stack = new Array<string>();
     menuConfig.map(
-      (i: IMenuConfig): void => this.parseMenuConfigHelper(i, routes)
+      (i: IMenuConfig): void => this.parseMenuConfigHelper(i, routes, stack)
     );
     return routes;
   };
 
   public parseMenuConfigHelper = (
     i: IMenuConfig,
-    routes: IMenuConfig[]
+    routes: IMenuConfig[],
+    stack: string[]
   ): void => {
     if (!i.type || i.type === "default") {
       if (!i.path) {
         throw new Error("menu Item's path should not be null/empty");
       }
+      const prefix = stack.reduce((x, y) => x + y, "");
       routes.push(
         <Route
-          key={i.path}
+          key={`${prefix}${i.path}`}
           exact={true}
-          path={i.path}
+          path={`${prefix}${i.path}`}
           component={i.component}
         />
       );
     } else if (i.type === "group" && i.children) {
-      i.children.map(j => this.parseMenuConfigHelper(j, routes));
+      i.children.map(j => this.parseMenuConfigHelper(j, routes, stack));
     } else if (i.type === "subMenu" && i.children) {
-      i.children.map(j => this.parseMenuConfigHelper(j, routes));
+      stack.push(i.path || "");
+      i.children.map(j => this.parseMenuConfigHelper(j, routes, stack));
+      stack.pop();
     }
   };
 

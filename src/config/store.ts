@@ -1,35 +1,15 @@
-import { applyMiddleware, combineReducers, createStore, Reducer } from "redux";
+import { combineReducers, createStore, Reducer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { combineEpics, createEpicMiddleware, Epic } from "redux-observable";
-import { BehaviorSubject } from "rxjs";
-import { mergeMap } from "rxjs/operators";
 import { menuReducer } from "../layouts/store/menuReducer";
 
 const staticReducers = { menu: menuReducer };
-const staticEpics = {};
-const epic$ = new BehaviorSubject(combineEpics(staticEpics));
-const epicMiddleware = createEpicMiddleware();
-const enhancer = composeWithDevTools(applyMiddleware(epicMiddleware));
+const enhancer = composeWithDevTools();
 let rootReducer = combineReducers(staticReducers);
 const store = createStore(rootReducer, enhancer);
 
 const asyncReducers: any = {};
-const asyncEpics: any = {};
-
-const rootEpic: Epic = (action$: any, state$: any) =>
-  epic$.pipe(mergeMap((epic: any) => epic(action$, state$)));
-// epicMiddleware.run(rootEpic);
 
 export default store;
-
-export const injectEpic = (key: string, epic: Epic) => {
-  if (asyncEpics[key]) {
-    console.warn(`尝试注入同名Epic: ${key}失败`);
-    return;
-  }
-  asyncEpics[key] = epic;
-  epic$.next(epic);
-};
 
 export const injectReducer = (key: string, reducer: Reducer) => {
   if (asyncReducers[key]) {
