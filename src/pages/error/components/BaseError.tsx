@@ -1,6 +1,6 @@
 import { Button } from "antd";
 import React from "react";
-import history from "../../config/history";
+import history from "../../../config/history";
 import styles from "./BaseError.module.less";
 
 export interface IBaseError {

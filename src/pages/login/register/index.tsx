@@ -2,7 +2,7 @@ import { Button } from "antd";
 import React, { useState } from "react";
 import history from "../../../config/history";
 import RegisterForm from "./components/RegisterForm";
-import styles from "./Register.module.less";
+import styles from "./index.module.less";
 
 const Register: React.FC = () => {
   const [registerForm, setRegisterForm] = useState();
