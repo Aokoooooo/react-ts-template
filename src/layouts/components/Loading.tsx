@@ -1,5 +1,5 @@
 import { Spin } from "antd";
-import React, { Children, ComponentType, ReactNode } from "react";
+import React, { ComponentType, ReactNode } from "react";
 import { connect } from "react-redux";
 import { StoreStateType } from "../../config/store";
 

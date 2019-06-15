@@ -1,6 +1,5 @@
 import { Button } from "antd";
 import React from "react";
-import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Action, Reducer } from "redux";
 import axios from "../config/axios";
