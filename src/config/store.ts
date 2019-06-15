@@ -1,8 +1,8 @@
 import { combineReducers, createStore, Reducer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { menuReducer } from "../layouts/store/menuReducer";
+import { layoutReducer } from "../layouts/store/layoutReducer";
 
-const staticReducers = { menu: menuReducer };
+const staticReducers = { layout: layoutReducer };
 const enhancer = composeWithDevTools();
 let rootReducer = combineReducers(staticReducers);
 const store = createStore(rootReducer, enhancer);

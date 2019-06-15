@@ -6,6 +6,7 @@ import logo from "../assets/logo.svg";
 import { layoutConfig } from "../config/layoutConfig";
 import { ILinkConfig } from "./components/footer";
 import BaseFooter from "./components/footer/BaseFooter";
+import withLoading from "./components/Loading";
 import styles from "./LoginLayout.module.less";
 
 const Login = loadable(() => import("../pages/login/login"));
@@ -50,4 +51,4 @@ const LoginLayout: React.FC = () => {
   );
 };
 
-export default LoginLayout;
+export default withLoading(LoginLayout);

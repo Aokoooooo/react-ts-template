@@ -3,11 +3,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import { StoreStateType } from "../../../config/store";
-import { changeCollapsed } from "../../store/menuAction";
-import { IMenuState } from "../../store/menuReducer";
+import { changeCollapsed } from "../../store/layoutAction";
 import SiderMenu from "./SiderMenu";
 
-export interface ISiderProps extends IMenuState {
+export interface ISiderProps {
   isMobile: boolean;
   collapsed: boolean;
   handleCollapsedChange: () => void;
@@ -48,9 +47,9 @@ const Sider: React.FC<ISiderProps> = (props: ISiderProps) => {
   );
 };
 
-const mapState = ({ menu }: StoreStateType) => {
+const mapState = ({ layout }: StoreStateType) => {
   return {
-    collapsed: menu.collapsed
+    collapsed: layout.collapsed
   };
 };
 

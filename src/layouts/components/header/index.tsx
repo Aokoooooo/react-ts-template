@@ -6,14 +6,14 @@ import { bindActionCreators, Dispatch } from "redux";
 import logo from "../../../assets/256x256.png";
 import { layoutConfig } from "../../../config/layoutConfig";
 import { StoreStateType } from "../../../config/store";
-import { changeCollapsed } from "../../store/menuAction";
-import { IMenuState } from "../../store/menuReducer";
+import { changeCollapsed } from "../../store/layoutAction";
 import BaseHeader from "./BaseHeader";
 import styles from "./index.module.less";
 
-interface IHeader extends IMenuState {
+interface IHeader {
   handleTriggerClick: () => void;
   isMobile: boolean;
+  collapsed: boolean;
 }
 
 const Header: React.FC<IHeader> = (props: IHeader) => {
@@ -45,9 +45,9 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   );
 };
 
-const mapState = ({ menu }: StoreStateType) => {
+const mapState = ({ layout }: StoreStateType) => {
   return {
-    collapsed: menu.collapsed
+    collapsed: layout.collapsed
   };
 };
 

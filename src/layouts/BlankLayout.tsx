@@ -1,7 +1,10 @@
 import React, { ReactNode } from "react";
+import withLoading from "./components/Loading";
 
 export interface IChildren {
   children?: ReactNode;
 }
 
-export default ({ children }: IChildren) => <div>{children}</div>;
+const BlankLayout = ({ children }: IChildren) => <div>{children}</div>;
+
+export default withLoading(BlankLayout);

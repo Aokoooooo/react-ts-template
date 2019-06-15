@@ -9,6 +9,7 @@ import { layoutConfig } from "../config/layoutConfig";
 import { defaultUrl, IMenuConfig, menuConfig } from "../config/menuConfig";
 import checkAuth from "../utils/checkAuth";
 import styles from "./BasicLayout.module.less";
+import withLoading from "./components/Loading";
 import MenuContext from "./MenuContext";
 
 const Sider = loadable(() => import("./components/siderMenu"));
@@ -118,11 +119,11 @@ class BasicLayout extends React.Component<IBasicLayout> {
   }
 }
 
-export default () => (
+export default withLoading(() => (
   <Media query="(max-width:599px)">
     {isMobile => <BasicLayout isMobile={isMobile} />}
   </Media>
-);
+));
 
 const query = {
   "screen-xs": {
