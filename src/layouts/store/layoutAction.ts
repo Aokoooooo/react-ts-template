@@ -5,11 +5,11 @@ export interface IChangeCollapsedAction {
   type: typeof CHANGE_COLLAPSED;
 }
 
-export interface IChangeSpining {
+export interface IChangeSpiningAction {
   type: typeof CHANGE_SPINING;
 }
 
-export type LayoutActionTypes = IChangeCollapsedAction & IChangeSpining;
+export type LayoutActionTypes = IChangeCollapsedAction & IChangeSpiningAction;
 
 export const changeCollapsed = (): IChangeCollapsedAction => {
   return {
@@ -17,7 +17,7 @@ export const changeCollapsed = (): IChangeCollapsedAction => {
   };
 };
 
-export const changeSpining = (): IChangeSpining => {
+export const changeSpining = (): IChangeSpiningAction => {
   return {
     type: CHANGE_SPINING
   };
