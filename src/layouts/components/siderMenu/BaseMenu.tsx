@@ -200,20 +200,13 @@ const BaseMenu: React.FC<RouteComponentProps> = (
     return result;
   };
 
-  const [openKeys, setOpenKeys] = useState<string[]>(getDefaultOpenKeys());
-
-  const handleOpenChange = (newOpenKeys: string[]) => {
-    setOpenKeys(newOpenKeys);
-  };
-
   return (
     <div>
       <Menu
         theme="dark"
         mode="inline"
-        onOpenChange={handleOpenChange}
         selectedKeys={getSelectItem()}
-        openKeys={openKeys}
+        defaultOpenKeys={getDefaultOpenKeys()}
       >
         {parseMenuConfig(menuConfig)}
       </Menu>
