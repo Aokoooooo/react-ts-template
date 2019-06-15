@@ -9,9 +9,9 @@ import BaseFooter from "./components/footer/BaseFooter";
 import withLoading from "./components/Loading";
 import styles from "./LoginLayout.module.less";
 
-const Login = loadable(() => import("../pages/login/login"));
-const Register = loadable(() => import("../pages/login/register"));
-const ForgetPassword = loadable(() => import("../pages/login/ForgetPassword"));
+const Login = loadable(() => import("../pages/auth/login"));
+const Register = loadable(() => import("../pages/auth/register"));
+const ForgetPassword = loadable(() => import("../pages/auth/ForgetPassword"));
 
 const footerLinks: ILinkConfig[] = [
   {

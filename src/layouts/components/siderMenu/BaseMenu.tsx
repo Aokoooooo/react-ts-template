@@ -1,5 +1,5 @@
 import { Icon, Menu } from "antd";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import history from "../../../config/history";
 import checkAuth from "../../../utils/checkAuth";
