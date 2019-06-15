@@ -6,7 +6,6 @@ import styles from "./BaseError.module.less";
 export interface IBaseError {
   title: string;
   desc: string;
-  img?: string;
   actionConfig?: {
     hideBack?: boolean;
     hideBackHome?: boolean;
@@ -26,15 +25,9 @@ const BaseError: React.FC<IBaseError> = (props: IBaseError) => {
     history.replace("/");
   };
 
-  const { title, desc, img, actionConfig } = props;
+  const { title, desc, actionConfig } = props;
   return (
     <div className={styles.error}>
-      <div className={styles.imgBlock}>
-        <div
-          className={styles.imgEle}
-          style={{ backgroundImage: `url(${img})` }}
-        />
-      </div>
       <div className={styles.content}>
         <h1>{title}</h1>
         <div className={styles.desc}>{desc}</div>
