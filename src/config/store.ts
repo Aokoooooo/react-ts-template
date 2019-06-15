@@ -1,9 +1,10 @@
-import { combineReducers, createStore, Reducer } from "redux";
+import { applyMiddleware, combineReducers, createStore, Reducer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
 import { layoutReducer } from "../layouts/store/layoutReducer";
 
 const staticReducers = { layout: layoutReducer };
-const enhancer = composeWithDevTools();
+const enhancer = composeWithDevTools(applyMiddleware(thunk));
 let rootReducer = combineReducers(staticReducers);
 const store = createStore(rootReducer, enhancer);
 
