@@ -17,7 +17,7 @@ export const layoutConfig: ILayoutConfig = {
     fixed: false
   },
   footer: {
-    show: true,
+    show: false,
     fixed: false
   }
 };

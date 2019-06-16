@@ -2,6 +2,16 @@
   "name": "react-ts-template",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
+    "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
+    "stylelint": "cross-env stylelint 'src/**/*.less' --syntax less",
+    "stylelint:fix": "cross-env stylelint --fix 'src/**/*.less' --syntax less",
+    "tslint": "cross-env tslint 'src/**/*.ts*'",
+    "tslint:fix": "cross-env tslint --fix 'src/**/*.ts*'"
+  },
   "dependencies": {
     "@loadable/component": "^5.9.0",
     "antd": "^3.17.0",
@@ -57,18 +67,6 @@
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0"
-  },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
-    "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
-    "stylelint": "cross-env stylelint 'src/**/*.less' --syntax less",
-    "stylelint:fix": "cross-env stylelint --fix 'src/**/*.less' --syntax less",
-    "tslint": "cross-env tslint 'src/**/*.ts*'",
-    "tslint:fix": "cross-env tslint --fix 'src/**/*.ts*'"
   },
   "husky": {
     "hooks": {

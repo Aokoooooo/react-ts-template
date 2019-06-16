@@ -9,7 +9,7 @@ export interface IChangeSpiningAction {
   type: typeof CHANGE_SPINING;
 }
 
-export type LayoutActionTypes = IChangeCollapsedAction & IChangeSpiningAction;
+export type LayoutActionTypes = IChangeCollapsedAction | IChangeSpiningAction;
 
 export const changeCollapsed = (): IChangeCollapsedAction => {
   return {

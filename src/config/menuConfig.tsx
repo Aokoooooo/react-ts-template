@@ -1,6 +1,5 @@
 import loadable from "@loadable/component";
-import { Icon } from "antd";
-import React, { ComponentType, ReactNode } from "react";
+import { ComponentType, ReactNode } from "react";
 
 export interface IMenuConfig {
   path?: string;
@@ -29,51 +28,51 @@ export const menuConfig: IMenuConfig[] = [
     path: "/transfer",
     title: "划款操作",
     auth: ["user"],
-    icon: "dashboard",
-    component: loadable(() => import("../pages/HelloWorld"))
+    icon: "swap",
+    component: loadable(() => import("../pages/transfer/operation"))
   },
   {
-    path: "/transferInfo",
+    path: "/transferResult",
     title: "划款结果查询",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "audit"
   },
   {
-    path: "/protocolInfo",
+    path: "/protocol",
     title: "协议查询",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "file"
   },
   {
-    path: "/balanceInfo",
+    path: "/balance",
     title: "余额查询",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "credit-card"
   },
   {
-    path: "/fundsInfo",
+    path: "/funds",
     title: "资金流水查询",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "fund"
   },
   {
     path: "/openAccountsResult",
     title: "子账户开户结果查询",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "user"
   },
   {
     path: "/upload",
     title: "文件传输",
     auth: ["user"],
-    icon: "dashboard"
+    icon: "upload"
   },
   {
     path: "/auth",
     type: "subMenu",
     title: "权限管理",
     auth: ["user"],
-    icon: "dashboard",
+    icon: "bars",
     children: [
       {
         path: "/account",
@@ -89,34 +88,6 @@ export const menuConfig: IMenuConfig[] = [
         path: "/password",
         title: "修改密码",
         auth: ["user"]
-      }
-    ]
-  },
-  {
-    path: "/subMenu",
-    type: "subMenu",
-    title: "subMenu",
-    icon: "dashboard",
-    children: [
-      {
-        path: "/sub",
-        title: "sub",
-        icon: <Icon type="google" />,
-        component: loadable(() => import("../pages/HelloWorld"))
-      },
-      {
-        type: "subMenu",
-        title: "sub",
-        path: "/sub",
-        icon: <Icon type="google" />,
-        children: [
-          {
-            path: "/id",
-            title: "id",
-            icon: "dashboard",
-            component: loadable(() => import("../pages/HelloWorld"))
-          }
-        ]
       }
     ]
   }

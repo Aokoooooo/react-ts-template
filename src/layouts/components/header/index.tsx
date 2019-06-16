@@ -28,7 +28,7 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   };
 
   return (
-    <Animate component="">
+    <Animate component="" transitionName="fade">
       <Layout.Header
         style={{ padding: 0, width: getHeadWidth(), zIndex: 2 }}
         className={`${styles.header} ${

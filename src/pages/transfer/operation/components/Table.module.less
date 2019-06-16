@@ -1,0 +1,40 @@
+@import "~antd/lib/style/themes/default.less";
+
+.card {
+  :global {
+    .ant-card-body {
+      padding: 0;
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px;
+    .alert {
+      flex: 1;
+    }
+
+    button {
+      margin-right: 12px;
+    }
+  }
+
+  @media (max-width: @screen-md-min) {
+    .toolbar {
+      display: block;
+
+      .alert {
+        margin-top: 12px;
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px 0;
+  }
+}
