@@ -7,6 +7,7 @@ export interface IMenuConfig {
   title?: string;
   icon?: ReactNode;
   disabled?: boolean;
+  notExact?: boolean;
   auth?: string[] | string;
   component?: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
   children?: IMenuConfig[];

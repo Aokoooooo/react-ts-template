@@ -61,7 +61,7 @@ class BasicLayout extends React.Component<IBasicLayout> {
       routes.push(
         <Route
           key={`${prefix}${i.path}`}
-          exact={true}
+          exact={!i.notExact}
           path={`${prefix}${i.path}`}
           component={i.component}
         />
