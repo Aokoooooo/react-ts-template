@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import { ComponentType, ReactNode } from "react";
-
+import { RouteComponentProps } from "react-router-dom";
 export interface IMenuConfig {
   path?: string;
   type?: string; // default, subMenu, group, divider
@@ -8,7 +8,7 @@ export interface IMenuConfig {
   icon?: ReactNode;
   disabled?: boolean;
   auth?: string[] | string;
-  component?: ComponentType;
+  component?: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
   children?: IMenuConfig[];
 }
 
