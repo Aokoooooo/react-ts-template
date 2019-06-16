@@ -37,7 +37,11 @@ const OperationTable: React.FC = () => {
           type="info"
         />
       </div>
-      <Table rowSelection={rowSelection} columns={columns} />
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        scroll={{ x: 991 }}
+      />
       <Pagination className={styles.pagination} />
     </Card>
   );
