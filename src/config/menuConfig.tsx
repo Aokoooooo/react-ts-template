@@ -1,6 +1,7 @@
 import loadable from "@loadable/component";
 import { ComponentType, ReactNode } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import history from "./history";
 export interface IMenuConfig {
   path?: string;
   type?: string; // default, subMenu, group, divider
@@ -24,7 +25,7 @@ export const defaultUrl = "/transfer";
  * group/subMenu: title_path加起来唯一
  * group无法被嵌套,只能渲染在最外侧菜单中
  */
-export const menuConfig: IMenuConfig[] = [
+export let menuConfig: IMenuConfig[] = [
   {
     path: "/transfer",
     title: "划款操作",
@@ -94,6 +95,10 @@ export const menuConfig: IMenuConfig[] = [
   }
 ];
 
+export const updateMenuConfig = (newConfig: IMenuConfig[]) => {
+  menuConfig = newConfig;
+  history.replace(history.location.pathname);
+};
 /**
  * 遍历合并item的path,用于控制菜单的默认选择项
  */
@@ -124,12 +129,14 @@ const getMenuItemPaths = () => {
   return result;
 };
 
+export const menuItemPaths = getMenuItemPaths();
+
 export const getSubMenuKey = (
   title: string | undefined,
   path: string | undefined
 ) => `${title}_${path}_submenu`;
+
 export const getGroupKey = (
   title: string | undefined,
   path: string | undefined
 ) => `${title}_${path}_group`;
-export const menuItemPaths = getMenuItemPaths();

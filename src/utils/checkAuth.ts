@@ -1,9 +1,6 @@
 export type IAuthAsked = string[] | string;
 
-export const checkAuth = (
-  authAsked: IAuthAsked,
-  authHad: string[] | string
-) => {
+export const check = (authAsked: IAuthAsked, authHad: string[] | string) => {
   if (!authAsked) {
     return true;
   }
@@ -30,9 +27,9 @@ export const checkAuth = (
   return false;
 };
 
-const check = (authority: IAuthAsked) => {
+const checkAuth = (authority: IAuthAsked) => {
   const authHad = ["user"];
-  return checkAuth(authority, authHad);
+  return check(authority, authHad);
 };
 
-export default check;
+export default checkAuth;

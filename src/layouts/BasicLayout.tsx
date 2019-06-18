@@ -6,8 +6,8 @@ import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
-import { defaultUrl, IMenuConfig, menuConfig } from "../config/menuConfig";
-import checkAuth from "../utils/checkAuth";
+import { defaultUrl } from "../config/menuConfig";
+import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
 import styles from "./BasicLayout.module.less";
 import withLoading from "./components/Loading";
 import MenuContext from "./MenuContext";
@@ -29,47 +29,7 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
     return { location };
   };
 
-  const parseMenuConfig = () => {
-    if (!menuConfig) {
-      return [];
-    }
-    const routes = new Array<IMenuConfig>();
-    const stack = new Array<string>();
-    menuConfig.map((i: IMenuConfig): void =>
-      parseMenuConfigHelper(i, routes, stack)
-    );
-    return routes;
-  };
-
-  const parseMenuConfigHelper = (
-    i: IMenuConfig,
-    routes: IMenuConfig[],
-    stack: string[]
-  ): void => {
-    if (!i.type || i.type === "default") {
-      if (!i.path) {
-        throw new Error("menu Item's path should not be null/empty");
-      }
-      const prefix = stack.reduce((x, y) => x + y, "");
-      if (i.auth && !checkAuth(i.auth)) {
-        return;
-      }
-      routes.push(
-        <Route
-          key={`${prefix}${i.path}`}
-          exact={!i.notExact}
-          path={`${prefix}${i.path}`}
-          component={i.component}
-        />
-      );
-    } else if (i.type === "group" && i.children) {
-      i.children.map(j => parseMenuConfigHelper(j, routes, stack));
-    } else if (i.type === "subMenu" && i.children) {
-      stack.push(i.path || "");
-      i.children.map(j => parseMenuConfigHelper(j, routes, stack));
-      stack.pop();
-    }
-  };
+  const routes = useParseMenuConfigToRoutes();
 
   const { isMobile } = props;
   const { Content } = Layout;
@@ -93,7 +53,7 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
                         exact={true}
                         render={() => <Redirect to={defaultUrl} />}
                       />
-                      {[...parseMenuConfig()]}
+                      {routes}
                       <Route path="/403" exact={true} component={Error403} />
                       <Route path="/404" exact={true} component={Error404} />
                       <Route path="/500" exact={true} component={Error500} />

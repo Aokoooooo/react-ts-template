@@ -1,3 +1,4 @@
+import { injectReducer } from "../../../../config/store";
 import { initSearchForm, ISearchForm } from "../components/HeaderSearchForm";
 import { CHANGE_SEARCH_FORM, TransferOperationActionType } from "./action";
 
@@ -21,4 +22,4 @@ const operationReducer = (
   }
 };
 
-export default operationReducer;
+injectReducer("transferOperation", operationReducer);
