@@ -4,7 +4,7 @@ import { changeSpining } from "../layouts/store/layoutAction";
 import history from "./history";
 import store from "./store";
 
-const BASE_URL = process.env.NODE_ENV === "production" ? "" : "";
+const BASE_URL = process.env.NODE_ENV === "production" ? "" : "/api";
 export const TOKEN_STORAGE_NAME = "token";
 const TOKEN_HEADER_NAME = "Authorization";
 
@@ -33,9 +33,7 @@ const subtractLoading = () => {
 
 instance.interceptors.request.use(
   config => {
-    config.headers[TOKEN_HEADER_NAME] = `Bearer ${
-      localStorage[TOKEN_STORAGE_NAME]
-    }`;
+    config.headers[TOKEN_HEADER_NAME] = `${localStorage[TOKEN_STORAGE_NAME]}`;
     addLoading();
     return config;
   },
@@ -52,7 +50,7 @@ instance.interceptors.response.use(
   },
   error => {
     subtractLoading();
-    const status = error.response.status;
+    const status = error.response && error.response.status;
     if (status === 401) {
       history.push("/login");
       message.error("请重新登录");
@@ -63,7 +61,8 @@ instance.interceptors.response.use(
     } else if (status === 500) {
       history.replace("/500");
     } else {
-      message.error(error);
+      console.log(error);
+      // message.error(error);
     }
     return Promise.reject(error);
   }

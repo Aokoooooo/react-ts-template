@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { changeSearchForm, IChangeSearchFormAction } from "../store/action";
 import * as styles from "./Header.module.less";
 import SearchForm, { initSearchForm, ISearchForm } from "./HeaderSearchForm";
+
 interface IHeader {
   changeSearchForm: (payload: ISearchForm) => IChangeSearchFormAction;
 }
@@ -32,6 +33,10 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
     }
   };
 
+  const handleSearchClick = () => {
+    console.log("search");
+  };
+
   return (
     <div className={styles.container}>
       <PageHeader
@@ -42,7 +47,7 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
           <Button key="1" onClick={handleRestClick}>
             重置
           </Button>,
-          <Button key="2" type={"primary"}>
+          <Button key="2" type={"primary"} onClick={handleSearchClick}>
             查询
           </Button>
         ]}
