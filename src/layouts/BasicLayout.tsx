@@ -23,29 +23,25 @@ export interface IBasicLayout extends RouteProps {
   isMobile: boolean;
 }
 
-class BasicLayout extends React.Component<IBasicLayout> {
-  public componentDidMount() {
-    // TODO fetch user's data & setting
-  }
-
-  public getMenuContext = () => {
-    const { location } = this.props;
+const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
+  const getMenuContext = () => {
+    const { location } = props;
     return { location };
   };
 
-  public parseMenuConfig = () => {
+  const parseMenuConfig = () => {
     if (!menuConfig) {
       return [];
     }
     const routes = new Array<IMenuConfig>();
     const stack = new Array<string>();
-    menuConfig.map(
-      (i: IMenuConfig): void => this.parseMenuConfigHelper(i, routes, stack)
+    menuConfig.map((i: IMenuConfig): void =>
+      parseMenuConfigHelper(i, routes, stack)
     );
     return routes;
   };
 
-  public parseMenuConfigHelper = (
+  const parseMenuConfigHelper = (
     i: IMenuConfig,
     routes: IMenuConfig[],
     stack: string[]
@@ -67,57 +63,55 @@ class BasicLayout extends React.Component<IBasicLayout> {
         />
       );
     } else if (i.type === "group" && i.children) {
-      i.children.map(j => this.parseMenuConfigHelper(j, routes, stack));
+      i.children.map(j => parseMenuConfigHelper(j, routes, stack));
     } else if (i.type === "subMenu" && i.children) {
       stack.push(i.path || "");
-      i.children.map(j => this.parseMenuConfigHelper(j, routes, stack));
+      i.children.map(j => parseMenuConfigHelper(j, routes, stack));
       stack.pop();
     }
   };
 
-  public render() {
-    const { isMobile } = this.props;
-    const { Content } = Layout;
-    const contentStyle = layoutConfig.header.fixed ? {} : { paddingTop: 0 };
-    return (
-      <>
-        <ContainerQuery query={query}>
-          {params => (
-            <MenuContext.Provider value={this.getMenuContext()}>
-              <div className={className(params)}>
-                <Layout className={styles.basicLayout}>
-                  {layoutConfig.siderMenu && <Sider isMobile={isMobile} />}
-                  <Layout>
-                    {layoutConfig.header && layoutConfig.header.show && (
-                      <Header isMobile={isMobile} />
-                    )}
-                    <Content className={styles.content} style={contentStyle}>
-                      <Switch>
-                        <Route
-                          path="/"
-                          exact={true}
-                          render={() => <Redirect to={defaultUrl} />}
-                        />
-                        {[...this.parseMenuConfig()]}
-                        <Route path="/403" exact={true} component={Error403} />
-                        <Route path="/404" exact={true} component={Error404} />
-                        <Route path="/500" exact={true} component={Error500} />
-                        <Route render={() => <Redirect to="/404" />} />
-                      </Switch>
-                    </Content>
-                    {layoutConfig.footer && layoutConfig.footer.show && (
-                      <Footer />
-                    )}
-                  </Layout>
+  const { isMobile } = props;
+  const { Content } = Layout;
+  const contentStyle = layoutConfig.header.fixed ? {} : { paddingTop: 0 };
+  return (
+    <>
+      <ContainerQuery query={query}>
+        {params => (
+          <MenuContext.Provider value={getMenuContext()}>
+            <div className={className(params)}>
+              <Layout className={styles.basicLayout}>
+                {layoutConfig.siderMenu && <Sider isMobile={isMobile} />}
+                <Layout>
+                  {layoutConfig.header && layoutConfig.header.show && (
+                    <Header isMobile={isMobile} />
+                  )}
+                  <Content className={styles.content} style={contentStyle}>
+                    <Switch>
+                      <Route
+                        path="/"
+                        exact={true}
+                        render={() => <Redirect to={defaultUrl} />}
+                      />
+                      {[...parseMenuConfig()]}
+                      <Route path="/403" exact={true} component={Error403} />
+                      <Route path="/404" exact={true} component={Error404} />
+                      <Route path="/500" exact={true} component={Error500} />
+                      <Route render={() => <Redirect to="/404" />} />
+                    </Switch>
+                  </Content>
+                  {layoutConfig.footer && layoutConfig.footer.show && (
+                    <Footer />
+                  )}
                 </Layout>
-              </div>
-            </MenuContext.Provider>
-          )}
-        </ContainerQuery>
-      </>
-    );
-  }
-}
+              </Layout>
+            </div>
+          </MenuContext.Provider>
+        )}
+      </ContainerQuery>
+    </>
+  );
+};
 
 export default withLoading(() => (
   <Media query="(max-width:599px)">

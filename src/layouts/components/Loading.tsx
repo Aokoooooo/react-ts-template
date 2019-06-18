@@ -27,16 +27,12 @@ const mapState = ({ layout }: StoreStateType) => {
 
 const LoadingContainer = connect(mapState)(Loading);
 
-const withLoading = (WrappedComponent: ComponentType) => {
-  return class extends React.Component {
-    public render() {
-      return (
-        <LoadingContainer>
-          <WrappedComponent />
-        </LoadingContainer>
-      );
-    }
-  };
+const withLoading = (WrappedComponent: ComponentType): React.FC => {
+  return () => (
+    <LoadingContainer>
+      <WrappedComponent />
+    </LoadingContainer>
+  );
 };
 
 export default withLoading;
