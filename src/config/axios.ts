@@ -4,7 +4,10 @@ import { changeSpining } from "../layouts/store/layoutAction";
 import history from "./history";
 import store from "./store";
 
-const BASE_URL = process.env.NODE_ENV === "production" ? "" : "/api";
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PRO_BASE_URL
+    : `${process.env.REACT_APP_DEV_BASE_URL}/api`;
 export const TOKEN_STORAGE_NAME = "token";
 const TOKEN_HEADER_NAME = "Authorization";
 
