@@ -13,7 +13,12 @@ const Loading: React.FC<ILoadingProps> = ({
   children
 }: ILoadingProps) => {
   return (
-    <Spin delay={200} size={"large"} spinning={spinning}>
+    <Spin
+      delay={200}
+      size={"large"}
+      spinning={spinning}
+      style={{ zIndex: 100000, maxHeight: "80vh" }}
+    >
       {children}
     </Spin>
   );
