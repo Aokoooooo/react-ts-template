@@ -1,16 +1,18 @@
 import loadable from "@loadable/component";
 import { Layout } from "antd";
 import className from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
 import { defaultUrl } from "../config/menuConfig";
+import store from "../config/store";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
 import styles from "./BasicLayout.module.less";
 import withLoading from "./components/Loading";
 import MenuContext from "./MenuContext";
+import { changeIsMobile } from "./store/layoutAction";
 
 const Sider = loadable(() => import("./components/siderMenu"));
 const Header = loadable(() => import("./components/header"));
@@ -34,6 +36,11 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
   const { isMobile } = props;
   const { Content } = Layout;
   const contentStyle = layoutConfig.header.fixed ? {} : { paddingTop: 0 };
+
+  useEffect(() => {
+    store.dispatch(changeIsMobile(isMobile));
+  }, [isMobile]);
+
   return (
     <>
       <ContainerQuery query={query}>
@@ -41,7 +48,7 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
           <MenuContext.Provider value={getMenuContext()}>
             <div className={className(params)}>
               <Layout className={styles.basicLayout}>
-                {layoutConfig.siderMenu && <Sider isMobile={isMobile} />}
+                {layoutConfig.siderMenu.show && <Sider isMobile={isMobile} />}
                 <Layout>
                   {layoutConfig.header && layoutConfig.header.show && (
                     <Header isMobile={isMobile} />

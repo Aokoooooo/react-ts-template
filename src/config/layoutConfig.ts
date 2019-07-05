@@ -1,8 +1,17 @@
+import headerLogo from "../assets/256x256.png";
+import siderLogo from "../assets/logo.svg";
+
 export interface ILayoutConfig {
-  siderMenu: boolean;
+  siderMenu: {
+    show: boolean;
+    logo: string;
+    showLogo: boolean;
+  };
   header: {
     show: boolean;
     fixed: boolean;
+    logo: string;
+    showLogo: boolean;
   };
   footer: {
     show: boolean;
@@ -11,10 +20,16 @@ export interface ILayoutConfig {
 }
 
 export const layoutConfig: ILayoutConfig = {
-  siderMenu: true,
+  siderMenu: {
+    show: true,
+    logo: siderLogo,
+    showLogo: true
+  },
   header: {
     show: true,
-    fixed: false
+    fixed: false,
+    logo: headerLogo,
+    showLogo: true
   },
   footer: {
     show: false,

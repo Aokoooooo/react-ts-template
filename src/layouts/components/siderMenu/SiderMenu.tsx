@@ -1,9 +1,10 @@
 import { Layout } from "antd";
 import React from "react";
-import logo from "../../../assets/logo.svg";
+import { layoutConfig } from "../../../config/layoutConfig";
 import BaseMenu from "./BaseMenu";
 import { ISiderProps } from "./index";
 import styles from "./index.module.less";
+
 interface ISideMenu extends ISiderProps {
   handleFirstChange: () => void;
   isFirst: boolean;
@@ -35,7 +36,12 @@ const SideMenu: React.FC<ISideMenu> = (props: ISideMenu) => {
       }}
     >
       <div className={styles.logo} id="logo">
-        <img src={logo} alt="logo" />
+        {layoutConfig.siderMenu.showLogo && (
+          <img src={layoutConfig.siderMenu.logo} alt="logo" />
+        )}
+        {!layoutConfig.siderMenu.showLogo && collapsed && (
+          <span className={styles.placeholder} />
+        )}
         <h1>Aoko</h1>
       </div>
       <BaseMenu />
