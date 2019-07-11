@@ -7,10 +7,15 @@ export const useOnMount = (onMount: () => void) => {
 };
 
 export const useOnUnmount = (onUnmount: () => void) => {
-  useEffect(
-    () => () => {
-      onUnmount();
-    },
-    []
-  );
+  useEffect(() => onUnmount, []);
+};
+
+export const useOnMountAndUnmount = (
+  onMount: () => void,
+  onUnmount: () => void
+) => {
+  useEffect(() => {
+    onMount();
+    return onUnmount;
+  }, []);
 };

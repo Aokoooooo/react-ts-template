@@ -1,13 +1,14 @@
 import { Icon, Menu } from "antd";
+import { isEmpty } from "lodash";
 import React, { ReactNode, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import history from "../config/history";
 import {
   getGroupKey,
   getSubMenuKey,
   IMenuConfig,
   menuConfig
 } from "../config/menuConfig";
+import { basePath } from "../config/systemParams";
 import checkAuth from "../utils/checkAuth";
 
 const parseMenuConfigToMenus = (): ReactNode => {
@@ -63,9 +64,6 @@ const parseMenuConfigToMenus = (): ReactNode => {
     }
 
     const prefix = stack.reduce((x, y) => x + y, "");
-    const itemPath = isExternalUrl(config.path)
-      ? config.path
-      : `${prefix}${config.path}`;
     return (
       <Menu.Item
         key={
@@ -74,7 +72,6 @@ const parseMenuConfigToMenus = (): ReactNode => {
             : `${prefix}${config.path}`
         }
         title={config.title}
-        onClick={() => handleMenuItemClick(itemPath)}
       >
         {getIconWithTitle(config)}
       </Menu.Item>
@@ -98,24 +95,33 @@ const parseMenuConfigToMenus = (): ReactNode => {
     );
   };
 
-  const handleMenuItemClick = (path: string | undefined): void => {
-    if (!path) {
-      return;
-    }
-    if (isExternalUrl(path)) {
-      window.open(path);
-    } else {
-      if (history.location.pathname === path) {
-        history.replace(path);
-        return;
-      }
-      history.push(path);
-    }
-  };
-
   const isExternalUrl = (path: string) => /^https?:\/\//.test(path);
 
-  return menuConfig.map(i => {
+  const emptyMenuFilter = (configs: IMenuConfig[]) => {
+    const check = (i: IMenuConfig) => {
+      return i.type === "subMenu" || i.type === "group";
+    };
+    return configs.filter(i => {
+      if (!i) {
+        return false;
+      }
+      if (!checkAuth(i.auth)) {
+        return false;
+      }
+      if (check(i)) {
+        if (i.children) {
+          i.children = emptyMenuFilter(i.children);
+        }
+        if (i.children && !isEmpty(i.children)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+  };
+
+  return emptyMenuFilter(menuConfig).map(i => {
     switch (i.type) {
       case "subMenu":
         return getSubMenuItems(i);
@@ -168,7 +174,7 @@ const parseMenuConfigToRoutes = () => {
         <Route
           key={`${prefix}${i.path}`}
           exact={!i.notExact}
-          path={`${prefix}${i.path}`}
+          path={`${basePath}${prefix}${i.path}`}
           component={i.component}
         />
       );

@@ -8,6 +8,7 @@ import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
 import { defaultUrl } from "../config/menuConfig";
 import store from "../config/store";
+import { basePath } from "../config/systemParams";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
 import styles from "./BasicLayout.module.less";
 import withLoading from "./components/Loading";
@@ -56,15 +57,29 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
                   <Content className={styles.content} style={contentStyle}>
                     <Switch>
                       <Route
-                        path="/"
+                        path={`${basePath}/`}
                         exact={true}
                         render={() => <Redirect to={defaultUrl} />}
                       />
                       {routes}
-                      <Route path="/403" exact={true} component={Error403} />
-                      <Route path="/404" exact={true} component={Error404} />
-                      <Route path="/500" exact={true} component={Error500} />
-                      <Route render={() => <Redirect to="/404" />} />
+                      <Route
+                        path={`${basePath}/403`}
+                        exact={true}
+                        component={Error403}
+                      />
+                      <Route
+                        path={`${basePath}/404`}
+                        exact={true}
+                        component={Error404}
+                      />
+                      <Route
+                        path={`${basePath}/500`}
+                        exact={true}
+                        component={Error500}
+                      />
+                      <Route
+                        render={() => <Redirect to={`${basePath}/404`} />}
+                      />
                     </Switch>
                   </Content>
                   {layoutConfig.footer && layoutConfig.footer.show && (

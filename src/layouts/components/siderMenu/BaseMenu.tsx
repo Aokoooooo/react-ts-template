@@ -1,13 +1,14 @@
 import { Menu } from "antd";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-
+import history from "../../../config/history";
 import {
   getSubMenuKey,
   IMenuConfig,
   menuConfig,
   menuItemPaths
 } from "../../../config/menuConfig";
+import { basePath } from "../../../config/systemParams";
 import { useParseMenuConfigToMenus } from "../../../hooks/parseMenuConfig";
 
 const BaseMenu: React.FC<RouteComponentProps> = (
@@ -15,10 +16,29 @@ const BaseMenu: React.FC<RouteComponentProps> = (
 ) => {
   const menus = useParseMenuConfigToMenus();
 
+  const handleMenuItemClick = (path: string | undefined): void => {
+    if (!path) {
+      return;
+    }
+    if (isExternalUrl(path)) {
+      window.open(path);
+    } else {
+      if (history.location.pathname === path) {
+        history.replace(path);
+        return;
+      }
+      history.push(path);
+    }
+  };
+
+  const isExternalUrl = (path: string) => /^https?:\/\//.test(path);
+
   const getSelectItem = (): string[] => {
     const { location } = props;
     const { pathname } = location;
-    const result = menuItemPaths.filter(i => pathname.startsWith(i));
+    const result = menuItemPaths.filter(i =>
+      pathname.startsWith(`${basePath}${i}`)
+    );
     if (result.length > 1) {
       return [result.reduce((x, y) => (x.length < y.length ? y : x), "")];
     }
@@ -73,6 +93,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
         mode="inline"
         selectedKeys={getSelectItem()}
         defaultOpenKeys={getDefaultOpenKeys()}
+        onClick={({ key }) => handleMenuItemClick(key)}
       >
         {menus}
       </Menu>

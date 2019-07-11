@@ -1,4 +1,4 @@
-export type IAuthAsked = string[] | string;
+export type IAuthAsked = string[] | string | null | undefined;
 
 export const check = (authAsked: IAuthAsked, authHad: string[] | string) => {
   if (!authAsked) {

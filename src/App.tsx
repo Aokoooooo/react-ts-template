@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { Route, Router, Switch } from "react-router-dom";
 import history from "./config/history";
 import store from "./config/store";
+import { basePath } from "./config/systemParams";
 
 moment.locale("zh-cn");
 
@@ -20,14 +21,22 @@ const App: React.FC = () => {
       <Provider store={store}>
         <Router history={history}>
           <Switch>
-            <Route path="/login" exact={true} component={LoginLayout} />
-            <Route path="/register" exact={true} component={LoginLayout} />
             <Route
-              path="/forgetPassword"
+              path={`${basePath}/login`}
               exact={true}
               component={LoginLayout}
             />
-            <Route path="/" component={BasicLayout} />
+            <Route
+              path={`${basePath}/register`}
+              exact={true}
+              component={LoginLayout}
+            />
+            <Route
+              path={`${basePath}/forgetPassword`}
+              exact={true}
+              component={LoginLayout}
+            />
+            <Route path={`${basePath}/`} component={BasicLayout} />
           </Switch>
         </Router>
       </Provider>

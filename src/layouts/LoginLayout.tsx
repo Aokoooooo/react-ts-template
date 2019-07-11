@@ -3,6 +3,7 @@ import { Icon } from "antd";
 import React from "react";
 import { Route, Switch } from "react-router";
 import { layoutConfig } from "../config/layoutConfig";
+import { basePath } from "../config/systemParams";
 import { ILinkConfig } from "./components/footer";
 import BaseFooter from "./components/footer/BaseFooter";
 import withLoading from "./components/Loading";
@@ -26,10 +27,14 @@ const LoginLayout: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <Switch>
-          <Route path="/login" exact={true} component={Login} />
-          <Route path="/register" exact={true} component={Register} />
+          <Route path={`${basePath}/login`} exact={true} component={Login} />
           <Route
-            path="/forgetPassword"
+            path={`${basePath}/register`}
+            exact={true}
+            component={Register}
+          />
+          <Route
+            path={`${basePath}/forgetPassword`}
             exact={true}
             component={ForgetPassword}
           />
