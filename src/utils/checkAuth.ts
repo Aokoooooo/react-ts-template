@@ -1,8 +1,11 @@
 export type IAuthAsked = string[] | string | null | undefined;
 
-export const check = (authAsked: IAuthAsked, authHad: string[] | string) => {
+export const check = (authAsked: IAuthAsked, authHad?: string[] | string) => {
   if (!authAsked) {
     return true;
+  }
+  if (!authHad) {
+    return false;
   }
   if (Array.isArray(authAsked)) {
     if (Array.isArray(authHad)) {
