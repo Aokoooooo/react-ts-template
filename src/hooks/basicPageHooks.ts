@@ -1,6 +1,5 @@
-import { EffectCallback, useEffect, useRef } from "react";
+import { DependencyList, EffectCallback, useEffect, useRef } from "react";
 
-// tslint:disable-next-line: ban-types
 export const useOnMount = (onMount: EffectCallback) => {
   useEffect(() => {
     onMount();
@@ -12,7 +11,7 @@ export const useOnUnmount = (onUnmount: () => void) => {
 };
 
 export const useOnMountAndUnmount = (
-  onMount: () => void,
+  onMount: EffectCallback,
   onUnmount?: () => void
 ) => {
   if (!onUnmount) {
@@ -25,7 +24,10 @@ export const useOnMountAndUnmount = (
   }
 };
 
-export const useOnUpdate: typeof useEffect = (onUpdate, deps) => {
+export const useOnUpdate = (
+  onUpdate: () => void,
+  deps: DependencyList = []
+) => {
   const isFirst = useRef(true);
 
   useEffect(
