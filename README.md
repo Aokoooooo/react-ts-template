@@ -55,7 +55,7 @@
 
 1. 修改根目录下`.env`文件,其中
 
-   - `REACT_APP_PRO_BASE_URL`: 代表`axios`请求在生产环境下的目标地址.
+   - `REACT_APP_PROD_BASE_URL`: 代表`axios`请求在生产环境下的目标地址.
    - `REACT_APP_PUBLIC_URL`和`PUBLIC_URL`
 
      如果前端代码部署后并非使用 nginx 进行管理,而是放在`tomcat`这样的容器之中,并且是部署在`webapps`的`ROOT`目录中,那么这两个字段同时设置为`/`(或者删掉也可以,默认为`/`).但是如果不是部署在`ROOT`目录中,而是部署在类似`basePath`的目录下(叫什么无所谓),那么我们在访问时,会带有一个`/basePath/`(等于目录的名字),这是需要将这两个字段同时改为`/bastPath`(一定要同时!!!!).
