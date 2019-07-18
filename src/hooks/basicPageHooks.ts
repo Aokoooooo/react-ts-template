@@ -1,4 +1,12 @@
-import { DependencyList, EffectCallback, useEffect, useRef } from "react";
+import {
+  DependencyList,
+  EffectCallback,
+  useEffect,
+  useMemo,
+  useRef
+} from "react";
+import { useDispatch } from "react-redux";
+import { AnyAction, bindActionCreators } from "redux";
 
 export const useOnMount = (onMount: EffectCallback) => {
   useEffect(() => {
@@ -48,4 +56,14 @@ export const useLogger = (componentName: string, ...rest: any) => {
   useOnUpdate(() => {
     console.log(`${componentName} updated`, ...rest);
   });
+};
+
+export const useActions = (actions: AnyAction, deps = []) => {
+  const dispatch = useDispatch();
+  return useMemo(() => {
+    if (Array.isArray(actions)) {
+      return actions.map(action => bindActionCreators(action, dispatch));
+    }
+    return bindActionCreators(actions, dispatch);
+  }, [dispatch, ...deps]);
 };
