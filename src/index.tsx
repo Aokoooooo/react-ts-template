@@ -3,6 +3,12 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.module.less";
 import * as serviceWorker from "./serviceWorker";
+require("es5-shim");
+require("es5-shim/es5-sham");
+require("console-polyfill");
+require("core-js");
+require("es6-promise").polyfill();
+require("fetch-ie8");
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
