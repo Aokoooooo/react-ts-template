@@ -6,30 +6,26 @@ import {
   useRef
 } from "react";
 import { useDispatch } from "react-redux";
-import { AnyAction, bindActionCreators } from "redux";
+import { bindActionCreators } from "redux";
 
 export const useOnMount = (onMount: EffectCallback) => {
   useEffect(() => {
     onMount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
 export const useOnUnmount = (onUnmount: () => void) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => onUnmount, []);
 };
 
-export const useOnMountAndUnmount = (
-  onMount: EffectCallback,
-  onUnmount?: () => void
-) => {
-  if (!onUnmount) {
-    useEffect(onMount, []);
-  } else {
-    useEffect(() => {
-      onMount();
-      return onUnmount;
-    }, []);
-  }
+export const useOnMountAndUnmount = (callback: () => () => void) => {
+  useEffect(() => {
+    const onUnmount = callback();
+    return onUnmount;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export const useOnUpdate = (
@@ -38,32 +34,37 @@ export const useOnUpdate = (
 ) => {
   const isFirst = useRef(true);
 
-  useEffect(
-    isFirst.current
-      ? () => {
-          isFirst.current = false;
-        }
-      : onUpdate,
-    deps
-  );
+  useEffect(() => {
+    if (isFirst.current) {
+      isFirst.current = false;
+    } else {
+      onUpdate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 };
 
 export const useLogger = (componentName: string, ...rest: any) => {
-  useOnMountAndUnmount(() => {
+  useOnMount(() => {
     console.log(`${componentName} mounted`, ...rest);
   });
 
   useOnUpdate(() => {
     console.log(`${componentName} updated`, ...rest);
   });
+
+  useOnUnmount(() => {
+    console.log(`${componentName} unmounted`, ...rest);
+  });
 };
 
-export const useActions = (actions: AnyAction, deps = []) => {
+export const useActions = (actions: any, deps = []) => {
   const dispatch = useDispatch();
   return useMemo(() => {
     if (Array.isArray(actions)) {
       return actions.map(action => bindActionCreators(action, dispatch));
     }
     return bindActionCreators(actions, dispatch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, ...deps]);
 };

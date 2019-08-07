@@ -1,17 +1,15 @@
-export const CHANGE_COLLAPSED = "LAYOUT_CHANGE_COLLAPSED";
-export const CHANGE_SPINING = "LAYOUT_CHANGE_SPINING";
-export const CHANGE_IS_MOBILE = "LAYOUT_CHANGE_IS_MOBILE";
+import * as ActionTypes from "./types";
 
 export interface IChangeCollapsedAction {
-  type: typeof CHANGE_COLLAPSED;
+  type: typeof ActionTypes.CHANGE_COLLAPSED;
 }
 
 export interface IChangeSpiningAction {
-  type: typeof CHANGE_SPINING;
+  type: typeof ActionTypes.CHANGE_SPINING;
 }
 
 export interface IChangeIsMobileAction {
-  type: typeof CHANGE_IS_MOBILE;
+  type: typeof ActionTypes.CHANGE_IS_MOBILE;
   payload: boolean;
 }
 
@@ -22,19 +20,19 @@ export type LayoutActionTypes =
 
 export const changeCollapsed = (): IChangeCollapsedAction => {
   return {
-    type: CHANGE_COLLAPSED
+    type: ActionTypes.CHANGE_COLLAPSED
   };
 };
 
 export const changeSpining = (): IChangeSpiningAction => {
   return {
-    type: CHANGE_SPINING
+    type: ActionTypes.CHANGE_SPINING
   };
 };
 
 export const changeIsMobile = (payload: boolean): IChangeIsMobileAction => {
   return {
-    type: CHANGE_IS_MOBILE,
+    type: ActionTypes.CHANGE_IS_MOBILE,
     payload
   };
 };

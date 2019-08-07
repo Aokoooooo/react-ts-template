@@ -1,13 +1,14 @@
 import { Button, Checkbox, Tabs } from "antd";
-import React, { useState } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 import history from "../../../config/history";
+import { bindFormRef } from "../../../utils";
 import AccountLoginForm from "./components/AccountLoginForm";
 import styles from "./index.module.less";
 
 const Login: React.FC = () => {
   const [autoLogin, setAutoLogin] = useState(true);
   const [key, setKey] = useState("1");
-  const [accountLoginForm, setAccountLoginForm] = useState();
+  const accountLoginForm = useRef<any>(null);
 
   const handleTabChange = (newKey: string): void => {
     setKey(newKey);
@@ -18,8 +19,8 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (key === "1" && accountLoginForm) {
-      accountLoginForm.handleSubmit();
+    if (key === "1" && accountLoginForm.current) {
+      accountLoginForm.current.handleSubmit();
     }
   };
 
@@ -40,8 +41,8 @@ const Login: React.FC = () => {
       >
         <Tabs.TabPane tab="登录" key="1">
           <AccountLoginForm
-            wrappedComponentRef={(inst: React.Component) =>
-              setAccountLoginForm(inst)
+            wrappedComponentRef={(inst: ReactNode) =>
+              bindFormRef(inst, accountLoginForm)
             }
           />
         </Tabs.TabPane>

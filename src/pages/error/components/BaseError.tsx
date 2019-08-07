@@ -15,7 +15,7 @@ export interface IBaseError {
 const BaseError: React.FC<IBaseError> = (props: IBaseError) => {
   const handleBackClick = (): void => {
     if (history.length <= 2) {
-      history.push("/");
+      history.replace("/");
       return;
     }
     history.goBack();

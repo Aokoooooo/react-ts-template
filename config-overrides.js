@@ -23,7 +23,7 @@ const setupMinify = () => config => {
     if (!minify || minify === {}) {
       return config;
     }
-    Object.keys(minify).map(i => {
+    Object.keys(minify).forEach(i => {
       minify[i] = isTrue(MINIMIZE_INDEX_FILE);
     });
   }

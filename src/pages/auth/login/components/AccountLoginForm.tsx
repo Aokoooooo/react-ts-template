@@ -44,4 +44,4 @@ class AccountLoginForm extends React.PureComponent<FormComponentProps> {
     );
   }
 }
-export default Form.create({ name: "accountLoginForm" })(AccountLoginForm);
+export default Form.create()(AccountLoginForm);

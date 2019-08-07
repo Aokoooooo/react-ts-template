@@ -1,38 +1,54 @@
-export type IAuthAsked = string[] | string | null | undefined;
+export type CheckAuthFunctionType = (authHad: AuthAskedType) => boolean;
+export type AuthAskedType =
+  | string[]
+  | string
+  | null
+  | undefined
+  | boolean
+  | CheckAuthFunctionType;
 
-export const check = (authAsked: IAuthAsked, authHad?: string[] | string) => {
+export type AuthHadType = null | undefined | string | string[];
+
+export let authHad: AuthHadType = null;
+export const updateAuthHad = (newAuth: AuthHadType) => {
+  authHad = newAuth;
+};
+
+export const check = (authAsked: AuthAskedType) => {
   if (!authAsked) {
     return true;
   }
   if (!authHad) {
     return false;
   }
-  if (Array.isArray(authAsked)) {
-    if (Array.isArray(authHad)) {
-      if (authHad.some(i => authAsked.includes(i))) {
-        return true;
-      }
-    } else if (authAsked.includes(authHad)) {
-      return true;
-    }
-  }
 
-  if (typeof authAsked === "string") {
-    if (Array.isArray(authHad)) {
-      if (authHad.some(i => i === authAsked)) {
-        return true;
-      }
-    } else if (authHad === authAsked) {
-      return true;
+  const checkHelper = (
+    authAsked: AuthAskedType,
+    authHad: AuthHadType
+  ): boolean => {
+    if (Array.isArray(authAsked)) {
+      return authAsked.some(i => checkHelper(i, authHad));
     }
-  }
 
-  return false;
+    if (typeof authAsked === "function") {
+      return authAsked(authHad);
+    }
+
+    if (typeof authAsked === "string") {
+      return authAsked === authHad;
+    }
+    throw new Error(
+      "the type of the authAsked should be a array/string/function"
+    );
+  };
+  if (Array.isArray(authHad)) {
+    return authHad.some(i => checkHelper(authAsked, i));
+  }
+  return checkHelper(authAsked, authHad);
 };
 
-const checkAuth = (authority: IAuthAsked) => {
-  const authHad = ["user"];
-  return check(authority, authHad);
+const checkAuth = (authority: AuthAskedType) => {
+  return check(authority);
 };
 
 export default checkAuth;

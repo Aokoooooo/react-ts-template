@@ -68,4 +68,4 @@ class RegisterForm extends React.PureComponent<FormComponentProps> {
     );
   }
 }
-export default Form.create({ name: "registerForm" })(RegisterForm);
+export default Form.create()(RegisterForm);

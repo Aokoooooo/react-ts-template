@@ -8,6 +8,7 @@ const BASE_URL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_PROD_BASE_URL
     : `${process.env.REACT_APP_DEV_BASE_URL}/api`;
+
 export const TOKEN_STORAGE_NAME = "token";
 const TOKEN_HEADER_NAME = "Authorization";
 
@@ -58,10 +59,12 @@ instance.interceptors.response.use(
       history.push("/login");
       message.error("请重新登录");
     } else if (status === 403) {
-      history.replace("/403");
+      message.error("没有权限进行此操作");
     } else if (status === 404) {
       history.replace("/404");
     } else if (status === 500) {
+      history.replace("/500");
+    } else if (status > 300) {
       history.replace("/500");
     } else {
       console.log(error);

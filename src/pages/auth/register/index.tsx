@@ -1,15 +1,16 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import React, { ReactNode, useRef } from "react";
 import history from "../../../config/history";
+import { bindFormRef } from "../../../utils";
 import RegisterForm from "./components/RegisterForm";
 import styles from "./index.module.less";
 
 const Register: React.FC = () => {
-  const [registerForm, setRegisterForm] = useState();
+  const registerForm = useRef<any>(null);
 
   const handleSubmit = () => {
-    if (registerForm) {
-      registerForm.handleSubmit();
+    if (registerForm.current) {
+      registerForm.current.handleSubmit();
     }
   };
 
@@ -22,7 +23,9 @@ const Register: React.FC = () => {
       <h3>注册</h3>
       <div>
         <RegisterForm
-          wrappedComponentRef={(inst: React.Component) => setRegisterForm(inst)}
+          wrappedComponentRef={(inst: ReactNode) =>
+            bindFormRef(inst, registerForm)
+          }
         />
       </div>
       <Button className={styles.submit} type="primary" onClick={handleSubmit}>

@@ -17,6 +17,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "postBuild": "node ./scripts/postBuild.js",
+    "lint": "cross-env yarn run prettier && yarn run lint:fix",
     "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
     "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
     "stylelint": "cross-env stylelint 'src/**/*.less' --syntax less",

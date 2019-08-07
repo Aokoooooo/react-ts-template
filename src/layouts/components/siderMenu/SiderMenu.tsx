@@ -2,15 +2,17 @@ import { Layout } from "antd";
 import React from "react";
 import { layoutConfig } from "../../../config/layoutConfig";
 import BaseMenu from "./BaseMenu";
-import { ISiderProps } from "./index";
 import styles from "./index.module.less";
 
-interface ISideMenu extends ISiderProps {
+interface ISideMenuProps {
   handleFirstChange: () => void;
   isFirst: boolean;
+  collapsed: boolean;
+  handleCollapsedChange: () => void;
+  isMobile: boolean;
 }
 
-const SideMenu: React.FC<ISideMenu> = (props: ISideMenu) => {
+const SideMenu: React.FC<ISideMenuProps> = (props: ISideMenuProps) => {
   const {
     collapsed,
     handleCollapsedChange,

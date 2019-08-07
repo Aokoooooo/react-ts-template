@@ -1,38 +1,35 @@
 import { Drawer } from "antd";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
+import { useSelector } from "react-redux";
 import { StoreStateType } from "../../../config/store";
+import { useActions } from "../../../hooks/basicPageHooks";
 import { changeCollapsed } from "../../store/layoutAction";
 import SiderMenu from "./SiderMenu";
 
-export interface ISiderProps {
-  isMobile: boolean;
-  collapsed: boolean;
-  handleCollapsedChange: () => void;
-}
-
-const Sider: React.FC<ISiderProps> = (props: ISiderProps) => {
+const Sider: React.FC = () => {
   const [first, setFirst] = useState(true);
-
+  const actions = useActions({ handleCollapsedChange: changeCollapsed });
+  const { isMobile, collapsed } = useSelector(
+    ({ layout }: StoreStateType) => layout
+  );
   const handleFirstChange = () => {
     setFirst(false);
   };
 
-  const { isMobile, collapsed, handleCollapsedChange } = props;
   return isMobile ? (
     <Drawer
       visible={!collapsed}
       placement="left"
       closable={false}
-      onClose={handleCollapsedChange}
+      onClose={actions.handleCollapsedChange}
       style={{
         padding: 0,
         height: "100vh"
       }}
     >
       <SiderMenu
-        {...props}
+        isMobile={isMobile}
+        handleCollapsedChange={actions.handleCollapsedChange}
         collapsed={isMobile ? false : collapsed}
         handleFirstChange={handleFirstChange}
         isFirst={first}
@@ -40,29 +37,13 @@ const Sider: React.FC<ISiderProps> = (props: ISiderProps) => {
     </Drawer>
   ) : (
     <SiderMenu
-      {...props}
+      isMobile={isMobile}
+      handleCollapsedChange={actions.handleCollapsedChange}
+      collapsed={collapsed}
       handleFirstChange={handleFirstChange}
       isFirst={first}
     />
   );
 };
 
-const mapState = ({ layout }: StoreStateType) => {
-  return {
-    collapsed: layout.collapsed
-  };
-};
-
-const mapAction = (dispatch: Dispatch) => {
-  return bindActionCreators(
-    {
-      handleCollapsedChange: changeCollapsed
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapState,
-  mapAction
-)(Sider);
+export default Sider;

@@ -2,9 +2,10 @@ import loadable from "@loadable/component";
 import { ComponentType, ReactNode } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import history from "./history";
+
 export interface IMenuConfig {
   path?: string;
-  type?: string; // default, subMenu, group, divider
+  type?: menuType;
   title?: string;
   icon?: ReactNode;
   disabled?: boolean;
@@ -12,6 +13,13 @@ export interface IMenuConfig {
   auth?: string[] | string;
   component?: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
   children?: IMenuConfig[];
+}
+
+export enum menuType {
+  DEFAULT = "default",
+  SUBMENU = "subMenu",
+  GROUP = "group",
+  DIVIDER = "divider"
 }
 
 // 默认跳转路由
@@ -29,67 +37,56 @@ export let menuConfig: IMenuConfig[] = [
   {
     path: "/transfer",
     title: "划款操作",
-    auth: ["user"],
     icon: "swap",
     component: loadable(() => import("../pages/transfer/operation"))
   },
   {
     path: "/transferResult",
     title: "划款结果查询",
-    auth: ["user"],
     icon: "audit"
   },
   {
     path: "/protocol",
     title: "协议查询",
-    auth: ["user"],
     icon: "file"
   },
   {
     path: "/balance",
     title: "余额查询",
-    auth: ["user"],
     icon: "credit-card"
   },
   {
     path: "/funds",
     title: "资金流水查询",
-    auth: ["user"],
     icon: "fund"
   },
   {
     path: "/openAccountsResult",
     title: "子账户开户结果查询",
-    auth: ["user"],
     icon: "user"
   },
   {
     path: "/upload",
     title: "文件传输",
-    auth: ["user"],
     icon: "upload"
   },
   {
     path: "/auth",
-    type: "subMenu",
+    type: menuType.SUBMENU,
     title: "权限管理",
-    auth: ["user"],
     icon: "bars",
     children: [
       {
         path: "/account",
-        title: "账号管理",
-        auth: ["user"]
+        title: "账号管理"
       },
       {
         path: "/role",
-        title: "角色管理",
-        auth: ["user"]
+        title: "角色管理"
       },
       {
         path: "/password",
-        title: "修改密码",
-        auth: ["user"]
+        title: "修改密码"
       }
     ]
   }
@@ -112,16 +109,16 @@ const getMenuItemPaths = () => {
     if (!i) {
       return;
     }
-    if ((!i.type || i.type === "default") && i.path) {
+    if ((!i.type || i.type === menuType.DEFAULT) && i.path) {
       const prefix = stack.reduce((x, y) => x + y, "");
       result.push(prefix + i.path);
     }
-    if (i.type === "subMenu" && i.children) {
+    if (i.type === menuType.SUBMENU && i.children) {
       stack.push(i.path || "");
       i.children.map(j => getMenuItemPathsHelper(j));
       stack.pop();
     }
-    if (i.type === "group" && i.children) {
+    if (i.type === menuType.GROUP && i.children) {
       i.children.map(j => getMenuItemPathsHelper(j));
     }
   };

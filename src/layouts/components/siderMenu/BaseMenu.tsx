@@ -6,10 +6,12 @@ import {
   getSubMenuKey,
   IMenuConfig,
   menuConfig,
-  menuItemPaths
+  menuItemPaths,
+  menuType
 } from "../../../config/menuConfig";
 import { basePath } from "../../../config/systemParams";
 import { useParseMenuConfigToMenus } from "../../../hooks/parseMenuConfig";
+import { checkLocationPathname } from "../../../utils";
 
 const BaseMenu: React.FC<RouteComponentProps> = (
   props: RouteComponentProps
@@ -23,7 +25,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
     if (isExternalUrl(path)) {
       window.open(path);
     } else {
-      if (history.location.pathname === path) {
+      if (checkLocationPathname(path)) {
         history.replace(path);
         return;
       }
@@ -51,7 +53,7 @@ const BaseMenu: React.FC<RouteComponentProps> = (
     if (!selectItemKey || !menuConfig) {
       return [];
     }
-    const subMenus = menuConfig.filter(i => i.type === "subMenu");
+    const subMenus = menuConfig.filter(i => i.type === menuType.SUBMENU);
     if (!subMenus) {
       return [];
     }
@@ -59,12 +61,12 @@ const BaseMenu: React.FC<RouteComponentProps> = (
 
     const getSubMenusHelper = (config: IMenuConfig): boolean => {
       const prefix = stack.reduce((x, y) => x + y, "");
-      if (!config.type || config.type === "default") {
+      if (!config.type || config.type === menuType.DEFAULT) {
         if (`${prefix}${config.path}` === selectItemKey[0]) {
           return true;
         }
       }
-      if (config.type && config.type === "subMenu" && config.children) {
+      if (config.type && config.type === menuType.SUBMENU && config.children) {
         result.push(getSubMenuKey(config.title, `${prefix}${config.path}`));
         stack.push(config.path || "");
         for (const i of config.children) {

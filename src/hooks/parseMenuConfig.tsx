@@ -6,12 +6,14 @@ import {
   getGroupKey,
   getSubMenuKey,
   IMenuConfig,
-  menuConfig
+  menuConfig,
+  menuType
 } from "../config/menuConfig";
 import { basePath } from "../config/systemParams";
 import checkAuth from "../utils/checkAuth";
 
 const parseMenuConfigToMenus = (): ReactNode => {
+  let key = 0;
   const stack = new Array<string>();
 
   const getSubMenuItems = (config: IMenuConfig): ReactNode => {
@@ -23,7 +25,7 @@ const parseMenuConfigToMenus = (): ReactNode => {
       return;
     }
 
-    if (config.type === "subMenu") {
+    if (config.type === menuType.SUBMENU) {
       const prefix = stack.reduce((x, y) => x + y, "");
       stack.push(config.path || "");
       const tsx = (
@@ -45,7 +47,7 @@ const parseMenuConfigToMenus = (): ReactNode => {
     if (!config) {
       return;
     }
-    if (config.type && config.type !== "default") {
+    if (config.type && config.type !== menuType.DEFAULT) {
       return;
     }
     if (Array.isArray(config)) {
@@ -99,7 +101,7 @@ const parseMenuConfigToMenus = (): ReactNode => {
 
   const emptyMenuFilter = (configs: IMenuConfig[]) => {
     const check = (i: IMenuConfig) => {
-      return i.type === "subMenu" || i.type === "group";
+      return i.type === menuType.SUBMENU || i.type === menuType.GROUP;
     };
     return configs.filter(i => {
       if (!i) {
@@ -109,10 +111,11 @@ const parseMenuConfigToMenus = (): ReactNode => {
         return false;
       }
       if (check(i)) {
+        let temp = menuConfig;
         if (i.children) {
-          i.children = emptyMenuFilter(i.children);
+          temp = emptyMenuFilter(i.children);
         }
-        if (i.children && !isEmpty(i.children)) {
+        if (i.children && !isEmpty(temp)) {
           return true;
         }
         return false;
@@ -123,31 +126,30 @@ const parseMenuConfigToMenus = (): ReactNode => {
 
   return emptyMenuFilter(menuConfig).map(i => {
     switch (i.type) {
-      case "subMenu":
+      case menuType.SUBMENU:
         return getSubMenuItems(i);
-      case "group":
+      case menuType.GROUP:
         return (
           <Menu.ItemGroup title={i.title} key={getGroupKey(i.title, i.path)}>
             {i.children &&
               i.children.map(j => {
-                return j.type === "subMenu"
+                return j.type === menuType.SUBMENU
                   ? getSubMenuItems(j)
                   : getMenuItem(j);
               })}
           </Menu.ItemGroup>
         );
-      case "divider":
-        return <Menu.Divider key={(Math.random() * 1000000).toFixed(0)} />;
+      case menuType.DIVIDER:
+        return <Menu.Divider key={key++} />;
       default:
         return getMenuItem(i);
     }
   });
 };
-const initMenu = parseMenuConfigToMenus();
 
 export const useParseMenuConfigToMenus = () => {
   const config = menuConfig;
-  const [menus, setMenus] = useState(initMenu);
+  const [menus, setMenus] = useState([] as ReactNode);
 
   useEffect(() => {
     setMenus(parseMenuConfigToMenus());
@@ -156,20 +158,20 @@ export const useParseMenuConfigToMenus = () => {
   return menus;
 };
 
-const parseMenuConfigToRoutes = () => {
+const parseMenuConfigToRoutes = (isFirst: boolean = false) => {
   const parseMenuConfigToRoutesHelper = (
     i: IMenuConfig,
     routes: IMenuConfig[],
     stack: string[]
   ): void => {
-    if (!i.type || i.type === "default") {
+    if (!i.type || i.type === menuType.DEFAULT) {
       if (!i.path) {
         throw new Error("menu Item's path should not be null/empty");
       }
-      const prefix = stack.reduce((x, y) => x + y, "");
-      if (i.auth && !checkAuth(i.auth)) {
+      if (!isFirst && !checkAuth(i.auth)) {
         return;
       }
+      const prefix = stack.reduce((x, y) => x + y, "");
       routes.push(
         <Route
           key={`${prefix}${i.path}`}
@@ -178,9 +180,23 @@ const parseMenuConfigToRoutes = () => {
           component={i.component}
         />
       );
-    } else if (i.type === "group" && i.children) {
+    } else if (i.type === menuType.GROUP && i.children) {
       i.children.map(j => parseMenuConfigToRoutesHelper(j, routes, stack));
-    } else if (i.type === "subMenu" && i.children) {
+    } else if (i.type === menuType.SUBMENU && i.children) {
+      if (i.component) {
+        const prefix = stack.reduce((x, y) => x + y, "");
+        if (!isFirst && !checkAuth(i.auth)) {
+          return;
+        }
+        routes.push(
+          <Route
+            key={`${prefix}${i.path}`}
+            exact={!i.notExact}
+            path={`${basePath}${prefix}${i.path}`}
+            component={i.component}
+          />
+        );
+      }
       stack.push(i.path || "");
       i.children.map(j => parseMenuConfigToRoutesHelper(j, routes, stack));
       stack.pop();
@@ -189,12 +205,11 @@ const parseMenuConfigToRoutes = () => {
 
   const routes = new Array<IMenuConfig>();
   const stack = new Array<string>();
-  menuConfig.map((i: IMenuConfig): void =>
-    parseMenuConfigToRoutesHelper(i, routes, stack)
-  );
+  menuConfig.forEach(i => parseMenuConfigToRoutesHelper(i, routes, stack));
   return routes;
 };
-const initRoutes = parseMenuConfigToRoutes();
+
+const initRoutes = parseMenuConfigToRoutes(true);
 
 export const useParseMenuConfigToRoutes = () => {
   const config = menuConfig;

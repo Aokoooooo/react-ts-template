@@ -1,24 +1,21 @@
 import { Icon, Layout } from "antd";
 import Animate from "rc-animate";
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
+import { useSelector } from "react-redux";
 import { layoutConfig } from "../../../config/layoutConfig";
 import { StoreStateType } from "../../../config/store";
+import { useActions } from "../../../hooks/basicPageHooks";
 import { changeCollapsed } from "../../store/layoutAction";
 import BaseHeader from "./BaseHeader";
 import styles from "./index.module.less";
 
-interface IHeader {
-  handleTriggerClick: () => void;
-  isMobile: boolean;
-  collapsed: boolean;
-}
+const Header: React.FC = () => {
+  const { isMobile, collapsed } = useSelector(
+    ({ layout }: StoreStateType) => layout
+  );
+  const actions = useActions({ handleTriggerClick: changeCollapsed });
 
-const Header: React.FC<IHeader> = (props: IHeader) => {
-  const { collapsed, handleTriggerClick, isMobile } = props;
-
-  const getHeadWidth = () => {
+  const headwith = () => {
     const fixed = layoutConfig.header.fixed;
     if (isMobile || !fixed) {
       return "100%";
@@ -29,7 +26,7 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   return (
     <Animate component="" transitionName="fade">
       <Layout.Header
-        style={{ padding: 0, width: getHeadWidth(), zIndex: 2 }}
+        style={{ padding: 0, width: headwith(), zIndex: 2 }}
         className={`${styles.header} ${
           layoutConfig.header.fixed ? styles.fixedHeader : ""
         }`}
@@ -41,7 +38,7 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
             alt="logo"
           />
         )}
-        <span className={styles.trigger} onClick={handleTriggerClick}>
+        <span className={styles.trigger} onClick={actions.handleTriggerClick}>
           <Icon type={collapsed ? "menu-unfold" : "menu-fold"} />
         </span>
         <BaseHeader />
@@ -50,22 +47,4 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   );
 };
 
-const mapState = ({ layout }: StoreStateType) => {
-  return {
-    collapsed: layout.collapsed
-  };
-};
-
-const mapAction = (dispatch: Dispatch) => {
-  return bindActionCreators(
-    {
-      handleTriggerClick: changeCollapsed
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapState,
-  mapAction
-)(Header);
+export default Header;
