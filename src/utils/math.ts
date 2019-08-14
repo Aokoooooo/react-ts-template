@@ -2,7 +2,7 @@ export const accAdd = (num1: number, num2: number): number => {
   const digits1 = getDecimalDigits(num1);
   const digits2 = getDecimalDigits(num2);
   const time = pow10(Math.max(digits1, digits2));
-  return (num1 * time + num2 * time) / time;
+  return (convertFloatToInteger(num1) + convertFloatToInteger(num2)) / time;
 };
 
 export const accSub = (num1: number, num2: number): number => {
