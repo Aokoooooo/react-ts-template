@@ -1,8 +1,12 @@
 export const accAdd = (num1: number, num2: number): number => {
   const digits1 = getDecimalDigits(num1);
   const digits2 = getDecimalDigits(num2);
-  const time = pow10(Math.max(digits1, digits2));
-  return (convertFloatToInteger(num1) + convertFloatToInteger(num2)) / time;
+  const diff = Math.abs(digits1 - digits2);
+  return (
+    (convertFloatToInteger(num1) * pow10(digits1 > digits2 ? 0 : diff) +
+      convertFloatToInteger(num2) * pow10(digits2 > digits1 ? 0 : diff)) /
+    pow10(Math.max(digits1, digits2))
+  );
 };
 
 export const accSub = (num1: number, num2: number): number => {
