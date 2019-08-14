@@ -1,14 +1,8 @@
-import {
-  DependencyList,
-  EffectCallback,
-  useEffect,
-  useMemo,
-  useRef
-} from "react";
+import { DependencyList, useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
-export const useOnMount = (onMount: EffectCallback) => {
+export const useOnMount = (onMount: () => void) => {
   useEffect(() => {
     onMount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
