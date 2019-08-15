@@ -22,9 +22,6 @@ export enum menuType {
   DIVIDER = "divider"
 }
 
-// 默认跳转路由
-export const defaultUrl = "/transfer";
-
 /**
  * 生成侧边菜单,并将其中的路径和组件作为Route添加到BasicLayout.jsx中
  *

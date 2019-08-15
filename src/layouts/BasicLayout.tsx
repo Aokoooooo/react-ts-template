@@ -6,7 +6,6 @@ import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Route, RouteProps, Switch } from "react-router-dom";
 import { layoutConfig } from "../config/layoutConfig";
-import { defaultUrl } from "../config/menuConfig";
 import { basePath } from "../config/systemParams";
 import { useActions } from "../hooks/basicPageHooks";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
@@ -15,6 +14,7 @@ import withLoading from "./components/Loading";
 import Redirect from "./components/Redirect";
 import { changeIsMobile } from "./store/layoutAction";
 
+const Home = loadable(() => import("../pages"));
 const Sider = loadable(() => import("./components/siderMenu"));
 const Header = loadable(() => import("./components/header"));
 const Footer = loadable(() => import("./components/footer"));
@@ -52,9 +52,7 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
                     <Route
                       path={`${basePath}` || "/"}
                       exact={true}
-                      render={() => (
-                        <Redirect to={`${basePath}${defaultUrl}`} />
-                      )}
+                      component={Home}
                     />
                     {routes}
                     <Route
