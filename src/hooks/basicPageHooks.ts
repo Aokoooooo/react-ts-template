@@ -1,6 +1,48 @@
-import { DependencyList, useEffect, useMemo, useRef } from "react";
+import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+
+export interface IUseAfterPaginationParamsChangedConfig {
+  notFetchDataOnMount: boolean;
+  defaultCurrent: number;
+  callback?: (current: number) => void;
+}
+
+const useAfterPaginationParamsChanged = (
+  updatePagination: (current: number) => void,
+  fetchData: () => void,
+  pageNo: number,
+  config: IUseAfterPaginationParamsChangedConfig = {
+    notFetchDataOnMount: false,
+    defaultCurrent: 1
+  }
+) => {
+  const [current, setCurrent] = useState(config.defaultCurrent);
+  const [isFirstMount, setIsFirstMount] = useState(config.notFetchDataOnMount);
+  const [shouldFetch, setShouldFetch] = useState(true);
+  useEffect(() => {
+    updatePagination(current);
+    if (isFirstMount) {
+      setIsFirstMount(false);
+    } else if (!shouldFetch) {
+      setShouldFetch(true);
+    } else {
+      fetchData();
+    }
+    if (typeof config.callback === "function") {
+      config.callback(current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
+  useEffect(() => {
+    if (pageNo === 1 && pageNo !== current) {
+      setShouldFetch(false);
+      setCurrent(pageNo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNo]);
+  return setCurrent;
+};
 
 export const useOnMount = (onMount: () => void) => {
   useEffect(() => {
