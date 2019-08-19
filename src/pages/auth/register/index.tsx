@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import React, { ReactNode, useRef } from "react";
 import history from "../../../config/history";
-import { bindFormRef } from "../../../utils";
+import { bindFormRef } from "../../../utils/form";
 import RegisterForm from "./components/RegisterForm";
 import styles from "./index.module.less";
 

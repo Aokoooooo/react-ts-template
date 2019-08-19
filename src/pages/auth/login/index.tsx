@@ -1,7 +1,7 @@
 import { Button, Checkbox, Tabs } from "antd";
 import React, { ReactNode, useRef, useState } from "react";
 import history from "../../../config/history";
-import { bindFormRef } from "../../../utils";
+import { bindFormRef } from "../../../utils/form";
 import AccountLoginForm from "./components/AccountLoginForm";
 import styles from "./index.module.less";
 
