@@ -1,12 +1,12 @@
 import { WrappedFormInternalProps } from "antd/es/form/Form";
 import { Component, MutableRefObject } from "react";
 
-export type FormComponent<P extends {}> = Component<
+export type FormComponent<P extends {} = {}> = Component<
   WrappedFormInternalProps & P
 >;
-export type FormRef<P extends {}> = MutableRefObject<FormComponent<P>>;
+export type FormRef<P extends {}> = MutableRefObject<FormComponent<P> | null>;
 
-export const bindFormRef = <P extends {}>(
+export const bindFormRef = <P extends {} = {}>(
   component: FormComponent<P>,
   ref: FormRef<P>
 ) => {
@@ -83,4 +83,18 @@ export const setFormFieldValue = <P extends {}>(
     return;
   }
   ref.current.props.form.setFields(props);
+};
+
+export const withFormRef = <P extends {}>(ref: FormRef<P>) => {
+  return {
+    resetFormFields: (names?: string[]) => resetFormFields(ref, names),
+    validateFormFields: (
+      onSuccess?: () => void,
+      onFail?: () => void,
+      names?: string[]
+    ) => validateFormFields(ref, onSuccess, onFail, names),
+    getFormFieldsValue: (names: string[]) => getFormFieldsValue(ref, names),
+    getFormFieldValue: (name: string) => getFormFieldValue(ref, name),
+    setFormFieldValue: (props: object) => setFormFieldValue(ref, props)
+  };
 };

@@ -1,17 +1,21 @@
 import { Button } from "antd";
-import React, { ReactNode, useRef } from "react";
+import React, { useRef } from "react";
 import history from "../../../config/history";
-import { bindFormRef } from "../../../utils/form";
+import {
+  bindFormRef,
+  FormComponent,
+  validateFormFields
+} from "../../../utils/form";
 import RegisterForm from "./components/RegisterForm";
 import styles from "./index.module.less";
 
 const Register: React.FC = () => {
-  const registerForm = useRef<any>(null);
+  const registerForm = useRef<FormComponent>(null);
 
   const handleSubmit = () => {
-    if (registerForm.current) {
-      registerForm.current.handleSubmit();
-    }
+    validateFormFields(registerForm, () => {
+      console.log("submit");
+    });
   };
 
   const handleLoginClick = () => {
@@ -23,7 +27,7 @@ const Register: React.FC = () => {
       <h3>注册</h3>
       <div>
         <RegisterForm
-          wrappedComponentRef={(inst: ReactNode) =>
+          wrappedComponentRef={(inst: FormComponent) =>
             bindFormRef(inst, registerForm)
           }
         />

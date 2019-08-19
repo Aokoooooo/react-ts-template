@@ -8,7 +8,7 @@ export interface IUseAfterPaginationParamsChangedConfig {
   callback?: (current: number) => void;
 }
 
-const useAfterPaginationParamsChanged = (
+export const useAfterPaginationParamsChanged = (
   updatePagination: (current: number) => void,
   fetchData: () => void,
   pageNo: number,

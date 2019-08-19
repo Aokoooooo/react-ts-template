@@ -17,19 +17,10 @@ const checkRules = {
 };
 
 class AccountLoginForm extends React.PureComponent<FormComponentProps> {
-  public handleSubmit = () => {
-    const { form } = this.props;
-    form.validateFields(err => {
-      if (!err) {
-        console.log("submit");
-      }
-    });
-  };
-
   public render() {
     const { form } = this.props;
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Form.Item hasFeedback={true}>
           {form.getFieldDecorator("account", {
             rules: [...checkRules.account]

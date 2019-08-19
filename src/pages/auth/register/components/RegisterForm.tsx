@@ -3,15 +3,6 @@ import { FormComponentProps } from "antd/lib/form";
 import React from "react";
 
 class RegisterForm extends React.PureComponent<FormComponentProps> {
-  public handleSubmit = () => {
-    const { form } = this.props;
-    form.validateFields(err => {
-      if (!err) {
-        console.log("submit");
-      }
-    });
-  };
-
   public render() {
     const { form } = this.props;
 
@@ -29,7 +20,7 @@ class RegisterForm extends React.PureComponent<FormComponentProps> {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Form.Item hasFeedback={true}>
           {form.getFieldDecorator("account", {
             rules: [
