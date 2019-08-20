@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import React from "react";
 import history from "../../../config/history";
+import { safeBack } from "../../../utils";
 import styles from "./BaseError.module.less";
 
 export interface IBaseError {
@@ -14,11 +15,7 @@ export interface IBaseError {
 
 const BaseError: React.FC<IBaseError> = (props: IBaseError) => {
   const handleBackClick = (): void => {
-    if (history.length <= 2) {
-      history.replace("/");
-      return;
-    }
-    history.goBack();
+    safeBack();
   };
 
   const handleBackHomeClick = (): void => {
