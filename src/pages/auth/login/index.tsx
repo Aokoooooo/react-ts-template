@@ -11,23 +11,16 @@ import styles from "./index.module.less";
 
 const Login: React.FC = () => {
   const [autoLogin, setAutoLogin] = useState(true);
-  const [key, setKey] = useState("1");
   const accountLoginForm = useRef<FormComponent>(null);
-
-  const handleTabChange = (newKey: string): void => {
-    setKey(newKey);
-  };
 
   const handleAutoLoginChange = (): void => {
     setAutoLogin(!autoLogin);
   };
 
   const handleSubmit = () => {
-    if (key === "1") {
-      validateFormFields(accountLoginForm, () => {
-        console.log("sumbit");
-      });
-    }
+    validateFormFields(accountLoginForm, () => {
+      console.log("sumbit");
+    });
   };
 
   const handleSignupClick = () => {
@@ -40,11 +33,7 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <Tabs
-        className={styles.tabs}
-        defaultActiveKey={key}
-        onChange={handleTabChange}
-      >
+      <Tabs className={styles.tabs} defaultActiveKey={"1"}>
         <Tabs.TabPane tab="登录" key="1">
           <AccountLoginForm
             wrappedComponentRef={(inst: FormComponent) =>
@@ -57,11 +46,9 @@ const Login: React.FC = () => {
         <Checkbox checked={autoLogin} onChange={handleAutoLoginChange}>
           记住我
         </Checkbox>
-        {key === "1" && (
-          <p style={{ float: "right" }} onClick={handleForgetPasswordClick}>
-            忘记密码
-          </p>
-        )}
+        <p style={{ float: "right" }} onClick={handleForgetPasswordClick}>
+          忘记密码
+        </p>
       </div>
       <Button className={styles.button} type="primary" onClick={handleSubmit}>
         登录
