@@ -1,22 +1,34 @@
-import { WrappedFormInternalProps } from "antd/es/form/Form";
+import { WrappedFormUtils } from "antd/es/form/Form";
 import { Component, MutableRefObject } from "react";
 
-export type FormComponent<P extends {} = {}> = Component<
-  WrappedFormInternalProps & P
->;
-export type FormRef<P extends {}> = MutableRefObject<FormComponent<P> | null>;
+// tslint:disable-next-line: interface-over-type-literal
+export type FormUtils<F extends {} = {}, V = any> = {
+  form: WrappedFormUtils<V> & F;
+};
 
-export const bindFormRef = <P extends {} = {}>(
-  component: FormComponent<P>,
-  ref: FormRef<P>
+export type FormComponent<
+  P extends {} = {},
+  F extends {} = {},
+  V = any
+> = Component<FormUtils<F, V> & P>;
+
+export type FormRef<
+  P extends {} = {},
+  F extends {} = {},
+  V = any
+> = MutableRefObject<FormComponent<P, F, V> | null>;
+
+export const bindFormRef = <P extends {} = {}, F extends {} = {}, V = any>(
+  component: FormComponent<P, F, V>,
+  ref: FormRef<P, F, V>
 ) => {
   if (ref.current === null) {
     ref.current = component;
   }
 };
 
-export const resetFormFields = <P extends {}>(
-  ref: FormRef<P>,
+export const resetFormFields = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>,
   names?: string[]
 ) => {
   if (!ref.current) {
@@ -25,8 +37,8 @@ export const resetFormFields = <P extends {}>(
   ref.current.props.form.resetFields(names);
 };
 
-export const validateFormFields = <P extends {}>(
-  ref: FormRef<P>,
+export const validateFormFields = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>,
   onSuccess?: () => void,
   onFail?: () => void,
   names?: string[]
@@ -55,8 +67,8 @@ export const validateFormFields = <P extends {}>(
   }
 };
 
-export const getFormFieldsValue = <P extends {}>(
-  ref: FormRef<P>,
+export const getFormFieldsValue = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>,
   names: string[]
 ) => {
   if (!ref.current) {
@@ -65,8 +77,8 @@ export const getFormFieldsValue = <P extends {}>(
   return ref.current.props.form.getFieldsValue(names);
 };
 
-export const getFormFieldValue = <P extends {}>(
-  ref: FormRef<P>,
+export const getFormFieldValue = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>,
   name: string
 ) => {
   if (!ref.current) {
@@ -75,8 +87,8 @@ export const getFormFieldValue = <P extends {}>(
   return ref.current.props.form.getFieldValue(name);
 };
 
-export const setFormFieldValue = <P extends {}>(
-  ref: FormRef<P>,
+export const setFormFieldValue = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>,
   props: object
 ) => {
   if (!ref.current) {
@@ -85,7 +97,9 @@ export const setFormFieldValue = <P extends {}>(
   ref.current.props.form.setFields(props);
 };
 
-export const withFormRef = <P extends {}>(ref: FormRef<P>) => {
+export const withFormRef = <P extends {}, F extends {}, V = any>(
+  ref: FormRef<P, F, V>
+) => {
   return {
     resetFormFields: (names?: string[]) => resetFormFields(ref, names),
     validateFormFields: (
