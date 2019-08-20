@@ -1,4 +1,4 @@
-import { Icon, Modal } from "antd";
+import { Icon, Modal, Tooltip } from "antd";
 import React from "react";
 import styles from "./index.module.less";
 
@@ -15,11 +15,13 @@ const BaseHeader: React.FC = () => {
 
   return (
     <div className={styles.right}>
-      <Icon
-        className={`${styles.trigger}`}
-        type="export"
-        onClick={handleLogoutClick}
-      />
+      <Tooltip title="登出">
+        <Icon
+          className={`${styles.trigger}`}
+          type="export"
+          onClick={handleLogoutClick}
+        />
+      </Tooltip>
     </div>
   );
 };
