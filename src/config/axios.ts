@@ -35,6 +35,11 @@ const subtractLoading = () => {
   }
 };
 
+let isAuthenticationCheckBlocked = false;
+export const updateIsAuthenticationCheckBlocked = (newState: boolean) => {
+  isAuthenticationCheckBlocked = newState;
+};
+
 instance.interceptors.request.use(
   config => {
     config.headers[TOKEN_HEADER_NAME] = `${localStorage[TOKEN_STORAGE_NAME]}`;
@@ -56,8 +61,11 @@ instance.interceptors.response.use(
     subtractLoading();
     const status = error.response && error.response.status;
     if (status === 401) {
-      history.push("/login");
-      message.error("请重新登录");
+      if (!isAuthenticationCheckBlocked) {
+        updateIsAuthenticationCheckBlocked(true);
+        history.push("/login");
+        message.error("请重新登录");
+      }
     } else if (status === 403) {
       message.error("没有权限进行此操作");
     } else if (status === 404) {

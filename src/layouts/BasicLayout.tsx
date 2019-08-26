@@ -1,13 +1,14 @@
 import loadable from "@loadable/component";
-import { Layout } from "antd";
+import { Layout, Modal } from "antd";
 import className from "classnames";
 import React, { useEffect } from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Route, RouteProps, Switch } from "react-router-dom";
+import { updateIsAuthenticationCheckBlocked } from "../config/axios";
 import { layoutConfig } from "../config/layoutConfig";
 import { basePath } from "../config/systemParams";
-import { useActions } from "../hooks/basicPageHooks";
+import { useActions, useOnMount, useOnUnmount } from "../hooks/basicPageHooks";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
 import styles from "./BasicLayout.module.less";
 import withLoading from "./components/Loading";
@@ -36,6 +37,14 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
   useEffect(() => {
     actions.changeIsMobile(isMobile);
   }, [isMobile, actions]);
+
+  useOnMount(() => {
+    updateIsAuthenticationCheckBlocked(false);
+  });
+
+  useOnUnmount(() => {
+    Modal.destroyAll();
+  });
 
   const routes = useParseMenuConfigToRoutes();
   return (
