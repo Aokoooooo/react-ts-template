@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import React, { useRef } from "react";
 import history from "../../../config/history";
+import loginLayout from "../../../layouts/components/loginLayout";
 import {
   bindFormRef,
   FormComponent,
@@ -42,4 +43,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default loginLayout(Register);

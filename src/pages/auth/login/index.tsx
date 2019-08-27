@@ -1,6 +1,7 @@
 import { Button, Checkbox, Tabs } from "antd";
 import React, { useRef, useState } from "react";
 import history from "../../../config/history";
+import loginLayout from "../../../layouts/components/loginLayout";
 import {
   bindFormRef,
   FormComponent,
@@ -62,4 +63,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default loginLayout(Login);
