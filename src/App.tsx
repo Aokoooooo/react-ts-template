@@ -1,4 +1,3 @@
-import loadable from "@loadable/component";
 import { LocaleProvider } from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import moment from "moment";
@@ -9,11 +8,16 @@ import { Route, Router, Switch } from "react-router-dom";
 import history from "./config/history";
 import store from "./config/store";
 import { basePath } from "./config/systemParams";
+import { dynamicLoadWithLoading } from "./utils";
 
 moment.locale("zh-cn");
 
-const BasicLayout = loadable(() => import("./layouts/BasicLayout"));
-const LoginLayout = loadable(() => import("./layouts/LoginLayout"));
+const BasicLayout = dynamicLoadWithLoading(() =>
+  import("./layouts/BasicLayout")
+);
+const LoginLayout = dynamicLoadWithLoading(() =>
+  import("./layouts/LoginLayout")
+);
 
 const App: React.FC = () => {
   return (

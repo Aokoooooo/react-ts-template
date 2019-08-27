@@ -1,6 +1,6 @@
-import loadable from "@loadable/component";
 import { ComponentType, ReactNode } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { dynamicLoadWithLoading } from "../utils";
 import history from "./history";
 
 export interface IMenuConfig {
@@ -35,7 +35,9 @@ export let menuConfig: IMenuConfig[] = [
     path: "/transfer",
     title: "划款操作",
     icon: "swap",
-    component: loadable(() => import("../pages/transfer/operation"))
+    component: dynamicLoadWithLoading(() =>
+      import("../pages/transfer/operation")
+    )
   },
   {
     path: "/transferResult",

@@ -1,5 +1,8 @@
+import loadable, { DefaultComponent } from "@loadable/component";
+import React from "react";
 import history from "../config/history";
 import { basePath } from "../config/systemParams";
+import SuspenseLoading from "../layouts/components/SuspenseLoading";
 
 export const checkLocationPathname = (name: string): boolean => {
   return history.location.pathname === `${basePath}${name}`;
@@ -14,3 +17,7 @@ export const safeBack = (to?: string) => {
     history.goBack();
   }
 };
+
+export const dynamicLoadWithLoading = <T extends {}>(
+  load: (props: T) => Promise<DefaultComponent<T>>
+) => loadable(load, { fallback: <SuspenseLoading /> });

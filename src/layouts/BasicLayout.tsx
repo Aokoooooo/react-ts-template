@@ -1,4 +1,3 @@
-import loadable from "@loadable/component";
 import { Layout, Modal } from "antd";
 import className from "classnames";
 import React, { useEffect } from "react";
@@ -10,17 +9,22 @@ import { layoutConfig } from "../config/layoutConfig";
 import { basePath } from "../config/systemParams";
 import { useActions, useOnMount, useOnUnmount } from "../hooks/basicPageHooks";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
+import { dynamicLoadWithLoading } from "../utils";
 import styles from "./BasicLayout.module.less";
+import Footer from "./components/footer";
+import Header from "./components/header";
 import withLoading from "./components/Loading";
 import Redirect from "./components/Redirect";
+import Sider from "./components/siderMenu";
 import { changeIsMobile } from "./store/layoutAction";
 
-const Home = loadable(() => import("../pages"));
-const Sider = loadable(() => import("./components/siderMenu"));
-const Header = loadable(() => import("./components/header"));
-const Footer = loadable(() => import("./components/footer"));
-const Error404 = loadable(() => import("../pages/error/Error404"));
-const Error500 = loadable(() => import("../pages/error/Error500"));
+const Home = dynamicLoadWithLoading(() => import("../pages"));
+const Error404 = dynamicLoadWithLoading(() =>
+  import("../pages/error/Error404")
+);
+const Error500 = dynamicLoadWithLoading(() =>
+  import("../pages/error/Error500")
+);
 
 export interface IBasicLayout extends RouteProps {
   isMobile: boolean;

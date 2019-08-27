@@ -1,17 +1,19 @@
-import loadable from "@loadable/component";
 import { Icon } from "antd";
 import React from "react";
 import { Route, Switch } from "react-router";
 import { layoutConfig } from "../config/layoutConfig";
 import { basePath } from "../config/systemParams";
+import { dynamicLoadWithLoading } from "../utils";
 import { ILinkConfig } from "./components/footer";
 import BaseFooter from "./components/footer/BaseFooter";
 import withLoading from "./components/Loading";
 import styles from "./LoginLayout.module.less";
 
-const Login = loadable(() => import("../pages/auth/login"));
-const Register = loadable(() => import("../pages/auth/register"));
-const ForgetPassword = loadable(() => import("../pages/auth/ForgetPassword"));
+const Login = dynamicLoadWithLoading(() => import("../pages/auth/login"));
+const Register = dynamicLoadWithLoading(() => import("../pages/auth/register"));
+const ForgetPassword = dynamicLoadWithLoading(() =>
+  import("../pages/auth/ForgetPassword")
+);
 
 const footerLinks: ILinkConfig[] = [
   {
