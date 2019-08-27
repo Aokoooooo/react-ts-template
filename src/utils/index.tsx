@@ -19,5 +19,6 @@ export const safeBack = (to?: string) => {
 };
 
 export const dynamicLoadWithLoading = <T extends {}>(
-  load: (props: T) => Promise<DefaultComponent<T>>
-) => loadable(load, { fallback: <SuspenseLoading /> });
+  load: (props: T) => Promise<DefaultComponent<T>>,
+  fallback: JSX.Element = <SuspenseLoading />
+) => loadable(load, { fallback });

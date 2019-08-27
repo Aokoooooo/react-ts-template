@@ -1,10 +1,9 @@
-export type CheckAuthFunctionType = (authHad: AuthAskedType) => boolean;
+export type CheckAuthFunctionType = (authHad: AuthHadType) => boolean;
 export type AuthAskedType =
   | string[]
   | string
   | null
   | undefined
-  | boolean
   | CheckAuthFunctionType;
 
 export type AuthHadType = null | undefined | string | string[];
