@@ -16,7 +16,7 @@ import Header from "./components/header";
 import withLoading from "./components/Loading";
 import Redirect from "./components/Redirect";
 import Sider from "./components/siderMenu";
-import { changeIsMobile } from "./store/layoutAction";
+import { changeIsMobile } from "./store/";
 
 const Home = dynamicLoadWithLoading(() => import("../pages"));
 const Error404 = dynamicLoadWithLoading(() =>

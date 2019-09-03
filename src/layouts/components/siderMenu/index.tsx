@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreStateType } from "../../../config/store";
 import { useActions } from "../../../hooks/basicPageHooks";
-import { changeCollapsed } from "../../store/layoutAction";
+import { changeCollapsed } from "../../store/";
 import SiderMenu from "./SiderMenu";
 
 const Sider: React.FC = () => {

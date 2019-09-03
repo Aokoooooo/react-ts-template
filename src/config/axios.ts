@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-import { changeSpining } from "../layouts/store/layoutAction";
+import { changeSpining } from "../layouts/store/";
 import history from "./history";
 import store from "./store";
 
