@@ -3,7 +3,7 @@ import { FormComponentProps } from "antd/lib/form";
 import { Moment } from "moment";
 import React from "react";
 import store from "../../../../config/store";
-import { changeSearchForm } from "../store/action";
+import { changeSearchForm } from "../store/";
 import * as styles from "./HeaderSearchForm.module.less";
 export interface ISearchForm {
   startDate: Moment | null;

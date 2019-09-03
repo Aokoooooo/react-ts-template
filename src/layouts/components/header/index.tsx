@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { layoutConfig } from "../../../config/layoutConfig";
 import { StoreStateType } from "../../../config/store";
 import { useActions } from "../../../hooks/basicPageHooks";
-import { changeCollapsed } from "../../store/layoutAction";
+import { changeCollapsed } from "../../store/";
 import BaseHeader from "./BaseHeader";
 import styles from "./index.module.less";
 

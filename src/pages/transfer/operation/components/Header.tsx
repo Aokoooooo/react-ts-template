@@ -1,13 +1,14 @@
 import { Button, Icon, PageHeader } from "antd";
+import { ActionCreator } from "aqua-actions";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
-import { changeSearchForm, IChangeSearchFormAction } from "../store/action";
+import { changeSearchForm } from "../store/";
 import * as styles from "./Header.module.less";
 import SearchForm, { initSearchForm, ISearchForm } from "./HeaderSearchForm";
 
 interface IHeader {
-  changeSearchForm: (payload: ISearchForm) => IChangeSearchFormAction;
+  changeSearchForm: ActionCreator<ISearchForm>;
 }
 
 const Header: React.FC<IHeader> = (props: IHeader) => {

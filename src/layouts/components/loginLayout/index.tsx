@@ -1,7 +1,6 @@
 import { Icon } from "antd";
 import React, { ComponentType } from "react";
 import { layoutConfig } from "../../../config/layoutConfig";
-import { dynamicLoadWithLoading } from "../../../utils";
 import { ILinkConfig } from "../footer";
 import BaseFooter from "../footer/BaseFooter";
 import withLoading from "../Loading";
