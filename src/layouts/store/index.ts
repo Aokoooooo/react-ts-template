@@ -24,6 +24,6 @@ export const layoutReducer = createReducer(initState)
     return { ...state, spining: !state.spining };
   })
   .handleAction(changeIsMobile, (state, action) => {
-    return { ...state, isMobile: action.payload };
+    return { ...state, isMobile: Boolean(action.payload) };
   })
   .build();
