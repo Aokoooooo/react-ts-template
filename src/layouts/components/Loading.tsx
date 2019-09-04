@@ -1,14 +1,13 @@
 import { Spin } from "antd";
 import React, { ComponentType, ReactNode } from "react";
-import { useSelector } from "react-redux";
-import { StoreStateType } from "../../config/store";
+import { useSelector } from "../../hooks/basicPageHooks";
 
 interface ILoadingProps {
   children: ReactNode;
 }
 
 const Loading: React.FC<ILoadingProps> = ({ children }: ILoadingProps) => {
-  const layout = useSelector(({ layout }: StoreStateType) => layout);
+  const layout = useSelector(({ layout }) => layout);
 
   return (
     <Spin

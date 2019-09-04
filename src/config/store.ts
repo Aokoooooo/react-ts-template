@@ -1,4 +1,10 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+  Reducer,
+  Store
+} from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { layoutReducer } from "../layouts/store/";
@@ -6,8 +12,7 @@ import { operationReducer as transferOperationReducer } from "../pages/transfer/
 
 const staticReducers = { layout: layoutReducer };
 const enhancer = composeWithDevTools(applyMiddleware(thunk));
-let rootReducer = combineReducers(staticReducers);
-const store = createStore(rootReducer, enhancer);
+const rootReducer = combineReducers(staticReducers);
 export type RootReducerType = ReturnType<typeof rootReducer>;
 
 export interface IAsyncReducers {
@@ -20,8 +25,6 @@ export type AsyncReducerType = {
 };
 const asyncReducers: Partial<IAsyncReducers> = {};
 
-export default store;
-
 export const injectReducer = (
   key: AsyncReducersKeyType,
   reducer: AsyncReducersValueType
@@ -31,15 +34,21 @@ export const injectReducer = (
     return;
   }
   asyncReducers[key] = reducer;
-  rootReducer = createReducer(asyncReducers);
-  store.replaceReducer(rootReducer);
+  const newReducer = createReducer(asyncReducers);
+  store.replaceReducer(newReducer);
 };
 
 const createReducer = (asyncReducers: Partial<IAsyncReducers>) => {
-  return combineReducers({ ...staticReducers, ...asyncReducers });
+  return combineReducers({ ...staticReducers, ...asyncReducers }) as Reducer<
+    StoreStateType
+  >;
 };
 
 export type StoreStateType = {
   [K in keyof RootReducerType | keyof AsyncReducerType]: (RootReducerType &
     AsyncReducerType)[K];
 };
+
+const store = createStore(rootReducer, enhancer) as Store<StoreStateType>;
+
+export default store;

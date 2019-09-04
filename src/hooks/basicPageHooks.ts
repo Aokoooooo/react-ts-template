@@ -1,6 +1,7 @@
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector as useReduxSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { StoreStateType } from "../config/store";
 
 export interface IUseAfterPaginationParamsChangedConfig {
   notFetchDataOnMount: boolean;
@@ -103,4 +104,11 @@ export const useActions = (actions: any, deps = []) => {
     return bindActionCreators(actions, dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, ...deps]);
+};
+
+export const useSelector = <TSelected = any>(
+  selector: (state: StoreStateType) => TSelected,
+  equalityFn?: (left: TSelected, right: TSelected) => boolean
+) => {
+  return useReduxSelector<StoreStateType, TSelected>(selector, equalityFn);
 };

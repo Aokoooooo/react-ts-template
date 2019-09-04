@@ -1,18 +1,14 @@
 import { Icon, Layout } from "antd";
 import Animate from "rc-animate";
 import React from "react";
-import { useSelector } from "react-redux";
 import { layoutConfig } from "../../../config/layoutConfig";
-import { StoreStateType } from "../../../config/store";
-import { useActions } from "../../../hooks/basicPageHooks";
+import { useActions, useSelector } from "../../../hooks/basicPageHooks";
 import { changeCollapsed } from "../../store/";
 import BaseHeader from "./BaseHeader";
 import styles from "./index.module.less";
 
 const Header: React.FC = () => {
-  const { isMobile, collapsed } = useSelector(
-    ({ layout }: StoreStateType) => layout
-  );
+  const { isMobile, collapsed } = useSelector(({ layout }) => layout);
   const actions = useActions({ handleTriggerClick: changeCollapsed });
 
   const headwith = () => {

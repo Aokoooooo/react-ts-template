@@ -1,17 +1,13 @@
 import { Drawer } from "antd";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { StoreStateType } from "../../../config/store";
-import { useActions } from "../../../hooks/basicPageHooks";
+import { useActions, useSelector } from "../../../hooks/basicPageHooks";
 import { changeCollapsed } from "../../store/";
 import SiderMenu from "./SiderMenu";
 
 const Sider: React.FC = () => {
   const [first, setFirst] = useState(true);
   const actions = useActions({ handleCollapsedChange: changeCollapsed });
-  const { isMobile, collapsed } = useSelector(
-    ({ layout }: StoreStateType) => layout
-  );
+  const { isMobile, collapsed } = useSelector(({ layout }) => layout);
   const handleFirstChange = () => {
     setFirst(false);
   };
