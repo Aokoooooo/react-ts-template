@@ -1,8 +1,14 @@
-import { createAction, createReducer } from "aqua-actions";
+import {
+  createAction,
+  createReducer,
+  createStandardAction
+} from "aqua-actions";
 
 export const changeCollapsed = createAction("LAYOUT_CHANGE_COLLAPSED");
 export const changeSpining = createAction("LAYOUT_CHANGE_SPINING");
-export const changeIsMobile = createAction<boolean>("LAYOUT_CHANGE_IS_MOBILE");
+export const changeIsMobile = createStandardAction<boolean>(
+  "LAYOUT_CHANGE_IS_MOBILE"
+);
 
 export interface ILayoutState {
   collapsed: boolean;
@@ -24,6 +30,6 @@ export const layoutReducer = createReducer(initState)
     return { ...state, spining: !state.spining };
   })
   .handleAction(changeIsMobile, (state, action) => {
-    return { ...state, isMobile: Boolean(action.payload) };
+    return { ...state, isMobile: action.payload };
   })
   .build();
