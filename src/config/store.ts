@@ -35,8 +35,11 @@ export const injectReducer = (
   store.replaceReducer(rootReducer);
 };
 
-const createReducer = (extraReducers: any): any => {
-  return combineReducers({ ...staticReducers, ...extraReducers });
+const createReducer = (asyncReducers: Partial<IAsyncReducers>) => {
+  return combineReducers({ ...staticReducers, ...asyncReducers });
 };
 
-export type StoreStateType = RootReducerType & AsyncReducerType;
+export type StoreStateType = {
+  [K in keyof RootReducerType | keyof AsyncReducerType]: (RootReducerType &
+    AsyncReducerType)[K];
+};
