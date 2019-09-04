@@ -1,21 +1,14 @@
 import { Button, Icon, PageHeader } from "antd";
-import { ActionCreator } from "aqua-actions";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
+import { useActions } from "../../../../hooks/basicPageHooks";
 import { changeSearchForm } from "../store/";
 import * as styles from "./Header.module.less";
-import SearchForm, { initSearchForm, ISearchForm } from "./HeaderSearchForm";
+import SearchForm, { initSearchForm } from "./HeaderSearchForm";
 
-interface IHeader {
-  changeSearchForm: ActionCreator<ISearchForm>;
-}
-
-const Header: React.FC<IHeader> = (props: IHeader) => {
-  const { changeSearchForm } = props;
+const Header: React.FC = () => {
   const [searchForm, setSearchForm] = useState();
   const [collapse, setCollapse] = useState(true);
-
+  const actions = useActions({ changeSearchForm });
   useEffect(() => () => {
     changeSearchForm(initSearchForm);
   });
@@ -28,7 +21,7 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   );
 
   const handleRestClick = () => {
-    changeSearchForm(initSearchForm);
+    actions.changeSearchForm(initSearchForm);
     if (searchForm) {
       searchForm.props.form.resetFields();
     }
@@ -66,11 +59,4 @@ const Header: React.FC<IHeader> = (props: IHeader) => {
   );
 };
 
-const mapAction = (dispatch: Dispatch) => {
-  return bindActionCreators({ changeSearchForm }, dispatch);
-};
-
-export default connect(
-  null,
-  mapAction
-)(Header);
+export default Header;

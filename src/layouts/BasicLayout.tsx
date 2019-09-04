@@ -35,7 +35,6 @@ const contentStyle = layoutConfig.header.fixed ? {} : { paddingTop: 0 };
 
 const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
   const actions = useActions({ changeIsMobile });
-
   const { isMobile } = props;
 
   useEffect(() => {

@@ -1,6 +1,7 @@
+import { ActionCreator } from "aqua-actions";
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
-import { bindActionCreators } from "redux";
+import { Dispatch } from "redux";
 import { StoreStateType } from "../config/store";
 
 export interface IUseAfterPaginationParamsChangedConfig {
@@ -81,7 +82,7 @@ export const useOnUpdate = (
   }, deps);
 };
 
-export const useLogger = (componentName: string, ...rest: any) => {
+export const useLogger = (componentName: string, ...rest: any[]) => {
   useOnMount(() => {
     console.log(`${componentName} mounted`, ...rest);
   });
@@ -95,12 +96,43 @@ export const useLogger = (componentName: string, ...rest: any) => {
   });
 };
 
-export const useActions = (actions: any, deps = []) => {
+interface IUseActionsActionCreators {
+  [name: string]: ActionCreator;
+}
+
+const bindActionCreators = <T extends IUseActionsActionCreators>(
+  actionCreators: T,
+  dispatch: Dispatch
+) => {
+  const bindActionCreator = <P extends T[keyof T]>(
+    actionCreator: P,
+    dispatch: Dispatch
+  ) => {
+    return (
+      payload?: ReturnType<P>["payload"],
+      meta?: ReturnType<P>["meta"]
+    ) => {
+      return dispatch(actionCreator(payload, meta));
+    };
+  };
+
+  type AoundActionCreators = {
+    [K in keyof T]: T[K];
+  };
+  const boundActionCreators: any = {};
+  Object.keys(actionCreators).map((i: keyof T) => {
+    boundActionCreators[i] = bindActionCreator(actionCreators[i], dispatch);
+  });
+
+  return boundActionCreators as AoundActionCreators;
+};
+
+export const useActions = <T extends IUseActionsActionCreators>(
+  actions: T,
+  deps: any[] = []
+) => {
   const dispatch = useDispatch();
   return useMemo(() => {
-    if (Array.isArray(actions)) {
-      return actions.map(action => bindActionCreators(action, dispatch));
-    }
     return bindActionCreators(actions, dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, ...deps]);
