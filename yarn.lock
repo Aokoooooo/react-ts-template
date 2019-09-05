@@ -1895,10 +1895,10 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-aqua-actions@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/aqua-actions/-/aqua-actions-0.1.4.tgz#1c5a3dbaab5d7284dcdf688815ec450ab81b6209"
-  integrity sha512-WvM4602wyjnBbmMHNCyC+/fVrEmqjcHqeiyOxH0rVba5xYcpHPFXuZkHS2SmaoqytYzcyjKXx663uX7djck65A==
+aqua-actions@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/aqua-actions/-/aqua-actions-0.1.5.tgz#559d06bb769cb2d02508dd8bffbaa202aa144922"
+  integrity sha512-NwrlP711YCIW3p+n7PHMrWirpmOeJJlL82PoMNPOxbsFbn2R7y+sa5VjZiLAoH+GHcvkIXR5dn6HBOu2b3j5NQ==
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"

@@ -1,4 +1,4 @@
-import { createReducer, createStandardAction } from "aqua-actions";
+import { createReducer, getActionCreatorWithPrefix } from "aqua-actions";
 import { initSearchForm, ISearchForm } from "../components/HeaderSearchForm";
 
 export interface IOperationState {
@@ -8,8 +8,8 @@ export interface IOperationState {
 const initState: IOperationState = {
   searchForm: { ...initSearchForm }
 };
-
-export const changeSearchForm = createStandardAction<ISearchForm>(
+const creator = getActionCreatorWithPrefix("TRANSFER_OPERATION");
+export const changeSearchForm = creator.createStandardAction<ISearchForm>(
   "CHANGE_SEARCH_FORM"
 );
 
