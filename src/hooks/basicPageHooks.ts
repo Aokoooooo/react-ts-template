@@ -1,8 +1,7 @@
-import { ActionCreator } from "aqua-actions";
+import { ActionCreator, bindActionCreators } from "aqua-actions";
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
-import { Dispatch } from "redux";
-import { StoreStateType } from "../config/store";
+import { StoreState } from "../config/store";
 
 export interface IUseAfterPaginationParamsChangedConfig {
   notFetchDataOnMount: boolean;
@@ -97,50 +96,22 @@ export const useLogger = (componentName: string, ...rest: any[]) => {
 };
 
 interface IUseActionsActionCreators {
-  [name: string]: ActionCreator;
+  [key: string]: ActionCreator;
 }
-
-const bindActionCreators = <T extends IUseActionsActionCreators>(
-  actionCreators: T,
-  dispatch: Dispatch
-) => {
-  const bindActionCreator = <P extends T[keyof T]>(
-    actionCreator: P,
-    dispatch: Dispatch
-  ) => {
-    return (
-      payload?: ReturnType<P>["payload"],
-      meta?: ReturnType<P>["meta"]
-    ) => {
-      return dispatch(actionCreator(payload, meta));
-    };
-  };
-
-  type AoundActionCreators = {
-    [K in keyof T]: T[K];
-  };
-  const boundActionCreators: any = {};
-  Object.keys(actionCreators).map((i: keyof T) => {
-    boundActionCreators[i] = bindActionCreator(actionCreators[i], dispatch);
-  });
-
-  return boundActionCreators as AoundActionCreators;
-};
-
 export const useActions = <T extends IUseActionsActionCreators>(
-  actions: T,
+  actionCreators: T,
   deps: any[] = []
 ) => {
   const dispatch = useDispatch();
   return useMemo(() => {
-    return bindActionCreators(actions, dispatch);
+    return bindActionCreators(actionCreators, dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, ...deps]);
 };
 
 export const useSelector = <TSelected = any>(
-  selector: (state: StoreStateType) => TSelected,
+  selector: (state: StoreState) => TSelected,
   equalityFn?: (left: TSelected, right: TSelected) => boolean
 ) => {
-  return useReduxSelector<StoreStateType, TSelected>(selector, equalityFn);
+  return useReduxSelector<StoreState, TSelected>(selector, equalityFn);
 };

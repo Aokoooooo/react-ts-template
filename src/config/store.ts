@@ -1,4 +1,10 @@
 import {
+  ReducerState,
+  ReducerStateKeyType,
+  ReducerStateValueType,
+  StoreState as StoreStateType
+} from "aqua-actions";
+import {
   applyMiddleware,
   combineReducers,
   createStore,
@@ -13,21 +19,18 @@ import { operationReducer as transferOperationReducer } from "../pages/transfer/
 const staticReducers = { layout: layoutReducer };
 const enhancer = composeWithDevTools(applyMiddleware(thunk));
 const rootReducer = combineReducers(staticReducers);
-export type RootReducerType = ReturnType<typeof rootReducer>;
 
-export interface IAsyncReducers {
+// tslint:disable-next-line: interface-over-type-literal
+export type AsyncReducer = {
   transferOperation: typeof transferOperationReducer;
-}
-export type AsyncReducersKeyType = keyof IAsyncReducers;
-export type AsyncReducersValueType = IAsyncReducers[AsyncReducersKeyType];
-export type AsyncReducerType = {
-  [K in AsyncReducersKeyType]: ReturnType<IAsyncReducers[K]>;
 };
-const asyncReducers: Partial<IAsyncReducers> = {};
+export type RootReducerState = ReducerState<typeof staticReducers>;
+export type AsyncReducerState = ReducerState<AsyncReducer>;
+const asyncReducers: Partial<AsyncReducer> = {};
 
 export const injectReducer = (
-  key: AsyncReducersKeyType,
-  reducer: AsyncReducersValueType
+  key: ReducerStateKeyType<AsyncReducer>,
+  reducer: ReducerStateValueType<AsyncReducer>
 ) => {
   if (asyncReducers[key]) {
     console.warn(`尝试注入同名reducer: ${key}失败`);
@@ -38,17 +41,14 @@ export const injectReducer = (
   store.replaceReducer(newReducer);
 };
 
-const createReducer = (asyncReducers: Partial<IAsyncReducers>) => {
+export type StoreState = StoreStateType<RootReducerState, AsyncReducerState>;
+
+const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
   return combineReducers({ ...staticReducers, ...asyncReducers }) as Reducer<
-    StoreStateType
+    StoreState
   >;
 };
 
-export type StoreStateType = {
-  [K in keyof RootReducerType | keyof AsyncReducerType]: (RootReducerType &
-    AsyncReducerType)[K];
-};
-
-const store = createStore(rootReducer, enhancer) as Store<StoreStateType>;
+const store = createStore(rootReducer, enhancer) as Store<StoreState>;
 
 export default store;
