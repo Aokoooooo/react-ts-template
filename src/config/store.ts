@@ -1,4 +1,5 @@
 import {
+  ActionType,
   ReducerState,
   ReducerStateKeyType,
   ReducerStateValueType,
@@ -12,7 +13,7 @@ import {
   Store
 } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
+import thunk, { ThunkDispatch } from "redux-thunk";
 import { layoutReducer } from "../layouts/store/";
 import { operationReducer as transferOperationReducer } from "../pages/transfer/operation/store";
 
@@ -50,5 +51,6 @@ const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
 };
 
 const store = createStore(rootReducer, enhancer) as Store<StoreState>;
-
+export const getThunkDispatch = <S = any, E = any, A extends ActionType = ActionType>() =>
+  store.dispatch as ThunkDispatch<S, E, A>;
 export default store;

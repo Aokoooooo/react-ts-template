@@ -1,10 +1,10 @@
 import { createReducer, getActionCreatorWithPrefix } from "aqua-actions";
 
 const creator = getActionCreatorWithPrefix("LAYOUT");
-export const changeCollapsed = creator.createAction("LAYOUT_CHANGE_COLLAPSED");
-export const changeSpining = creator.createAction("LAYOUT_CHANGE_SPINING");
+export const changeCollapsed = creator.createAction("CHANGE_COLLAPSED");
+export const changeSpining = creator.createAction("CHANGE_SPINING");
 export const changeIsMobile = creator.createStandardAction<boolean>(
-  "LAYOUT_CHANGE_IS_MOBILE"
+  "CHANGE_IS_MOBILE"
 );
 
 export interface ILayoutState {

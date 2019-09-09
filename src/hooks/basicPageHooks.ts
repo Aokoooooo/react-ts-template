@@ -1,6 +1,7 @@
-import { ActionCreator, bindActionCreators } from "aqua-actions";
+import { ActionCreator } from "aqua-actions";
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
+import { bindActionCreators } from "redux";
 import { StoreState } from "../config/store";
 
 export interface IUseAfterPaginationParamsChangedConfig {
@@ -98,6 +99,7 @@ export const useLogger = (componentName: string, ...rest: any[]) => {
 interface IUseActionsActionCreators {
   [key: string]: ActionCreator;
 }
+
 export const useActions = <T extends IUseActionsActionCreators>(
   actionCreators: T,
   deps: any[] = []
