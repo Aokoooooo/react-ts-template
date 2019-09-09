@@ -51,6 +51,10 @@ const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
 };
 
 const store = createStore(rootReducer, enhancer) as Store<StoreState>;
-export const getThunkDispatch = <S = any, E = any, A extends ActionType = ActionType>() =>
-  store.dispatch as ThunkDispatch<S, E, A>;
+
+export const getThunkDispatch = <
+  S = any,
+  E = any,
+  A extends ActionType = ActionType
+>() => store.dispatch as ThunkDispatch<S, E, A>;
 export default store;
