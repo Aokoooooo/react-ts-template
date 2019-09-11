@@ -1,24 +1,22 @@
 import {
-  ActionType,
-  ReducerState,
-  ReducerStateKeyType,
-  ReducerStateValueType,
-  StoreState as StoreStateType
-} from "aqua-actions";
-import {
   applyMiddleware,
   combineReducers,
   createStore,
   Reducer,
   Store
 } from "redux";
+import aqua, {
+  ReducerState,
+  ReducerStateKeyType,
+  ReducerStateValueType,
+  StoreState as StoreStateType
+} from "redux-aqua";
 import { composeWithDevTools } from "redux-devtools-extension";
-import thunk, { ThunkDispatch } from "redux-thunk";
 import { layoutReducer } from "../layouts/store/";
 import { operationReducer as transferOperationReducer } from "../pages/transfer/operation/store";
 
 const staticReducers = { layout: layoutReducer };
-const enhancer = composeWithDevTools(applyMiddleware(thunk));
+const enhancer = composeWithDevTools(applyMiddleware(aqua));
 const rootReducer = combineReducers(staticReducers);
 
 // tslint:disable-next-line: interface-over-type-literal
@@ -33,28 +31,21 @@ export const injectReducer = (
   key: ReducerStateKeyType<AsyncReducer>,
   reducer: ReducerStateValueType<AsyncReducer>
 ) => {
-  if (asyncReducers[key]) {
+  if (process.env.NODE_ENV !== "development" && asyncReducers[key]) {
     console.warn(`尝试注入同名reducer: ${key}失败`);
     return;
   }
   asyncReducers[key] = reducer;
-  const newReducer = createReducer(asyncReducers);
+  const newReducer = combineReducers({
+    ...staticReducers,
+    ...asyncReducers
+  }) as Reducer<StoreState>;
+
   store.replaceReducer(newReducer);
 };
 
 export type StoreState = StoreStateType<RootReducerState, AsyncReducerState>;
 
-const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
-  return combineReducers({ ...staticReducers, ...asyncReducers }) as Reducer<
-    StoreState
-  >;
-};
-
 const store = createStore(rootReducer, enhancer) as Store<StoreState>;
 
-export const getThunkDispatch = <
-  S = any,
-  E = any,
-  A extends ActionType = ActionType
->() => store.dispatch as ThunkDispatch<S, E, A>;
 export default store;

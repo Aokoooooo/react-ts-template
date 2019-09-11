@@ -1895,11 +1895,6 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-aqua-actions@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/aqua-actions/-/aqua-actions-0.1.6.tgz#0f24b4ea39737a0c68439a60c8061b55d251edfa"
-  integrity sha512-VHXOvFUZCifJPzMg93zEQHfPdsS1kuY5vz+RNl9s66g2TSq0cz2cT5r+0/JMZAYu0ejJefDSzmj9XNGcnQrLQg==
-
 are-we-there-yet@~1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.5.tgz#4b35c2944f062a8bfcda66410760350fe9ddfc21"
@@ -10140,6 +10135,11 @@ redent@^2.0.0:
   dependencies:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
+
+redux-aqua@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/redux-aqua/-/redux-aqua-0.1.0.tgz#75320d8f15b315c5aa2ecbfcc1cda2dad9e5b0d5"
+  integrity sha512-HMR6iD/Zer/alKSVfR7P+dg/nhZuk6jEEf7/WHsBE1c983rk53+jdHfNo3PmE/WeZVW8n6Hgw61YS+8swuG7pQ==
 
 redux-devtools-extension@^2.13.8:
   version "2.13.8"

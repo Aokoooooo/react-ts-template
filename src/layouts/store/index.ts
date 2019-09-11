@@ -1,4 +1,4 @@
-import { createReducer, getActionCreatorWithPrefix } from "aqua-actions";
+import { createReducer, getActionCreatorWithPrefix } from "redux-aqua";
 
 const creator = getActionCreatorWithPrefix("LAYOUT");
 export const changeCollapsed = creator.createAction("CHANGE_COLLAPSED");

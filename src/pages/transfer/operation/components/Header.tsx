@@ -1,16 +1,16 @@
 import { Button, Icon, PageHeader } from "antd";
-import { createThunkAction } from "aqua-actions";
 import React, { useEffect, useState } from "react";
-import { getThunkDispatch, StoreState } from "../../../../config/store";
+import { createAsyncAction } from "redux-aqua";
+import { StoreState } from "../../../../config/store";
 import { useActions } from "../../../../hooks/basicPageHooks";
 import { changeIsMobile, changeSpining } from "../../../../layouts/store";
 import { changeSearchForm } from "../store/";
 import * as styles from "./Header.module.less";
 import SearchForm, { initSearchForm } from "./HeaderSearchForm";
 
-const test = (type: string) =>
-  createThunkAction<StoreState>(getThunkDispatch(), (dispatch, getState) => {
-    console.log(type);
+export const test = (types: string) =>
+  createAsyncAction<StoreState>((dispatch, getState) => {
+    console.log(types);
     const state = getState().transferOperation;
     console.log(state);
     dispatch(changeIsMobile(false));
@@ -23,16 +23,15 @@ const test = (type: string) =>
       console.log(r);
       dispatch(changeSpining());
     });
-    return 1;
   });
 
 const Header: React.FC = () => {
   const [searchForm, setSearchForm] = useState();
   const [collapse, setCollapse] = useState(true);
-  const actions = useActions({ changeSearchForm });
+  const actions = useActions({ changeSearchForm, test });
 
   useEffect(() => () => {
-    changeSearchForm(initSearchForm);
+    actions.changeSearchForm(initSearchForm);
   });
   const subTitle = (
     <span className={styles.subTitle} onClick={() => setCollapse(!collapse)}>
@@ -65,7 +64,7 @@ const Header: React.FC = () => {
           <Button key="2" type={"primary"} onClick={handleSearchClick}>
             查询
           </Button>,
-          <Button key="3" onClick={() => test("TTTT")}>
+          <Button key="3" onClick={() => actions.test("TTTT")}>
             TEST
           </Button>
         ]}
