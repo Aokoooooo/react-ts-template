@@ -1,4 +1,4 @@
-import { createReducer, getActionCreatorWithPrefix } from "aqua-actions";
+import { createReducer, getActionCreatorWithPrefix } from "redux-aqua";
 import { initSearchForm, ISearchForm } from "../components/HeaderSearchForm";
 
 export interface IOperationState {

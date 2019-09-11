@@ -1,24 +1,22 @@
 import {
-  ActionType,
-  ReducerState,
-  ReducerStateKeyType,
-  ReducerStateValueType,
-  StoreState as StoreStateType
-} from "aqua-actions";
-import {
   applyMiddleware,
   combineReducers,
   createStore,
   Reducer,
   Store
 } from "redux";
+import aqua, {
+  ReducerState,
+  ReducerStateKeyType,
+  ReducerStateValueType,
+  StoreState as StoreStateType
+} from "redux-aqua";
 import { composeWithDevTools } from "redux-devtools-extension";
-import thunk, { ThunkDispatch } from "redux-thunk";
 import { layoutReducer } from "../layouts/store/";
 import { operationReducer as transferOperationReducer } from "../pages/transfer/operation/store";
 
 const staticReducers = { layout: layoutReducer };
-const enhancer = composeWithDevTools(applyMiddleware(thunk));
+const enhancer = composeWithDevTools(applyMiddleware(aqua));
 const rootReducer = combineReducers(staticReducers);
 
 // tslint:disable-next-line: interface-over-type-literal
@@ -52,9 +50,4 @@ const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
 
 const store = createStore(rootReducer, enhancer) as Store<StoreState>;
 
-export const getThunkDispatch = <
-  S = any,
-  E = any,
-  A extends ActionType = ActionType
->() => store.dispatch as ThunkDispatch<S, E, A>;
 export default store;
