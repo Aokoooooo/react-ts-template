@@ -31,22 +31,20 @@ export const injectReducer = (
   key: ReducerStateKeyType<AsyncReducer>,
   reducer: ReducerStateValueType<AsyncReducer>
 ) => {
-  if (asyncReducers[key]) {
+  if (process.env.NODE_ENV !== "development" && asyncReducers[key]) {
     console.warn(`尝试注入同名reducer: ${key}失败`);
     return;
   }
   asyncReducers[key] = reducer;
-  const newReducer = createReducer(asyncReducers);
+  const newReducer = combineReducers({
+    ...staticReducers,
+    ...asyncReducers
+  }) as Reducer<StoreState>;
+
   store.replaceReducer(newReducer);
 };
 
 export type StoreState = StoreStateType<RootReducerState, AsyncReducerState>;
-
-const createReducer = (asyncReducers: Partial<AsyncReducer>) => {
-  return combineReducers({ ...staticReducers, ...asyncReducers }) as Reducer<
-    StoreState
-  >;
-};
 
 const store = createStore(rootReducer, enhancer) as Store<StoreState>;
 
