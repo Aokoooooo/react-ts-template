@@ -5,6 +5,7 @@ const {
   addWebpackPlugin
 } = require("customize-cra");
 const es3ifyPlugin = require("es3ify-webpack-plugin");
+const modifyThemeVars = require("./src/styles/theme");
 
 const setupMinify = () => config => {
   //只修改生产模式
@@ -46,7 +47,8 @@ module.exports = override(
   }),
   addLessLoader({
     javascriptEnabled: true,
-    importLoaders: true
+    importLoaders: true,
+    modifyVars: modifyThemeVars
   }),
   addWebpackPlugin(new es3ifyPlugin()),
   setupMinify()

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useOnMountAndUnmount } from "../../hooks/basicPageHooks";
-import BasicPageLayout from "./basicPageLayout";
+import BasicPageLayout from "../../components/basicPageLayout";
 import { Card, Skeleton } from "antd";
 
 const SuspenseLoading = () => {

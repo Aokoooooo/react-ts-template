@@ -1,6 +1,6 @@
 import React from "react";
+import BasicPageLayout from "../../../components/basicPageLayout";
 import { injectReducer } from "../../../config/store";
-import BasicPageLayout from "../../../layouts/components/basicPageLayout";
 import Header from "./components/Header";
 import Table from "./components/Table";
 import { operationReducer } from "./store";
