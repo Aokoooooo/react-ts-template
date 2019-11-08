@@ -23,7 +23,7 @@ export interface IConstants {
 }
 export const convertConstantsToSelectOptions = (
   constant: IConstants,
-  customFilter?: (key: string) => boolean | string[] | string
+  customFilter?: ((key: string) => boolean) | string[] | string
 ) => {
   let keys = Object.keys(constant);
   if (typeof customFilter === "function") {

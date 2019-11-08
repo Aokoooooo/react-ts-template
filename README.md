@@ -3,7 +3,7 @@
 这个项目是我的基于`ts`的`react`脚手架,项目采用了如下组件构成:
 
 - UI: `antd`
-- 数据管理: `redux && react-redux && redux-thunk`
+- 数据管理: `redux && react-redux && redux-aqua`
 - 路由: `react-router`(v5)
 - 请求: `axios`
 - 工具组件: `lodash`,`moment`,`classnames`
