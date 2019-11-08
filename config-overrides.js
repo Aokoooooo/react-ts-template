@@ -2,7 +2,8 @@ const {
   override,
   fixBabelImports,
   addLessLoader,
-  addWebpackPlugin
+  addWebpackPlugin,
+  addWebpackAlias
 } = require("customize-cra");
 const es3ifyPlugin = require("es3ify-webpack-plugin");
 const modifyThemeVars = require("./src/styles/theme");
@@ -50,6 +51,7 @@ module.exports = override(
     importLoaders: true,
     modifyVars: modifyThemeVars
   }),
+  addWebpackAlias({ "@": require("path").resolve(__dirname, "src") }),
   addWebpackPlugin(new es3ifyPlugin()),
   setupMinify()
 );
