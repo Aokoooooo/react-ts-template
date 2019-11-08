@@ -161,7 +161,7 @@ export const useParseMenuConfigToMenus = () => {
 const parseMenuConfigToRoutes = (isFirst: boolean = false) => {
   const parseMenuConfigToRoutesHelper = (
     i: IMenuConfig,
-    routes: IMenuConfig[],
+    routes: JSX.Element[],
     stack: string[]
   ): void => {
     if (!i.type || i.type === menuType.DEFAULT) {
@@ -203,7 +203,7 @@ const parseMenuConfigToRoutes = (isFirst: boolean = false) => {
     }
   };
 
-  const routes = new Array<IMenuConfig>();
+  const routes = new Array<JSX.Element>();
   const stack = new Array<string>();
   menuConfig.forEach(i => parseMenuConfigToRoutesHelper(i, routes, stack));
   return routes;
