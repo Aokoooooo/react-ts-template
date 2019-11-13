@@ -1,4 +1,4 @@
-import { Bus, CallbackType } from "aqua-message";
+import { Bus, CallbackType, Subscriber } from "aqua-message";
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -121,22 +121,62 @@ export const useSelector = <TSelected = any>(
   return useReduxSelector<StoreState, TSelected>(selector, equalityFn);
 };
 
-export const useMessage = <T extends Bus>(
+export interface IUseMessage {
+  [event: string]: CallbackType;
+}
+
+export function useMessage<T extends Bus>(
   bus: T,
   event: string,
   callback: CallbackType
-) => {
+): Subscriber<T>;
+export function useMessage<T extends Bus>(
+  bus: T,
+  event: IUseMessage | IUseMessage[]
+): Subscriber<T>;
+export function useMessage<T extends Bus>(
+  bus: T,
+  event: string | IUseMessage | IUseMessage[],
+  callback?: CallbackType
+) {
   const subscriber = useMemo(() => {
     return bus.createSubscriber();
   }, [bus]);
 
   useOnMount(() => {
-    subscriber.on(event, callback);
+    if (typeof event === "string") {
+      if (typeof callback !== "function") {
+        return;
+      }
+      subscriber.on(event, callback);
+    } else if (Array.isArray(event)) {
+      event.forEach(i => {
+        Object.keys(i).forEach(key => {
+          subscriber.on(key, i[key]);
+        });
+      });
+    } else {
+      Object.keys(event).forEach(key => {
+        subscriber.on(key, event[key]);
+      });
+    }
   });
 
   useOnUnmount(() => {
-    subscriber.off(event);
+    if (typeof event === "string") {
+      subscriber.off(event);
+    } else if (Array.isArray(event)) {
+      event.forEach(i => {
+        Object.keys(i).forEach(key => {
+          subscriber.off(key);
+        });
+      });
+    } else {
+      Object.keys(event).forEach(key => {
+        subscriber.off(key);
+      });
+    }
   });
 
   return subscriber;
-};
+}

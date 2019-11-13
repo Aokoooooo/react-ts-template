@@ -52,8 +52,13 @@ const Header: React.FC = () => {
     console.log("search");
   };
 
-  const sub = useMessage(Bus, "test", (msg: any) => {
-    console.log(msg);
+  const sub = useMessage(Bus, {
+    test: (msg: any) => {
+      console.log(msg);
+    },
+    0: () => {
+      console.log("???");
+    }
   });
 
   return (
