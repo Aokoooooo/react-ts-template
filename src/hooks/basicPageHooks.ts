@@ -1,3 +1,4 @@
+import { Bus, CallbackType } from "aqua-message";
 import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -118,4 +119,24 @@ export const useSelector = <TSelected = any>(
   equalityFn?: (left: TSelected, right: TSelected) => boolean
 ) => {
   return useReduxSelector<StoreState, TSelected>(selector, equalityFn);
+};
+
+export const useMessage = <T extends Bus>(
+  bus: T,
+  event: string,
+  callback: CallbackType
+) => {
+  const subscriber = useMemo(() => {
+    return bus.createSubscriber();
+  }, [bus]);
+
+  useOnMount(() => {
+    subscriber.on(event, callback);
+  });
+
+  useOnUnmount(() => {
+    subscriber.off(event);
+  });
+
+  return subscriber;
 };

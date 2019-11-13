@@ -1,8 +1,9 @@
 import { Button, Icon, PageHeader } from "antd";
+import Bus from "aqua-message";
 import React, { useEffect, useState } from "react";
 import { createAsyncAction } from "redux-aqua";
 import { StoreState } from "../../../../config/store";
-import { useActions } from "../../../../hooks/basicPageHooks";
+import { useActions, useMessage } from "../../../../hooks/basicPageHooks";
 import { changeIsMobile, changeSpining } from "../../../../layouts/store";
 import { changeSearchForm } from "../store/";
 import * as styles from "./Header.module.less";
@@ -51,6 +52,10 @@ const Header: React.FC = () => {
     console.log("search");
   };
 
+  const sub = useMessage(Bus, "test", (msg: any) => {
+    console.log(msg);
+  });
+
   return (
     <div className={styles.container}>
       <PageHeader
@@ -66,6 +71,9 @@ const Header: React.FC = () => {
           </Button>,
           <Button key="3" onClick={() => actions.test("TTTT")}>
             TEST
+          </Button>,
+          <Button key="4" onClick={() => sub.emit("test", "TEST MSG")}>
+            TEST MSG
           </Button>
         ]}
         className={styles.header}
