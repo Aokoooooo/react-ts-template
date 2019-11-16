@@ -1,5 +1,4 @@
-import { Bus, CallbackType, Subscriber } from "aqua-message";
-import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector as useReduxSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreator, ActionType, AquaAction } from "redux-aqua";
@@ -47,56 +46,6 @@ export const useAfterPaginationParamsChanged = (
   return setCurrent;
 };
 
-export const useOnMount = (onMount: () => void) => {
-  useEffect(() => {
-    onMount();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-};
-
-export const useOnUnmount = (onUnmount: () => void) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onUnmount, []);
-};
-
-export const useOnMountAndUnmount = (callback: () => () => void) => {
-  useEffect(() => {
-    const onUnmount = callback();
-    return onUnmount;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-};
-
-export const useOnUpdate = (
-  onUpdate: () => void,
-  deps: DependencyList = []
-) => {
-  const isFirst = useRef(true);
-
-  useEffect(() => {
-    if (isFirst.current) {
-      isFirst.current = false;
-    } else {
-      onUpdate();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
-};
-
-export const useLogger = (componentName: string, ...rest: any[]) => {
-  useOnMount(() => {
-    console.log(`${componentName} mounted`, ...rest);
-  });
-
-  useOnUpdate(() => {
-    console.log(`${componentName} updated`, ...rest);
-  });
-
-  useOnUnmount(() => {
-    console.log(`${componentName} unmounted`, ...rest);
-  });
-};
-
 interface IUseActionsActionCreators {
   [key: string]:
     | ActionCreator
@@ -120,63 +69,3 @@ export const useSelector = <TSelected = any>(
 ) => {
   return useReduxSelector<StoreState, TSelected>(selector, equalityFn);
 };
-
-export interface IUseMessage {
-  [event: string]: CallbackType;
-}
-
-export function useMessage<T extends Bus>(
-  bus: T,
-  event: string,
-  callback: CallbackType
-): Subscriber<T>;
-export function useMessage<T extends Bus>(
-  bus: T,
-  event: IUseMessage | IUseMessage[]
-): Subscriber<T>;
-export function useMessage<T extends Bus>(
-  bus: T,
-  event: string | IUseMessage | IUseMessage[],
-  callback?: CallbackType
-) {
-  const subscriber = useMemo(() => {
-    return bus.createSubscriber();
-  }, [bus]);
-
-  useOnMount(() => {
-    if (typeof event === "string") {
-      if (typeof callback !== "function") {
-        return;
-      }
-      subscriber.on(event, callback);
-    } else if (Array.isArray(event)) {
-      event.forEach(i => {
-        Object.keys(i).forEach(key => {
-          subscriber.on(key, i[key]);
-        });
-      });
-    } else {
-      Object.keys(event).forEach(key => {
-        subscriber.on(key, event[key]);
-      });
-    }
-  });
-
-  useOnUnmount(() => {
-    if (typeof event === "string") {
-      subscriber.off(event);
-    } else if (Array.isArray(event)) {
-      event.forEach(i => {
-        Object.keys(i).forEach(key => {
-          subscriber.off(key);
-        });
-      });
-    } else {
-      Object.keys(event).forEach(key => {
-        subscriber.off(key);
-      });
-    }
-  });
-
-  return subscriber;
-}

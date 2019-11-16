@@ -1,4 +1,5 @@
 import { Layout, Modal } from "antd";
+import { useOnMount, useOnUnmount } from "aqua-hooks";
 import className from "classnames";
 import React, { useEffect } from "react";
 import { ContainerQuery } from "react-container-query";
@@ -7,7 +8,7 @@ import { Route, RouteProps, Switch } from "react-router-dom";
 import { updateIsAuthenticationCheckBlocked } from "../config/axios";
 import { layoutConfig } from "../config/layoutConfig";
 import { basePath } from "../config/systemParams";
-import { useActions, useOnMount, useOnUnmount } from "../hooks/basicPageHooks";
+import { useActions } from "../hooks/basicPageHooks";
 import { useParseMenuConfigToRoutes } from "../hooks/parseMenuConfig";
 import { dynamicLoadWithLoading } from "../utils";
 import styles from "./BasicLayout.module.less";

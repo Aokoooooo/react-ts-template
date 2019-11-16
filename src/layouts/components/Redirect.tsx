@@ -1,6 +1,6 @@
+import { useOnMount } from "aqua-hooks";
 import React from "react";
 import history from "../../config/history";
-import { useOnMount } from "../../hooks/basicPageHooks";
 
 interface IRedirectProps {
   to?: string;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useOnMountAndUnmount } from "../../hooks/basicPageHooks";
+import { useOnMountAndUnmount } from "aqua-hooks";
 import BasicPageLayout from "../../components/basicPageLayout";
 import { Card, Skeleton } from "antd";
 
