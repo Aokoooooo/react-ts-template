@@ -2332,10 +2332,10 @@ aqua-hooks@^0.1.0:
   resolved "https://registry.yarnpkg.com/aqua-hooks/-/aqua-hooks-0.1.0.tgz#042d5128143354d7a72511894c5fa809a9174442"
   integrity sha512-9CyswoXRS1xlSEZ8nLWYzMUkk52fmKnl+2mWJ6mowI5I2vwYC3oQwNmlRqxdkJL0iLQOVttS1xkKKr7FUpi21Q==
 
-aqua-message@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/aqua-message/-/aqua-message-0.1.2.tgz#37dffc6f18ef33b380374409d946bc1dbeafeaa9"
-  integrity sha512-MFOo5AzJvI87XeZsniOXQ9h1AVf8VvDunmMf2hLnHi7jYcBu+i/td6XKRyGPONr7vAVEWD/NFlQE5z9SyxKBGQ==
+aqua-message@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.npm.taobao.org/aqua-message/download/aqua-message-0.1.3.tgz#34fd42a27853ae9d49fa9ad37b67bfad47c5a117"
+  integrity sha1-NP1ConhTrp1J+prTe2e/rUfFoRc=
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
