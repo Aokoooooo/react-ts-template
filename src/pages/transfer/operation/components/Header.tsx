@@ -1,15 +1,14 @@
-import { Button, } from "antd";
+import { Button } from "antd";
 import Bus, { useMessage } from "aqua-message";
 import React, { useEffect, useRef } from "react";
 import { createAsyncAction } from "redux-aqua";
-import PageHeader from '../../../../components/basicPageHeader'
+import PageHeader from "../../../../components/basic/pageHeader";
 import { StoreState } from "../../../../config/store";
 import { useActions } from "../../../../hooks/basicPageHooks";
 import { changeIsMobile, changeSpining } from "../../../../layouts/store";
 import { bindFormRef, FormComponent } from "../../../../utils/form";
 import { changeSearchForm } from "../store/";
 import SearchForm, { initSearchForm } from "./HeaderSearchForm";
-
 
 export const test = (types: string) =>
   createAsyncAction<StoreState>((dispatch, getState) => {
@@ -57,19 +56,19 @@ const Header: React.FC = () => {
   });
 
   const form: React.FC<{ collapse: boolean }> = ({ collapse }) => {
-    return (<div
-      style={{ display: collapse ? 'none' : 'inherit' }
-      }>
-      <SearchForm
-        wrappedComponentRef={(component: FormComponent) => {
-          if (searchForm.current) {
-            return
-          }
-          bindFormRef(component, searchForm)
-        }}
-      />
-    </div >)
-  }
+    return (
+      <div style={{ display: collapse ? "none" : "inherit" }}>
+        <SearchForm
+          wrappedComponentRef={(component: FormComponent) => {
+            if (searchForm.current) {
+              return;
+            }
+            bindFormRef(component, searchForm);
+          }}
+        />
+      </div>
+    );
+  };
 
   return (
     <PageHeader
@@ -79,17 +78,18 @@ const Header: React.FC = () => {
       extra={[
         <Button key="1" onClick={handleRestClick}>
           重置
-          </Button>,
+        </Button>,
         <Button key="2" type={"primary"} onClick={handleSearchClick}>
           查询
-          </Button>,
+        </Button>,
         <Button key="3" onClick={() => actions.test("TTTT")}>
           TEST
-          </Button>,
+        </Button>,
         <Button key="4" onClick={() => sub.emit("test", "TEST MSG")}>
           TEST MSG
-          </Button>
-      ]} />
+        </Button>
+      ]}
+    />
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useOnMountAndUnmount } from "aqua-hooks";
-import BasicPageLayout from "../../components/basicPageLayout";
+import BasicPageLayout from "../../components/basic/pageLayout";
 import { Card, Skeleton } from "antd";
 
 const SuspenseLoading = () => {
