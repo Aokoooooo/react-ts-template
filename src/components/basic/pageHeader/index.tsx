@@ -29,8 +29,8 @@ const BasicHeaderHeader: React.FC<
         <Icon type={collapse ? "down" : "up"} />
       </span>
     ) : (
-        props.subTitle
-      );
+      props.subTitle
+    );
   }, [props.subTitle, collapse]);
 
   return (
@@ -49,7 +49,11 @@ const BasicHeaderHeader: React.FC<
       >
         {
           <div>
-            {props.renderContent ? <props.renderContent collapse={collapse} /> : props.children}
+            {props.renderContent ? (
+              <props.renderContent collapse={collapse} />
+            ) : (
+              props.children
+            )}
           </div>
         }
       </PageHeader>

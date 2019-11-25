@@ -44,7 +44,7 @@ const SideMenu: React.FC<ISideMenuProps> = (props: ISideMenuProps) => {
         {!layoutConfig.siderMenu.showLogo && collapsed && (
           <span className={styles.placeholder} />
         )}
-        <h1>Aoko</h1>
+        <h1>{layoutConfig.siderMenu.title}</h1>
       </div>
       <BaseMenu />
     </Layout.Sider>

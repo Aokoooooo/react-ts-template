@@ -3,6 +3,7 @@ import siderLogo from "../assets/logo.svg";
 
 export interface ILayoutConfig {
   siderMenu: {
+    title: string;
     show: boolean;
     logo: string;
     showLogo: boolean;
@@ -21,6 +22,7 @@ export interface ILayoutConfig {
 
 export const layoutConfig: ILayoutConfig = {
   siderMenu: {
+    title: "AOKO",
     show: true,
     logo: siderLogo,
     showLogo: true
