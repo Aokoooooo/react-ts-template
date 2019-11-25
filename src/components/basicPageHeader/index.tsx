@@ -8,13 +8,13 @@ import React, {
 } from "react";
 import * as styles from "./index.module.less";
 
-interface IBaseHeaderProps {
+interface IHeaderProps {
   defaultSubtitleStatus?: boolean;
   renderContent?: ComponentType<{ collapse: boolean }>;
 }
 
-const BaseHeader: React.FC<
-  PropsWithChildren<PageHeaderProps & IBaseHeaderProps>
+const BasicHeaderHeader: React.FC<
+  PropsWithChildren<PageHeaderProps & IHeaderProps>
 > = props => {
   const [collapse, setCollapse] = useState(
     typeof props.defaultSubtitleStatus === "undefined"
@@ -29,9 +29,9 @@ const BaseHeader: React.FC<
         <Icon type={collapse ? "down" : "up"} />
       </span>
     ) : (
-      props.subTitle
-    );
-  }, [props.subTitle]);
+        props.subTitle
+      );
+  }, [props.subTitle, collapse]);
 
   return (
     <div className={styles.container}>
@@ -49,7 +49,7 @@ const BaseHeader: React.FC<
       >
         {
           <div>
-            {props.renderContent && <props.renderContent collapse={collapse} />}
+            {props.renderContent ? <props.renderContent collapse={collapse} /> : props.children}
           </div>
         }
       </PageHeader>
@@ -57,4 +57,4 @@ const BaseHeader: React.FC<
   );
 };
 
-export default BaseHeader;
+export default BasicHeaderHeader;
