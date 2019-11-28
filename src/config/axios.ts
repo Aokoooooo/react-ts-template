@@ -1,5 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
+import { get } from "lodash";
 import { changeSpining } from "../layouts/store/";
 import history from "./history";
 import store from "./store";
@@ -59,7 +60,8 @@ instance.interceptors.response.use(
   },
   error => {
     subtractLoading();
-    const status = error.response && error.response.status;
+    const status = Number(get(error, "response.status"));
+    const errorMsg = get(error, "response.data.error");
     if (status === 401) {
       if (!isAuthenticationCheckBlocked) {
         updateIsAuthenticationCheckBlocked(true);
@@ -70,13 +72,14 @@ instance.interceptors.response.use(
       message.error("没有权限进行此操作");
     } else if (status === 404) {
       history.replace("/404");
-    } else if (status === 500) {
+    } else if (status >= 500) {
       history.replace("/500");
     } else if (status > 300) {
       history.replace("/500");
+    } else if (errorMsg) {
+      message.error(error);
     } else {
       console.log(error);
-      // message.error(error);
     }
     return Promise.reject(error);
   }

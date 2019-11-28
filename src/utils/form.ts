@@ -69,7 +69,7 @@ export const validateFormFields = <P extends {}, F extends {}, V = any>(
 
 export const getFormFieldsValue = <P extends {}, F extends {}, V = any>(
   ref: FormRef<P, F, V>,
-  names: string[]
+  names?: string[]
 ) => {
   if (!ref.current) {
     return;
