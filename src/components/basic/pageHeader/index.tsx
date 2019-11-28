@@ -13,7 +13,7 @@ interface IHeaderProps {
   renderContent?: ComponentType<{ collapse: boolean }>;
 }
 
-const BasicHeaderHeader: React.FC<
+const BasicHeader: React.FC<
   PropsWithChildren<PageHeaderProps & IHeaderProps>
 > = props => {
   const [collapse, setCollapse] = useState(
@@ -61,4 +61,4 @@ const BasicHeaderHeader: React.FC<
   );
 };
 
-export default BasicHeaderHeader;
+export default BasicHeader;
