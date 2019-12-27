@@ -1,5 +1,7 @@
+import { Form } from "antd";
 import { WrappedFormUtils } from "antd/es/form/Form";
 import { Component, MutableRefObject } from "react";
+import { ObjectKeyList } from ".";
 
 // tslint:disable-next-line: interface-over-type-literal
 export type FormUtils<F extends {} = {}, V = any> = {
@@ -111,4 +113,14 @@ export const withFormRef = <P extends {}, F extends {}, V = any>(
     getFormFieldValue: (name: string) => getFormFieldValue(ref, name),
     setFormFieldValue: (props: object) => setFormFieldValue(ref, props)
   };
+};
+
+export const mapPropsToFieldsWithInitState = <T extends {}>(initState: T) => (
+  props: any
+) => {
+  const obj: { [K in keyof T]: any } = { ...initState };
+  (Reflect.ownKeys(initState) as ObjectKeyList<T>).forEach(i => {
+    obj[i] = Form.createFormField({ ...props[i], value: props[i] });
+  });
+  return obj;
 };

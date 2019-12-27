@@ -1,14 +1,19 @@
 import { Button } from "antd";
 import Bus, { useMessage } from "aqua-message";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { createAsyncAction } from "redux-aqua";
 import PageHeader from "../../../../components/basic/pageHeader";
 import { StoreState } from "../../../../config/store";
 import { useActions } from "../../../../hooks/basicPageHooks";
 import { changeIsMobile, changeSpining } from "../../../../layouts/store";
-import { bindFormRef, FormComponent } from "../../../../utils/form";
+import {
+  bindFormRef,
+  FormComponent,
+  getFormFieldsValue,
+  resetFormFields
+} from "../../../../utils/form";
 import { changeSearchForm } from "../store/";
-import SearchForm, { initSearchForm } from "./HeaderSearchForm";
+import SearchForm from "./HeaderSearchForm";
 
 export const test = (types: string) =>
   createAsyncAction<StoreState>((dispatch, getState) => {
@@ -31,19 +36,12 @@ const Header: React.FC = () => {
   const searchForm = useRef<FormComponent>(null);
   const actions = useActions({ changeSearchForm, test });
 
-  useEffect(() => () => {
-    actions.changeSearchForm(initSearchForm);
-  });
-
   const handleRestClick = () => {
-    actions.changeSearchForm(initSearchForm);
-    if (searchForm.current) {
-      searchForm.current.props.form.resetFields();
-    }
+    resetFormFields(searchForm);
   };
 
   const handleSearchClick = () => {
-    console.log("search");
+    console.log(getFormFieldsValue(searchForm));
   };
 
   const sub = useMessage(Bus, {
@@ -55,25 +53,8 @@ const Header: React.FC = () => {
     }
   });
 
-  const form: React.FC<{ collapse: boolean }> = ({ collapse }) => {
-    return (
-      <div style={{ display: collapse ? "none" : "inherit" }}>
-        <SearchForm
-          wrappedComponentRef={(component: FormComponent) => {
-            if (searchForm.current) {
-              return;
-            }
-            bindFormRef(component, searchForm);
-          }}
-        />
-      </div>
-    );
-  };
-
   return (
     <PageHeader
-      renderContent={form}
-      backIcon={null}
       title={"待处理划款记录"}
       extra={[
         <Button key="1" onClick={handleRestClick}>
@@ -89,6 +70,16 @@ const Header: React.FC = () => {
           TEST MSG
         </Button>
       ]}
+      renderContent={({ collapse }) => (
+        <div className={`${collapse ? "collapsed" : ""}`}>
+          <SearchForm
+            wrappedComponentRef={(component: FormComponent) => {
+              bindFormRef(component, searchForm);
+            }}
+          />
+        </div>
+      )}
+      defaultSubtitleStatus={false}
     />
   );
 };

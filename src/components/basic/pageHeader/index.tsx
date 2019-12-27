@@ -25,8 +25,8 @@ const BasicHeader: React.FC<
   const subTitle = useMemo(() => {
     return typeof props.subTitle === "undefined" ? (
       <span className={styles.subTitle} onClick={() => setCollapse(!collapse)}>
-        {collapse ? "展开" : "收起"}
-        <Icon type={collapse ? "down" : "up"} />
+        <span>{collapse ? "展开" : "收起"}</span>
+        <Icon className={collapse ? styles.subIconDown : ""} type="up" />
       </span>
     ) : (
       props.subTitle
@@ -50,7 +50,9 @@ const BasicHeader: React.FC<
         {
           <div>
             {props.renderContent ? (
-              <props.renderContent collapse={collapse} />
+              <div className={styles.collapseComponent}>
+                <props.renderContent collapse={collapse} />
+              </div>
             ) : (
               props.children
             )}

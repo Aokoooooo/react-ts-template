@@ -13,8 +13,7 @@
 1. 拉下代码后,`cd`到项目目录,输入`yarn`下载所需依赖.
 2. 修改根目录下的`.env`文件,其中:
 
-   - `REACT_APP_DEV_BASE_URL`:这个值应填写与前端开发环境相同的`host`和`port`(比如`http://localhost:3000`).
-   - `REACT_APP_PROXY_URL`:这个值对应后端服务器的地址.
+   - `REACT_APP_DEV_BASE_URL`:这个值应填写后端测试服务器`host`和`port`.
 
      这两个值配置的目的是为了绕过浏览器对于跨域访问的限制.
 

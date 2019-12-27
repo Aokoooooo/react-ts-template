@@ -4,6 +4,9 @@ import history from "../config/history";
 import { basePath } from "../config/systemParams";
 import SuspenseLoading from "../layouts/components/SuspenseLoading";
 
+export type ObjectKey<T extends {}> = keyof T;
+export type ObjectKeyList<T extends {}> = Array<ObjectKey<T>>;
+
 export const checkLocationPathname = (name: string): boolean => {
   return history.location.pathname === `${basePath}${name}`;
 };

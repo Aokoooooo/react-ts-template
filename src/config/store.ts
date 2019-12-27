@@ -8,7 +8,6 @@ import {
 import aqua, {
   ReducerState,
   ReducerStateKeyType,
-  ReducerStateValueType,
   StoreState as StoreStateType
 } from "redux-aqua";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -27,9 +26,12 @@ export type RootReducerState = ReducerState<typeof staticReducers>;
 export type AsyncReducerState = ReducerState<AsyncReducer>;
 const asyncReducers: Partial<AsyncReducer> = {};
 
-export const injectReducer = (
-  key: ReducerStateKeyType<AsyncReducer>,
-  reducer: ReducerStateValueType<AsyncReducer>
+export const injectReducer = <
+  K extends ReducerStateKeyType<AsyncReducer>,
+  R extends AsyncReducer[K]
+>(
+  key: K,
+  reducer: R
 ) => {
   if (process.env.NODE_ENV !== "development" && asyncReducers[key]) {
     console.warn(`尝试注入同名reducer: ${key}失败`);

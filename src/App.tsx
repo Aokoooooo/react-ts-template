@@ -1,4 +1,4 @@
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from "antd";
 import zh_CN from "antd/lib/locale-provider/zh_CN";
 import moment from "moment";
 import "moment/locale/zh-cn";
@@ -31,7 +31,7 @@ const ForgetPassword = dynamicLoadWithLoading(
 
 const App: React.FC = () => {
   return (
-    <LocaleProvider locale={zh_CN}>
+    <ConfigProvider locale={zh_CN}>
       <Provider store={store}>
         <Router history={history}>
           <Switch>
@@ -50,7 +50,7 @@ const App: React.FC = () => {
           </Switch>
         </Router>
       </Provider>
-    </LocaleProvider>
+    </ConfigProvider>
   );
 };
 

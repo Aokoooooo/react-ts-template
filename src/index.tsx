@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import "./index.module.less";
+import "./index.less";
 import * as serviceWorker from "./serviceWorker";
 require("es5-shim");
 require("es5-shim/es5-sham");

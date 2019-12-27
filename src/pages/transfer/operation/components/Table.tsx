@@ -42,7 +42,7 @@ const OperationTable: React.FC = () => {
         columns={columns}
         scroll={{ x: 991 }}
       />
-      <Pagination className={styles.pagination} />
+      <Pagination />
     </Card>
   );
 };

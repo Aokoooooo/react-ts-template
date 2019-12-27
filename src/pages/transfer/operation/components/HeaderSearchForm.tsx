@@ -3,6 +3,7 @@ import { FormComponentProps } from "antd/lib/form";
 import { Moment } from "moment";
 import React from "react";
 import store from "../../../../config/store";
+import { mapPropsToFieldsWithInitState } from "../../../../utils/form";
 import { changeSearchForm } from "../store/";
 import * as styles from "./HeaderSearchForm.module.less";
 export interface ISearchForm {
@@ -112,6 +113,7 @@ const handleFormValuesChange = (
   store.dispatch(changeSearchForm(allValues));
 };
 
-export default Form.create({ onValuesChange: handleFormValuesChange })(
-  SearchForm
-);
+export default Form.create({
+  onValuesChange: handleFormValuesChange,
+  mapPropsToFields: mapPropsToFieldsWithInitState(initSearchForm)
+})(SearchForm);
