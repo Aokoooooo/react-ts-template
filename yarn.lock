@@ -2327,15 +2327,15 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-aqua-hooks@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/aqua-hooks/-/aqua-hooks-0.1.0.tgz#042d5128143354d7a72511894c5fa809a9174442"
-  integrity sha512-9CyswoXRS1xlSEZ8nLWYzMUkk52fmKnl+2mWJ6mowI5I2vwYC3oQwNmlRqxdkJL0iLQOVttS1xkKKr7FUpi21Q==
-
-aqua-message@^0.1.3:
+aqua-hooks@^0.1.3:
   version "0.1.3"
-  resolved "https://registry.npm.taobao.org/aqua-message/download/aqua-message-0.1.3.tgz#34fd42a27853ae9d49fa9ad37b67bfad47c5a117"
-  integrity sha1-NP1ConhTrp1J+prTe2e/rUfFoRc=
+  resolved "https://registry.npm.taobao.org/aqua-hooks/download/aqua-hooks-0.1.3.tgz?cache=0&sync_timestamp=1577687039302&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faqua-hooks%2Fdownload%2Faqua-hooks-0.1.3.tgz#24137569d1adbed1f1574138c55389d0f84032be"
+  integrity sha1-JBN1adGtvtHxV0E4xVOJ0PhAMr4=
+
+aqua-message@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npm.taobao.org/aqua-message/download/aqua-message-0.1.5.tgz?cache=0&sync_timestamp=1577687504640&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faqua-message%2Fdownload%2Faqua-message-0.1.5.tgz#c2e5caee52c0f9587e4c2f90e61434084549412a"
+  integrity sha1-wuXK7lLA+Vh+TC+Q5hQ0CEVJQSo=
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
@@ -12689,10 +12689,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
-  integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
+typescript@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha1-F0Ol7F/vah+p8+RwjjPIHHOHbBk=
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
