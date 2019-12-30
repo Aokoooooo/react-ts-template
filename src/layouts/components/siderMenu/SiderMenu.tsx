@@ -1,5 +1,6 @@
 import { Layout } from "antd";
 import React from "react";
+import history from "../../../config/history";
 import { layoutConfig } from "../../../config/layoutConfig";
 import BaseMenu from "./BaseMenu";
 import styles from "./index.module.less";
@@ -20,6 +21,11 @@ const SideMenu: React.FC<ISideMenuProps> = (props: ISideMenuProps) => {
     isFirst,
     handleFirstChange
   } = props;
+
+  const handleTitleClick = () => {
+    history.push("/");
+  };
+
   return (
     <Layout.Sider
       className={styles.sider}
@@ -37,7 +43,7 @@ const SideMenu: React.FC<ISideMenuProps> = (props: ISideMenuProps) => {
         }
       }}
     >
-      <div className={styles.logo} id="logo">
+      <div className={styles.logo} id="logo" onClick={handleTitleClick}>
         {layoutConfig.siderMenu.showLogo && (
           <img src={layoutConfig.siderMenu.logo} alt="logo" />
         )}

@@ -31,7 +31,7 @@ export const layoutConfig: ILayoutConfig = {
     show: true,
     fixed: false,
     logo: headerLogo,
-    showLogo: true
+    showLogo: false
   },
   footer: {
     show: false,
