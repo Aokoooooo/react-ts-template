@@ -1,6 +1,7 @@
 import { Icon, Menu } from "antd";
+import { useOnUpdate } from "aqua-hooks";
 import { isEmpty } from "lodash";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Route } from "react-router-dom";
 import {
   getGroupKey,
@@ -151,7 +152,7 @@ export const useParseMenuConfigToMenus = () => {
   const config = menuConfig;
   const [menus, setMenus] = useState([] as ReactNode);
 
-  useEffect(() => {
+  useOnUpdate(() => {
     setMenus(parseMenuConfigToMenus());
   }, [config]);
 
@@ -215,7 +216,7 @@ export const useParseMenuConfigToRoutes = () => {
   const config = menuConfig;
   const [routes, setRoutes] = useState(initRoutes);
 
-  useEffect(() => {
+  useOnUpdate(() => {
     setRoutes(parseMenuConfigToRoutes());
   }, [config]);
 

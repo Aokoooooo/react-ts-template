@@ -1,7 +1,7 @@
 import { Layout, Modal } from "antd";
-import { useOnMount, useOnUnmount } from "aqua-hooks";
+import { useOnMount, useOnUnmount, useOnUpdate } from "aqua-hooks";
 import className from "classnames";
-import React, { useEffect } from "react";
+import React from "react";
 import { ContainerQuery } from "react-container-query";
 import Media from "react-media";
 import { Route, RouteProps, Switch } from "react-router-dom";
@@ -38,7 +38,7 @@ const BasicLayout: React.FC<IBasicLayout> = (props: IBasicLayout) => {
   const actions = useActions({ changeIsMobile });
   const { isMobile } = props;
 
-  useEffect(() => {
+  useOnUpdate(() => {
     actions.changeIsMobile(isMobile);
   }, [isMobile, actions]);
 
