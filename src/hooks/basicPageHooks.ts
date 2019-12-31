@@ -32,7 +32,7 @@ export const useAfterPaginationParamsChanged = (
     }
   }, [current]);
 
-  return setCurrent;
+  return { current, setCurrent };
 };
 
 interface IUseActionsActionCreators {

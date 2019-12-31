@@ -1,7 +1,7 @@
 import { Icon, PageHeader } from "antd";
 import { PageHeaderProps } from "antd/lib/page-header";
 import React, {
-  ComponentType,
+  FunctionComponent,
   PropsWithChildren,
   useMemo,
   useState
@@ -10,7 +10,7 @@ import * as styles from "./index.module.less";
 
 interface IHeaderProps {
   defaultSubtitleStatus?: boolean;
-  renderContent?: ComponentType<{ collapse: boolean }>;
+  renderContent?: FunctionComponent<{ collapse: boolean }>;
 }
 
 const BasicHeader: React.FC<
@@ -51,7 +51,7 @@ const BasicHeader: React.FC<
           <div>
             {props.renderContent ? (
               <div className={styles.collapseComponent}>
-                <props.renderContent collapse={collapse} />
+                {props.renderContent({ collapse })}
               </div>
             ) : (
               props.children
