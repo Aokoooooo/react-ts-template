@@ -2327,15 +2327,15 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-aqua-hooks@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npm.taobao.org/aqua-hooks/download/aqua-hooks-0.1.5.tgz#33256bcb5559b638f9016c2f5ad7038a542e3d6e"
-  integrity sha1-MyVry1VZtjj5AWwvWtcDilQuPW4=
+aqua-hooks@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npm.taobao.org/aqua-hooks/download/aqua-hooks-0.2.0.tgz#28bccc7ca8404f0586c5c2d9cc23b001ddc635e1"
+  integrity sha1-KLzMfKhATwWGxcLZzCOwAd3GNeE=
 
-aqua-message@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npm.taobao.org/aqua-message/download/aqua-message-0.1.5.tgz?cache=0&sync_timestamp=1577687504640&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faqua-message%2Fdownload%2Faqua-message-0.1.5.tgz#c2e5caee52c0f9587e4c2f90e61434084549412a"
-  integrity sha1-wuXK7lLA+Vh+TC+Q5hQ0CEVJQSo=
+aqua-message@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npm.taobao.org/aqua-message/download/aqua-message-0.2.0.tgz#4b0ba265ad105d9fbb9f8f295e1ce2d79ab8b124"
+  integrity sha1-SwuiZa0QXZ+7n48pXhzi15q4sSQ=
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
