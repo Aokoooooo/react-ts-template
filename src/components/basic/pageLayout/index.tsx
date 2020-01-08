@@ -1,31 +1,32 @@
-import React, { ComponentType } from "react";
+import React, { ReactNode } from "react";
 import * as styles from "./index.module.less";
 
 interface IBasicPageLayoutProps {
-  Header?: ComponentType;
-  Content?: ComponentType;
-  Footer?: ComponentType;
+  Header?: ReactNode;
+  Content?: ReactNode;
+  Footer?: ReactNode;
 }
 
 const BasicPageLayout = (props: IBasicPageLayoutProps) => {
   const { Header, Content, Footer } = props;
+
   return (
     <div className={styles.basicPageLayout}>
       {Header && (
         <div className={styles.header}>
-          <Header />
+          {typeof Header === "function" ? <Header /> : Header}
         </div>
       )}
 
       {Content && (
         <div className={styles.content}>
-          <Content />
+          {typeof Content === "function" ? <Content /> : Content}
         </div>
       )}
 
       {Footer && (
         <div className={styles.footer}>
-          <Footer />
+          {typeof Footer === "function" ? <Footer /> : Footer}
         </div>
       )}
     </div>
