@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { dynamicLoadWithLoading } from "../utils";
+import { AuthAskedType } from "../utils/checkAuth";
 import history from "./history";
 
 export interface IMenuConfig {
@@ -10,7 +11,8 @@ export interface IMenuConfig {
   icon?: ReactNode;
   disabled?: boolean;
   notExact?: boolean;
-  auth?: string[] | string;
+  auth?: AuthAskedType;
+  onAuthFail?: () => void;
   component?: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
   children?: IMenuConfig[];
 }

@@ -12,6 +12,7 @@ import {
 } from "../config/menuConfig";
 import { basePath } from "../config/systemParams";
 import checkAuth from "../utils/checkAuth";
+import withAuth from "../utils/withAuth";
 
 const parseMenuConfigToMenus = (): ReactNode => {
   let key = 0;
@@ -178,7 +179,11 @@ const parseMenuConfigToRoutes = (isFirst: boolean = false) => {
           key={`${prefix}${i.path}`}
           exact={!i.notExact}
           path={`${basePath}${prefix}${i.path}`}
-          component={i.component}
+          component={
+            i.component
+              ? withAuth(i.auth, i.onAuthFail)(i.component)
+              : i.component
+          }
         />
       );
     } else if (i.type === menuType.GROUP && i.children) {
@@ -194,7 +199,11 @@ const parseMenuConfigToRoutes = (isFirst: boolean = false) => {
             key={`${prefix}${i.path}`}
             exact={!i.notExact}
             path={`${basePath}${prefix}${i.path}`}
-            component={i.component}
+            component={
+              i.component
+                ? withAuth(i.auth, i.onAuthFail)(i.component)
+                : i.component
+            }
           />
         );
       }
