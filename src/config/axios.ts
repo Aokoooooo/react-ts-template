@@ -2,6 +2,7 @@ import { message } from "antd";
 import axios from "axios";
 import { get } from "lodash";
 import { changeSpining } from "../layouts/store/";
+import { gotoLogin } from "../utils";
 import history from "./history";
 import store from "./store";
 
@@ -65,7 +66,7 @@ instance.interceptors.response.use(
     if (status === 401) {
       if (!isAuthenticationCheckBlocked) {
         updateIsAuthenticationCheckBlocked(true);
-        history.push("/login");
+        gotoLogin();
         message.error("请重新登录");
       }
     } else if (status === 403) {

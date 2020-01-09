@@ -21,6 +21,14 @@ export const safeBack = (to?: string) => {
   }
 };
 
+export const gotoLogin = () => {
+  if (history.location.pathname === "/login") {
+    return;
+  }
+
+  history.push("/login");
+};
+
 export const dynamicLoadWithLoading = <T extends {}>(
   load: (props: T) => Promise<DefaultComponent<T>>,
   fallback: JSX.Element = <SuspenseLoading />

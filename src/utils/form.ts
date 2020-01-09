@@ -1,7 +1,12 @@
 import { Form } from "antd";
 import { WrappedFormUtils } from "antd/es/form/Form";
+import { ValidationRule } from "antd/lib/form";
 import { Component, MutableRefObject } from "react";
 import { ObjectKeyList } from ".";
+
+export interface IFormFieldRule {
+  [key: string]: ValidationRule[];
+}
 
 // tslint:disable-next-line: interface-over-type-literal
 export type FormUtils<F extends {} = {}, V = any> = {

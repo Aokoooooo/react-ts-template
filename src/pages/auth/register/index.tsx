@@ -2,6 +2,7 @@ import { Button } from "antd";
 import React, { useRef } from "react";
 import history from "../../../config/history";
 import loginLayout from "../../../layouts/components/loginLayout";
+import { gotoLogin } from "../../../utils";
 import {
   bindFormRef,
   FormComponent,
@@ -20,7 +21,7 @@ const Register: React.FC = () => {
   };
 
   const handleLoginClick = () => {
-    history.push("/login");
+    gotoLogin();
   };
 
   return (
