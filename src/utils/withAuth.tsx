@@ -7,13 +7,11 @@ const withAuth = (authority: AuthAskedType, onFail?: () => void) => (
   WrappedComponent: ComponentType<any>
 ): React.FC => props => {
   useOnMount(() => {
-    if (!checkAuth(authority)) {
-      if (typeof onFail === "function") {
-        onFail();
-      } else {
-        gotoLogin();
-      }
-    }
+    checkAuth(
+      authority,
+      typeof onFail === "function" ? onFail : gotoLogin,
+      true
+    );
   });
 
   return <WrappedComponent {...props} />;

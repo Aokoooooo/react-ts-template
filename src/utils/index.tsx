@@ -1,4 +1,5 @@
 import loadable, { DefaultComponent } from "@loadable/component";
+import { message } from "antd";
 import React from "react";
 import history from "../config/history";
 import { basePath } from "../config/systemParams";
@@ -25,7 +26,7 @@ export const gotoLogin = () => {
   if (history.location.pathname === "/login") {
     return;
   }
-
+  message.error("请先登录");
   history.push("/login");
 };
 

@@ -1,10 +1,20 @@
 export type CheckAuthFunctionType = (authHad: AuthHadType) => boolean;
-export type AuthAskedType =
+type BaseAuthAskedType =
   | string[]
   | string
   | null
   | undefined
   | CheckAuthFunctionType;
+
+interface IBaseAuthAskedObject {
+  onCheck: BaseAuthAskedType;
+  onFail?: () => void;
+}
+
+export type AuthAskedType =
+  | BaseAuthAskedType
+  | IBaseAuthAskedObject
+  | IBaseAuthAskedObject[];
 
 export type AuthHadType = null | undefined | string | string[];
 
@@ -13,41 +23,71 @@ export const updateAuthHad = (newAuth: AuthHadType) => {
   authHad = newAuth;
 };
 
-export const check = (authAsked: AuthAskedType) => {
+export function checkAuth(
+  authAsked: AuthAskedType,
+  useCallback?: boolean
+): boolean;
+export function checkAuth(
+  authAsked: AuthAskedType,
+  defaultCallback: () => void,
+  useCallback?: boolean
+): boolean;
+export function checkAuth(
+  authAsked: AuthAskedType,
+  defaultCallback?: boolean | (() => void),
+  useCallback?: boolean
+) {
+  const useCb =
+    typeof defaultCallback === "boolean" ? defaultCallback : useCallback;
+
+  const callDefault = (passed: boolean, callback?: () => void) => {
+    if (!passed && useCb) {
+      if (typeof callback === "function") {
+        callback();
+      } else if (typeof defaultCallback === "function") {
+        defaultCallback();
+      }
+    }
+  };
+
   if (!authAsked) {
     return true;
-  }
-  if (!authHad) {
-    return false;
   }
 
   const checkHelper = (
     authAsked: AuthAskedType,
-    authHad: AuthHadType
+    authHad: AuthHadType,
+    callback?: () => void
   ): boolean => {
-    if (Array.isArray(authAsked)) {
-      return authAsked.some(i => checkHelper(i, authHad));
+    if (!authAsked) {
+      return true;
     }
 
     if (typeof authAsked === "function") {
-      return authAsked(authHad);
+      const passed = authAsked(authHad);
+      callDefault(passed, callback);
+      return passed;
     }
 
     if (typeof authAsked === "string") {
-      return authAsked === authHad;
+      const passed = authAsked === authHad;
+      callDefault(passed, callback);
+      return passed;
     }
-    throw new Error(
-      "the type of the authAsked should be a array/string/function"
-    );
+
+    if (Array.isArray(authAsked)) {
+      return authAsked.some((i: string | IBaseAuthAskedObject) =>
+        checkHelper(i, authHad, callback)
+      );
+    }
+
+    return checkHelper(authAsked.onCheck, authHad, authAsked.onFail);
   };
+
   if (Array.isArray(authHad)) {
     return authHad.some(i => checkHelper(authAsked, i));
   }
   return checkHelper(authAsked, authHad);
-};
-
-const checkAuth = (authority: AuthAskedType) => {
-  return check(authority);
-};
+}
 
 export default checkAuth;
