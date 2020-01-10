@@ -29,7 +29,7 @@ export default withRouter(props => {
   }, [props.match.path]);
 
   return (
-    <Breadcrumb style={{ backgroundColor: "white", padding: "3px 6px" }}>
+    <Breadcrumb style={{ backgroundColor: "white", padding: "8px 24px 0" }}>
       <Breadcrumb.Item onClick={() => history.push("/")}>
         <Icon type="home" style={{ cursor: "pointer" }} />
       </Breadcrumb.Item>
