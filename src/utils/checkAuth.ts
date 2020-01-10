@@ -23,10 +23,21 @@ export const updateAuthHad = (newAuth: AuthHadType) => {
   authHad = newAuth;
 };
 
+/**
+ *
+ * @param authAsked
+ * @param useCallback call `onFail` when check failed
+ */
 export function checkAuth(
   authAsked: AuthAskedType,
   useCallback?: boolean
 ): boolean;
+/**
+ *
+ * @param authAsked
+ * @param defaultCallback default `onFail` function
+ * @param useCallback call `onFail` when check failed
+ */
 export function checkAuth(
   authAsked: AuthAskedType,
   defaultCallback: () => void,
@@ -40,7 +51,7 @@ export function checkAuth(
   const useCb =
     typeof defaultCallback === "boolean" ? defaultCallback : useCallback;
 
-  const callDefault = (passed: boolean, callback?: () => void) => {
+  const onFail = (passed: boolean, callback?: () => void) => {
     if (!passed && useCb) {
       if (typeof callback === "function") {
         callback();
@@ -65,13 +76,13 @@ export function checkAuth(
 
     if (typeof authAsked === "function") {
       const passed = authAsked(authHad);
-      callDefault(passed, callback);
+      onFail(passed, callback);
       return passed;
     }
 
     if (typeof authAsked === "string") {
       const passed = authAsked === authHad;
-      callDefault(passed, callback);
+      onFail(passed, callback);
       return passed;
     }
 
