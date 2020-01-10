@@ -3,19 +3,26 @@ import { PageHeaderProps } from "antd/lib/page-header";
 import React, {
   FunctionComponent,
   PropsWithChildren,
+  useCallback,
   useMemo,
   useState
 } from "react";
+import { safeBack } from "../../../utils";
+import BreadcrumbBar from "./BreadcrumbBar";
 import * as styles from "./index.module.less";
 
 interface IHeaderProps {
   defaultSubtitleStatus?: boolean;
   renderContent?: FunctionComponent<{ collapse: boolean }>;
+  showBackIcon?: boolean;
+  hideBreadMenu?: boolean;
 }
 
 const BasicHeader: React.FC<
-  PropsWithChildren<PageHeaderProps & IHeaderProps>
+  PropsWithChildren<Omit<PageHeaderProps, "breadcrumb"> & IHeaderProps>
 > = props => {
+  const { onBack } = props;
+
   const [collapse, setCollapse] = useState(
     typeof props.defaultSubtitleStatus === "undefined"
       ? true
@@ -25,7 +32,9 @@ const BasicHeader: React.FC<
   const subTitle = useMemo(() => {
     return typeof props.subTitle === "undefined" ? (
       <span className={styles.subTitle} onClick={() => setCollapse(!collapse)}>
-        <span>{collapse ? "展开" : "收起"}</span>
+        <span className={styles.subTitleText}>
+          {collapse ? "展开" : "收起"}
+        </span>
         <Icon className={collapse ? styles.subIconDown : ""} type="up" />
       </span>
     ) : (
@@ -33,19 +42,30 @@ const BasicHeader: React.FC<
     );
   }, [props.subTitle, collapse]);
 
+  const goBack = useCallback(
+    e => {
+      typeof onBack === "function" ? onBack(e) : safeBack();
+    },
+    [onBack]
+  );
+
   return (
     <div className={styles.container}>
+      {!props.hideBreadMenu && <BreadcrumbBar />}
       <PageHeader
         className={styles.header}
         title={props.title}
         subTitle={subTitle}
         avatar={props.avatar}
-        backIcon={props.backIcon}
+        backIcon={
+          props.showBackIcon
+            ? props.backIcon || <Icon type="arrow-left" />
+            : false
+        }
         tags={props.tags}
         extra={props.extra}
-        breadcrumb={props.breadcrumb}
         footer={props.footer}
-        onBack={props.onBack}
+        onBack={goBack}
       >
         {
           <div>
