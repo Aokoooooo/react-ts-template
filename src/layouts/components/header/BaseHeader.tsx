@@ -9,7 +9,8 @@ const BaseHeader: React.FC = () => {
       content: "确认要登出吗?",
       okText: "确认",
       cancelText: "取消",
-      onOk: () => console.log("YES")
+      onOk: () => console.log("YES"),
+      maskClosable: true
     });
   };
 
