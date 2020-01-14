@@ -3,7 +3,6 @@ import axios from "axios";
 import { get } from "lodash";
 import { changeSpining } from "../layouts/store/";
 import { gotoLogin } from "../utils";
-import history from "./history";
 import store from "./store";
 
 const BASE_URL =
@@ -71,16 +70,11 @@ instance.interceptors.response.use(
       }
     } else if (status === 403) {
       message.error("没有权限进行此操作");
-    } else if (status === 404) {
-      history.replace("/404");
-    } else if (status >= 500) {
-      history.replace("/500");
-    } else if (status > 300) {
-      history.replace("/500");
     } else if (errorMsg) {
       message.error(error);
     } else {
-      console.log(error);
+      console.error(error);
+      message.error("网络请求错误");
     }
     return Promise.reject(error);
   }
