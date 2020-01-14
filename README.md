@@ -15,7 +15,7 @@
 
    - `REACT_APP_DEV_BASE_URL`:这个值应填写后端测试服务器`host`和`port`.
 
-     这两个值配置的目的是为了绕过浏览器对于跨域访问的限制.
+     他的目的是为了绕过浏览器对于跨域访问的限制.
 
 3. 如果对于想对代理增加其他配置,请修改`src`目录下的`setupProxy.js`文件,具体配置参数请参考[`http-proxy-middleware`](https://github.com/chimurai/http-proxy-middleware).
 4. 输入`yarn start`启动项目,启动后默认地址为`http://localhost:3000/`
