@@ -1,7 +1,7 @@
 {
   "author": {
     "name": "Aoko",
-    "email": "hejunqin233@gmail.com"
+    "email": "aokodesuka@gmail.com"
   },
   "name": "react-ts-template",
   "version": "1.0.0",
@@ -19,12 +19,12 @@
     "build": "react-app-rewired build",
     "postBuild": "node ./scripts/postBuild.js",
     "lint": "cross-env yarn run prettier && yarn run lint:fix",
-    "prettier": "prettier --write src/**/*.{js,ts,tsx,css,less,json}",
-    "lint:fix": "yarn run stylelint:fix && yarn run tslint:fix",
+    "prettier": "prettier --write src/**/*.{js,ts,jsx,tsx,css,less,json}",
+    "lint:fix": "yarn run stylelint:fix && yarn run eslint:fix",
     "stylelint": "cross-env stylelint 'src/**/*.less' --syntax less",
     "stylelint:fix": "cross-env stylelint --fix 'src/**/*.less' --syntax less",
-    "tslint": "cross-env tslint 'src/**/*.ts*'",
-    "tslint:fix": "cross-env tslint --fix 'src/**/*.ts*'"
+    "eslint": "cross-env eslint 'src/**/*.{js,ts,jsx,tsx}'",
+    "eslint:fix": "cross-env eslint --fix 'src/**/*.{js,ts,jsx,tsx}'"
   },
   "dependencies": {
     "@loadable/component": "^5.10.2",
@@ -61,7 +61,14 @@
     "@types/react-redux": "^7.1.5",
     "@types/react-router": "^5.1.2",
     "@types/react-router-dom": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
     "babel-plugin-import": "^1.12.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-react": "^7.8.2",
     "console-polyfill": "^0.3.0",
     "core-js": "^3.1.4",
     "cross-env": "^5.2.0",
@@ -85,10 +92,7 @@
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
-    "stylelint-order": "^3.0.1",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.0.0"
+    "stylelint-order": "^3.0.1"
   },
   "husky": {
     "hooks": {
@@ -101,7 +105,7 @@
       "git add"
     ],
     "**/*.{ts,tsx}": [
-      "tslint --fix",
+      "eslint --fix",
       "git add"
     ],
     "**/*.{js,ts,tsx,css,less,json,md}": [
